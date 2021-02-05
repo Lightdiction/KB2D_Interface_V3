@@ -3755,7 +3755,7 @@ https://lightdiction.com</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="171"/>
-        <location filename="mainwindow.ui" line="20182"/>
+        <location filename="mainwindow.ui" line="20183"/>
         <source>Global settings</source>
         <translation>Paramètres généraux</translation>
     </message>
@@ -4049,7 +4049,7 @@ https://lightdiction.com</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="821"/>
-        <location filename="mainwindow.ui" line="20463"/>
+        <location filename="mainwindow.ui" line="20464"/>
         <source>Invert X Notes</source>
         <translation>Inverser les Notes X</translation>
     </message>
@@ -4065,7 +4065,7 @@ https://lightdiction.com</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="916"/>
-        <location filename="mainwindow.ui" line="20487"/>
+        <location filename="mainwindow.ui" line="20488"/>
         <source>Calibrate Angles</source>
         <translation>Calibrer les angles</translation>
     </message>
@@ -4141,14 +4141,14 @@ https://lightdiction.com</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1564"/>
-        <location filename="mainwindow.ui" line="20475"/>
-        <location filename="mainwindow.ui" line="20478"/>
+        <location filename="mainwindow.ui" line="20476"/>
+        <location filename="mainwindow.ui" line="20479"/>
         <source>Stop Calibration</source>
         <translation>Arrêter la Calibration</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1886"/>
-        <location filename="mainwindow.ui" line="20299"/>
+        <location filename="mainwindow.ui" line="20300"/>
         <source>Start Detection</source>
         <translation>Démarrer la Détection</translation>
     </message>
@@ -4345,11 +4345,11 @@ Tous les messages reçu sur le MIDI In (mapping) sont transférés vers ce MIDI 
     </message>
     <message>
         <location filename="mainwindow.ui" line="2994"/>
-        <location filename="mainwindow.ui" line="20400"/>
+        <location filename="mainwindow.ui" line="20401"/>
         <location filename="src/mainwindow.cpp" line="600"/>
         <location filename="src/mainwindow.cpp" line="635"/>
         <location filename="src/mainwindow.cpp" line="677"/>
-        <location filename="src/menufunc.cpp" line="93"/>
+        <location filename="src/menufunc.cpp" line="94"/>
         <source>Load Firmware file</source>
         <translation>Charger le fichier Firmware</translation>
     </message>
@@ -7522,7 +7522,7 @@ Ce paramètre n&apos;a pas de sens pour la détection continue.</translation>
         <location filename="mainwindow.ui" line="18003"/>
         <location filename="mainwindow.ui" line="18662"/>
         <location filename="mainwindow.ui" line="19337"/>
-        <location filename="mainwindow.ui" line="20419"/>
+        <location filename="mainwindow.ui" line="20420"/>
         <source>F5</source>
         <translation>Fa5</translation>
     </message>
@@ -8343,213 +8343,218 @@ Ce paramètre n&apos;a pas de sens pour la détection continue.</translation>
         <translation>Outils</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20199"/>
+        <location filename="mainwindow.ui" line="20200"/>
         <source>Notes settings</source>
         <translation>Paramètres de Notes</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20209"/>
+        <location filename="mainwindow.ui" line="20210"/>
         <source>External mapping</source>
         <translation>Mapping externe</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20219"/>
+        <location filename="mainwindow.ui" line="20220"/>
         <source>Language</source>
         <translation>Langue</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20242"/>
+        <location filename="mainwindow.ui" line="20243"/>
         <source>toolBar</source>
         <translation>Barre d&apos;outil</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20293"/>
+        <location filename="mainwindow.ui" line="20294"/>
         <location filename="src/grextmapping.cpp" line="97"/>
         <source>Start KB2D</source>
         <translation>Démarrer le KB2D</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20296"/>
+        <location filename="mainwindow.ui" line="20297"/>
         <source>Start</source>
         <translation>Démarrer</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20302"/>
+        <location filename="mainwindow.ui" line="20303"/>
         <source>Space</source>
         <translation>Espace</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20307"/>
+        <location filename="mainwindow.ui" line="20308"/>
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20310"/>
+        <location filename="mainwindow.ui" line="20311"/>
         <source>Exit program</source>
         <translation>Quitter le programme</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20313"/>
+        <location filename="mainwindow.ui" line="20314"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20322"/>
-        <location filename="mainwindow.ui" line="20325"/>
+        <location filename="mainwindow.ui" line="20323"/>
+        <location filename="mainwindow.ui" line="20326"/>
         <source>About</source>
         <translation>A propos</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20328"/>
+        <location filename="mainwindow.ui" line="20329"/>
         <source>Ctrl+A</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20337"/>
+        <location filename="mainwindow.ui" line="20338"/>
         <location filename="src/grextmapping.cpp" line="98"/>
         <source>Pause KB2D</source>
         <translation>Met le KB2D en pause</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20340"/>
+        <location filename="mainwindow.ui" line="20341"/>
         <source>Pause</source>
         <translation>Pause</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20343"/>
+        <location filename="mainwindow.ui" line="20344"/>
         <source>Pause Detection</source>
         <translation>Met la détection en pause</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20346"/>
+        <location filename="mainwindow.ui" line="20347"/>
         <source>Esc</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20358"/>
+        <location filename="mainwindow.ui" line="20359"/>
         <location filename="src/grextmapping.cpp" line="101"/>
         <source>Restore Defaults</source>
         <translation>Paramètres par défaut</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20361"/>
+        <location filename="mainwindow.ui" line="20362"/>
         <source>Ctrl+D</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20370"/>
+        <location filename="mainwindow.ui" line="20371"/>
         <source>Save all in KB2D</source>
         <translation>Enregistrer dans le KB2D</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20373"/>
+        <location filename="mainwindow.ui" line="20374"/>
         <location filename="src/grextmapping.cpp" line="102"/>
         <source>Save in KB2D</source>
         <translation>Enregistrer dans le KB2D</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20376"/>
+        <location filename="mainwindow.ui" line="20377"/>
         <source>Save all parameters in the Flash memory of the KB2D</source>
         <translation>Enregistre tous les paramètres dans la mémoire Flash du KB2D</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20379"/>
+        <location filename="mainwindow.ui" line="20380"/>
         <source>Ctrl+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20384"/>
+        <location filename="mainwindow.ui" line="20385"/>
         <source>Start Legacy Updater</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20392"/>
+        <location filename="mainwindow.ui" line="20393"/>
         <location filename="src/grports.cpp" line="241"/>
         <location filename="src/grports.cpp" line="294"/>
         <source>Start Firmware Updater</source>
         <translation>Démarrer le Firmware Updater</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20408"/>
+        <location filename="mainwindow.ui" line="20409"/>
         <source>Send test note</source>
         <translation>Envoyer une note Test</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20411"/>
+        <location filename="mainwindow.ui" line="20412"/>
         <source>F12</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20416"/>
+        <location filename="mainwindow.ui" line="20417"/>
         <source>Update All</source>
         <translation>Mettre à jour</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20428"/>
+        <location filename="mainwindow.ui" line="20429"/>
         <location filename="src/grextmapping.cpp" line="99"/>
         <source>Restart KB2D</source>
         <translation>Redémarrer le KB2D</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20431"/>
+        <location filename="mainwindow.ui" line="20432"/>
         <source>Restart</source>
         <translation>Redémarrer</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20434"/>
+        <location filename="mainwindow.ui" line="20435"/>
         <source>Ctrl+R</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20439"/>
+        <location filename="mainwindow.ui" line="20440"/>
         <source>Go to mapping settings</source>
         <translation>Aller vers le mapping</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20444"/>
+        <location filename="mainwindow.ui" line="20445"/>
         <source>Save mapping</source>
         <translation>Enregistrer le mapping</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20449"/>
+        <location filename="mainwindow.ui" line="20450"/>
         <source>Load mapping</source>
         <translation>Charger un mapping</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20454"/>
+        <location filename="mainwindow.ui" line="20455"/>
         <source>Restore default mapping</source>
         <translation>Restaurer le mapping par défaut</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20466"/>
+        <location filename="mainwindow.ui" line="20467"/>
         <source>F9</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20490"/>
+        <location filename="mainwindow.ui" line="20491"/>
         <source>Calibrate Angles by interacting with the first and last beam</source>
         <translation>Calibre les Angles en intéragissant avec le premier et le dernier faisceau</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20499"/>
+        <location filename="mainwindow.ui" line="20500"/>
         <source>Learn One Angle</source>
         <translation>Mesurer un faisceau</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20508"/>
+        <location filename="mainwindow.ui" line="20509"/>
         <location filename="src/grextmapping.cpp" line="105"/>
         <source>Detection Assistant</source>
         <translation>Assistant de détection</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20513"/>
+        <location filename="mainwindow.ui" line="20514"/>
         <source>English</source>
         <translation>Anglais</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="20518"/>
+        <location filename="mainwindow.ui" line="20519"/>
         <source>French</source>
         <translation>Français</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="20524"/>
+        <source>Show Version Notes</source>
+        <translation>Notes de Versions</translation>
     </message>
     <message>
         <location filename="src/functionlegacy.cpp" line="126"/>
@@ -9462,42 +9467,42 @@ http://lightdiction.com/Ressources/</translation>
         <translation>Les Paramètres du KB2D ne peuvent pas être lus.</translation>
     </message>
     <message>
-        <location filename="src/menufunc.cpp" line="75"/>
+        <location filename="src/menufunc.cpp" line="76"/>
         <source>Wait a few seconds for initialization...</source>
         <translation>Attendez quelques secondes pendant l&apos;initialisation...</translation>
     </message>
     <message>
-        <location filename="src/menufunc.cpp" line="78"/>
+        <location filename="src/menufunc.cpp" line="79"/>
         <source>Please wait...</source>
         <translation>Veuillez patienter...</translation>
     </message>
     <message>
-        <location filename="src/menufunc.cpp" line="81"/>
+        <location filename="src/menufunc.cpp" line="82"/>
         <source>Please wait 4 s...</source>
         <translation>Veuillez patienter 4 s...</translation>
     </message>
     <message>
-        <location filename="src/menufunc.cpp" line="84"/>
+        <location filename="src/menufunc.cpp" line="85"/>
         <source>Please wait 3 s...</source>
         <translation>Veuillez patienter 3 s...</translation>
     </message>
     <message>
-        <location filename="src/menufunc.cpp" line="87"/>
+        <location filename="src/menufunc.cpp" line="88"/>
         <source>Please wait 2 s...</source>
         <translation>Veuillez patienter 2 s...</translation>
     </message>
     <message>
-        <location filename="src/menufunc.cpp" line="90"/>
+        <location filename="src/menufunc.cpp" line="91"/>
         <source>Please wait 1 s...</source>
         <translation>Veuillez patienter 1 s...</translation>
     </message>
     <message>
-        <location filename="src/menufunc.cpp" line="105"/>
+        <location filename="src/menufunc.cpp" line="106"/>
         <source>Device connected</source>
         <translation>Contrôleur connecté</translation>
     </message>
     <message>
-        <location filename="src/menufunc.cpp" line="105"/>
+        <location filename="src/menufunc.cpp" line="106"/>
         <source>LD Firmware Updater connected
 
 Go to  &apos;Tools &gt; Load Firmware file&apos; to update
@@ -9508,7 +9513,7 @@ Allez dans &apos;Outils &gt; Charger le fichier Firmware&apos; pour mettre à jo
 Ou allez dans &apos;Outils &gt; Quitter le Firmware Updater&apos; pour quitter et retourner à l&apos;interface du KB2D</translation>
     </message>
     <message>
-        <location filename="src/menufunc.cpp" line="112"/>
+        <location filename="src/menufunc.cpp" line="113"/>
         <source>Cannot connect to the device, please select the ports manually.
 
 If this is the first time you start the Fimware Updater on this computer, it is normal. Do not panic.
@@ -9525,19 +9530,19 @@ Puis appuyez sur F5 pour mettre à jour les ports (après avoir fermé cette fen
 Ou sélectionnez les ports manuellement.</translation>
     </message>
     <message>
-        <location filename="src/menufunc.cpp" line="116"/>
+        <location filename="src/menufunc.cpp" line="117"/>
         <source>Cannot connect to LD Firmware Updater</source>
         <translation>Impossible de se connecter au LD Firmware Updater</translation>
     </message>
     <message>
-        <location filename="src/menufunc.cpp" line="196"/>
-        <location filename="src/menufunc.cpp" line="205"/>
+        <location filename="src/menufunc.cpp" line="204"/>
+        <location filename="src/menufunc.cpp" line="213"/>
         <source>KB2D Interface will restart</source>
         <translation>L&apos;interface KB2D va redémarrer</translation>
     </message>
     <message>
-        <location filename="src/menufunc.cpp" line="196"/>
-        <location filename="src/menufunc.cpp" line="205"/>
+        <location filename="src/menufunc.cpp" line="204"/>
+        <location filename="src/menufunc.cpp" line="213"/>
         <source>The interface will automatically restart to update the language</source>
         <translation>L&apos;interface va redémarrer automatiquement pour mettre à jour la langue</translation>
     </message>
