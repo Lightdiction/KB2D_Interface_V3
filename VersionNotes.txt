@@ -1,0 +1,181 @@
+-------------------------------------------------------
+---	KB2D Laser Harp Interface
+---	https://lightdiction.com
+---	contact@lightdiction.com
+---
+--- 	Version Notes
+-------------------------------------------------------
+
+
+===========================================
+V3.11 - 17/01/2021
+===========================================
+
+-----	MAPPING:
+
+	- It is now possible to map 2 different parameters or presets on the KB2D interface to the same MIDI command. This MIDI command will trigger both parameters / presets.
+
+-----	VERSION NOTES:
+
+	- These Version Notes are now shown automatically when the software is updated.
+	- It is also possible to show these at any time by going in Tools > Show Version Notes.
+
+----- 	GENERAL:
+
+	- Languages are added. In particular, translation to French is done. It is possible to change the language by going to the menu 'Language'
+	- Logs are added. They may be useful sometimes to know what's happening.
+
+
+===========================================
+V3.10 - 11/01/2021
+===========================================
+
+-----	FIRMWARE LOADER:
+
+	- All firmware can now be loaded directly from the interface, with any bootloader version.
+	- When the firmware is not up to date, the warning message proposes to download directly the firmware on the website, instead of contacting Lightdiction.
+
+-----	BUG CORRECTION:
+
+	- Amplification (new functionnality) is not activated yet. It is now correctly disabled on the interface for any firmware version.
+
+-----	DETECTION:
+
+	- The Auto-calibration for detection has been slightly modified. It now takes less margin on the threshold compared to the actual detection level.
+
+
+===========================================
+V3.00 - 24/11/2020
+===========================================
+
+-----	FIRMWARE LOADER:
+
+	- The firmware loading process has been changed
+	- The Unique ID of the KB2D is now shown in the LD Firmware Updater window, when we click to load a file.
+
+-----	GLOBAL:
+
+	- The design has been improved. Resizing is now completely possible, as well as maximizing.
+	- Some buttons have been suppressed and have been placed in the toolbar instead.
+	- MIDI through has been implemented. This port directly echoes all messages received on Ext In (for mapping purposes).
+	- A .kbsession file save the last session, so some parameters can be restored (mapping functions, but also the size of the window / maximizing state).
+	- The focus of the mouse has been changed. Now, it is possible to scroll the screen without changing the values of Spin Boxes, Sliders or Combo Box...
+	- External MIDI controllers are now saved in the .kbsession file, so the interface automatically connects to the device if it was connected during the last session.
+ 	- The source code has been globally improved and cleaned.
+
+-----	Presets:
+
+	- MIDI and Main Prestes have been changed. Previous main and midi presets files are not usable anymore. Now, 128 different MIDI and Main presets can be used.
+	- All Main Presets are stored in 1 file, and all MIDI Presets are stored in another file.
+
+-----	Mapping:
+
+	- All functions and all presets can now be mapped. There is more than 330 mapping functions.
+
+-----	Communication:
+
+	- Multiple trials are now done when trying to communicate to the KB2D. This follows a problem that appears recently (maybe caused by the last Windows 10 updates), in which USB interfaces enter a sort of sleep mode. Multiple trials enable to "wake up" the device and to correct this problem.
+
+
+===========================================
+V2.40 - 26/04/2020
+===========================================
+
+-----	GLOBAL:
+
+	Calculate Angles button has been removed.
+	Angles spin boxes and notes combo boxes are disabled when not used (in function of N Beams).
+	Restart function is faster (0.5s instead of 1.4s).
+	The global design has been changed.
+	Sliders have been added for Z functions
+
+	Max number of notes / angles is now 16 instead of 12.
+
+	Various other changes and improvements.
+
+-----	TOOLTIPS:
+
+	Tool tips are added on all widgets.
+	
+-----	CONTINUOUS X MODE:
+
+	The continuous mode on X (128 values) has been reimplemented (requires version 6.41 of the firmware). When activated, min angles and max angles can be set independantly from other angles with calibrateAngles and learnOneAngle as usual.
+
+
+
+===========================================
+V2.30 - 29/02/2020
+===========================================
+
+-----	Z HEIGHT CONTROL:
+
+	Z functions for interactivity with height have been implemented. Relative height detection is now extremely reliable, and can be optimized with several parameters:
+		- Invert Z modulation: invert the pitch modulation in function of height variation.
+		- Smooth coeff: This parameter avoids sudden variations on Z. If this parameter is too low, it will prevent the pitch to vary quickly.
+		- Attack Z filter: This parameter allows to ignore Z variations on the very first detections. It is very useful since the first interactions are not very consistent. It avoids wrong pitch variations.
+		- Amplitude on Z modulation: This parameters defines the amount of pitch modulation in function of height variation. The value you put here is highly dependant on the power of your lasers / the power received by the KB2D.
+		- Stabilization delta on Z: This parameters defines the delta of amplitude around the height of interaction before starting to modulate the note. This way, the pitch does not change for small height variation.
+
+
+
+===========================================
+V2.20 - 08/11/2019
+===========================================
+
+-----	EXTERNAL MAPPING:
+
+	Various mapping problems have been solved. External mapping should now be very reliable.
+	In particular, there were data collision issues when the KB2D was communicating. This has been solved.
+
+
+
+===========================================
+V2.10 - 15/09/2019
+===========================================
+
+-----	DETECTION ASSISTANT:
+
+	A stop calibration button is implemented when the detection assistant is in progress, in order to cancel the calibration. There is no more time limit to interact with the laser. The user can click on the stop calibration button instead.
+	A problem has been solved on the detection assistant: when the background was not uniform, it could happen that the calibration process was looping and could not find a good threshold.
+	The actual threshold value for background detection is now displayed during the calibration process.
+	Previous detection parameters are now saved when starting the detection assistant. These parameters are restored if the user cancels the calibration.
+	Angle deviation is now automatically set to 25 for the calibration.
+
+
+-----	LEARN ONE ANGLE:
+
+	A stop calibration button is also implemented. There is no more time limit.
+
+
+-----	AUTO CALIBRATION:
+
+	A stop calibration button is also implemented. There is no more time limit.
+
+
+-----	SCREEN RESOLUTION AND DISPLAY:
+
+	The DPI of the interface automatically adjusts in function of screen zoom effects.
+
+
+-----	GLOBAL APPEARANCE:
+
+	The global organization of the interface has been changed. Now, parameters are organized between 3 different tabs: Global settings / MIDI settings / External MIDI mapping settings
+
+
+-----	PRESETS:
+
+	Global settings presets are added and can be saved and loaded at any moment.
+	MIDI settings presets are updated and now saved and load all MIDI parameters.
+
+
+-----	EXTERNAL MIDI MAPPING:
+
+	An external MIDI In port is implemented to enable the user to connect an external MIDI device to map every command. For instance this can be used to connect a MIDI footswitch.
+	The map is saved in a file than be saved and loaded at any moment.
+	Almost all commands can now be triggered and set with external MIDI mapping, including MIDI and global presets.
+
+
+-----	MENUS
+
+	The menu has been cleaned and reworked.
+	The "Update All" command now updates all MIDI ports connected.

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>VersionDialog</class>
+ <widget class="QDialog" name="VersionDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1050</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1050</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1050</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>KB2D Laser Harp Interface - What's new in this version?</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMenuBar::item {background:#333333; color:#e0e0e0;}
+QMenuBar::item:selected {background:#505050;}
+QMenuBar::item:!enabled{background:#333333;color:#808080;}
+QMenu::item:selected {background:#505050;}
+QMenu::item:!enabled {background:#333333;color:#808080;}
+QWidget {background-color:#303030; color:white;border:0px;}
+QComboBox {background-color:#4A4A4A;}
+QComboBox:hover{background-color:#405080;}
+QComboBox:!enabled{background-color:#202020;color:#808080;}
+QPushButton{background-color:#444;border:1px solid #888;width:80px; height:20px;border-radius:5px;}
+QPushButton:!enabled{background-color:#202020;color:#808080}
+QPushButton:hover{background-color:#405080;}
+QPushButton:pressed {background:#505020;border:1px inset #222;}
+QCheckBox:!enabled{color:#808080;}
+QCheckBox::indicator:!enabled{background-color:#808080;color:#808080;}
+QGroupBox{border:1px solid #407090; color:#407090;}
+QSpinBox:!enabled {color:#777;}
+QDoubleSpinBox:!enabled {color:#777;}
+QGroupBox {background-color: rgba(60, 60, 60, 100);}
+QLabel {background-color: rgba(0, 0, 0, 0);}
+QLineEdit {border:1px solid #888;}</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="3">
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="2">
+    <widget class="QPushButton" name="closePushButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>1</horstretch>
+       <verstretch>1</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>120</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Close</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="1" colspan="3">
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1032</width>
+        <height>546</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Version file not found</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

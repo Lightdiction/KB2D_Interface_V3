@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Icons/StartIcon_Circleb.png</file>
+        <file>Icons/PauseIcon_Circle.png</file>
+        <file>Icons/StopIcon_Circle.png</file>
+        <file>Icons/Defaults_Circle.png</file>
+        <file>Icons/Restart_Circle.png</file>
+        <file>Icons/Save_Circle.png</file>
+        <file>LD_Logo_Color_6_small.png</file>
+        <file>Icons/DetAssistantLogo.png</file>
+        <file>Icons/AngleCalibrationLogo.png</file>
+        <file>Icons/LearnOneLogo.png</file>
+        <file>Icons/InvertX.png</file>
+    </qresource>
+</RCC>

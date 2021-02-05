@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AboutDialog</class>
+ <widget class="QDialog" name="AboutDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>385</width>
+    <height>220</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>385</width>
+    <height>220</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>385</width>
+    <height>220</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>About KB2D Laser Harp Interface</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMenuBar::item {background:#333333; color:#e0e0e0;}
+QMenuBar::item:selected {background:#505050;}
+QMenu::item:selected {background:#505050;}
+QMenu::item:!enabled {background:#333333;color:#808080;}
+QWidget {background-color:#303030; color:white;}
+QComboBox {background-color:#4A4A4A;}
+QComboBox:hover{background-color:#405080;}
+QComboBox:!enabled{background-color:#202020;color:#808080;}
+QPushButton{background-color:#404040;}
+QPushButton:hover{background-color:#405080;}
+QCheckBox:!enabled{color:#808080;}
+QCheckBox::indicator:!enabled{background-color:#808080;color:#808080;}</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QWidget" name="widget" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>2</horstretch>
+       <verstretch>2</verstretch>
+      </sizepolicy>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
+          <horstretch>0</horstretch>
+          <verstretch>1</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>167</width>
+          <height>128</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>167</width>
+          <height>128</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap resource="main.qrc">:/LD_Logo_Color_6_small.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="1" rowspan="2">
+    <widget class="QWidget" name="widget_2" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>2</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QMenuBar::item {background:#333333; color:#e0e0e0;}
+QMenuBar::item:selected {background:#505050;}
+QMenuBar::item:!enabled{background:#333333;color:#808080;}
+QMenu::item:selected {background:#505050;}
+QMenu::item:!enabled {background:#333333;color:#808080;}
+QWidget {background-color:#303030; color:white;}
+QComboBox {background-color:#4A4A4A;}
+QComboBox:hover{background-color:#405080;}
+QComboBox:!enabled{background-color:#202020;color:#808080;}
+QPushButton{background-color:#404040;border:1px solid #888;width:80px; height:20px;border-radius:5px;}
+QPushButton:!enabled{background-color:#202020;color:#808080}
+QPushButton:hover{background-color:#405080;}
+QCheckBox:!enabled{color:#808080;}
+QCheckBox::indicator:!enabled{background-color:#808080;color:#808080;}
+QGroupBox{border:1px solid #407090; color:#407090;}
+QSpinBox:!enabled {color:#777;}
+QDoubleSpinBox:!enabled {color:#777;}
+QGroupBox {background-color: rgba(60, 60, 60, 100);}
+QLabel {background-color: rgba(0, 0, 0, 0);}</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>2</horstretch>
+          <verstretch>3</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>KB2D Laser Harp Interface
+Version: 3.11
+
+Date: 17 January 2021
+
+Company: Lightdiction SAS
+Author: Thomas Avisse
+
+https://lightdiction.com</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="closeButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Close</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="main.qrc"/>
+ </resources>
+ <connections/>
+</ui>
