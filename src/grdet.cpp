@@ -19,7 +19,7 @@
 
 #include "../inc/comhw.h"
 
-#define RATIO_WARNING_BG    2 / 3
+#define RATIO_WARNING_BG    1 / 2
 
 
 ///////////// FUNCTIONS /////////////
