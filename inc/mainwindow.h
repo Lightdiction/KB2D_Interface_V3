@@ -314,6 +314,7 @@ public:
 
     void updateAngleBoxVisibility();
     void setDetActionsVisibility(bool enab, bool vis = true);
+    void updateWidgetsDisplay();
 
     void autoSetDet();
 
@@ -398,15 +399,15 @@ private slots:
     void on_detSpeedspinBox_editingFinished();
     void on_detSelectivityspinBox_editingFinished();
     void on_FPSspinBox_editingFinished();
-    void on_detLevelSlider_sliderReleased();
-    void on_detSpeedSlider_sliderReleased();
-    void on_detSelectivitySlider_sliderReleased();
-    void on_FPSSlider_sliderReleased();
+    void on_accuracySpinBox_editingFinished();
+
+    void on_FPSSlider_valueChanged(int value);
+    void on_detLevelSlider_valueChanged(int value);
+    void on_detSpeedSlider_valueChanged(int value);
+    void on_detSelectivitySlider_valueChanged(int value);
+    void on_accuracySlider_valueChanged(int value);
 
     void on_invertXButton_clicked();
-
-    void on_accuracySpinBox_editingFinished();
-    void on_accuracySlider_sliderReleased();
 
     void on_angleDoubleSpinBox_1_editingFinished();
     void on_angleDoubleSpinBox_2_editingFinished();
@@ -486,17 +487,19 @@ private slots:
     void on_actionInvert_X_Notes_triggered();
 
     void on_flashProgButton_clicked();
-    void on_filterZSpinBox_editingFinished();
-    void on_ampZSpinBox_editingFinished();
-    void on_stabZSpinBox_editingFinished();
+
     void on_modulationZComboBox_currentIndexChanged(int index);
     void on_invertZCheckBox_toggled(bool checked);
 
     void on_smoothZSpinBox_editingFinished();
-    void on_smoothZSlider_sliderReleased();
-    void on_filterZSlider_sliderReleased();
-    void on_ampZSlider_sliderReleased();
-    void on_stabZSlider_sliderReleased();
+    void on_filterZSpinBox_editingFinished();
+    void on_ampZSpinBox_editingFinished();
+    void on_stabZSpinBox_editingFinished();
+
+    void on_smoothZSlider_valueChanged(int value);
+    void on_filterZSlider_valueChanged(int value);
+    void on_ampZSlider_valueChanged(int value);
+    void on_stabZSlider_valueChanged(int value);
 
     void on_actionStopCal_triggered();
 
@@ -511,18 +514,16 @@ private slots:
     void on_mainConfigComboBox_currentIndexChanged(int index);
 
     void on_actionDetection_Assistant_triggered();
-
     void on_actionAuto_Calibration_triggered();
-
     void on_actionLearn_One_Angle_triggered();
 
     void on_hardAmpComboBox_currentIndexChanged(int index);
 
     void on_actionEnglish_triggered();
-
     void on_actionFrench_triggered();
 
     void on_actionShow_Version_Notes_triggered();
+
 
 protected:
     Ui::MainWindow *ui;

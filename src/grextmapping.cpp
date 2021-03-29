@@ -849,7 +849,10 @@ void MainWindow::extInProc(int par1, int par2, int par3)
 
         mapSpinBox[saveIndex][0]->setValue(par1);
         mapSpinBox[saveIndex][1]->setValue(par2);
-        mapSpinBox[saveIndex][2]->setValue(par3);
+        if (mapIsController[saveIndex])
+            mapSpinBox[saveIndex][2]->setValue(-1);
+        else
+            mapSpinBox[saveIndex][2]->setValue(par3);
         updateMidiMappingValues(saveIndex);   // Update Color Display
 
         learnExtMIDI(extMidiIndexToLearn);      //

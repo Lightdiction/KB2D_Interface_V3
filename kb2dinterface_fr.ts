@@ -11,6 +11,15 @@
     <message>
         <location filename="aboutdialog.ui" line="125"/>
         <source>KB2D Laser Harp Interface
+Version: 3.12
+
+Date: 28 March 2021
+
+Company: Lightdiction SAS
+Author: Thomas Avisse
+
+https://lightdiction.com</source>
+        <oldsource>KB2D Laser Harp Interface
 Version: 3.11
 
 Date: 17 January 2021
@@ -18,11 +27,11 @@ Date: 17 January 2021
 Company: Lightdiction SAS
 Author: Thomas Avisse
 
-https://lightdiction.com</source>
+https://lightdiction.com</oldsource>
         <translation>Interface de Harpe Laser KB2D
-Version : 3.11
+Version : 3.12
 
-Date : 17 Janvier 2021
+Date : 28 Mars 2021
 
 Entreprise : Lightdiction SAS
 Auteur : Thomas Avisse
@@ -3745,8 +3754,9 @@ https://lightdiction.com</translation>
     <name>MainWindow</name>
     <message>
         <location filename="mainwindow.ui" line="46"/>
-        <source>Lightdiction - KB2D Laser Harp Interface - v3.11</source>
-        <translation>Lightdiction - Interface de Harpe Laser KB2D - v3.11</translation>
+        <source>Lightdiction - KB2D Laser Harp Interface - v3.12</source>
+        <oldsource>Lightdiction - KB2D Laser Harp Interface - v3.11</oldsource>
+        <translation>Lightdiction - Interface de Harpe Laser KB2D - v3.12</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="117"/>
@@ -4179,14 +4189,19 @@ If this parameter is high enough, it will prevent the pitch to vary quickly.</so
 Si ce paramètre est assez important, cela va empêcher le pitch de varier rapidement.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2125"/>
         <source>Smooth coeff (Relative only)</source>
-        <translation>Smooth coeff (Relatif seulement)</translation>
+        <translation type="vanished">Smooth coeff (Relatif seulement)</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="2125"/>
+        <source>Smoothing filter</source>
+        <translation>Filtre de lissage</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2148"/>
-        <source>Stabilization delta on Z</source>
-        <translation>Delta de stabilisation sur Z</translation>
+        <source>Stabilization delta</source>
+        <oldsource>Stabilization delta on Z</oldsource>
+        <translation>Delta de stabilisation</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2230"/>
@@ -4208,8 +4223,9 @@ La valeur que vous mettez ici dépend fortement de la puissance du laser</transl
     </message>
     <message>
         <location filename="mainwindow.ui" line="2265"/>
-        <source>Amplitude on Z modulation</source>
-        <translation>Amplitude de la modulation sur Z</translation>
+        <source>Amplitude (sensitivity)</source>
+        <oldsource>Amplitude on Z modulation</oldsource>
+        <translation>Amplitude (sensibilité)</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2290"/>
@@ -4249,8 +4265,9 @@ Si ce paramètre est assez haut, cela va empêcher le pitch de varier rapidement
     </message>
     <message>
         <location filename="mainwindow.ui" line="2399"/>
-        <source>Attack Z Filter</source>
-        <translation>Filtre sur l&apos;Attaque de Z</translation>
+        <source>Attack Filter</source>
+        <oldsource>Attack Z Filter</oldsource>
+        <translation>Filtre sur l&apos;Attaque</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2487"/>
@@ -4346,9 +4363,9 @@ Tous les messages reçu sur le MIDI In (mapping) sont transférés vers ce MIDI 
     <message>
         <location filename="mainwindow.ui" line="2994"/>
         <location filename="mainwindow.ui" line="20401"/>
-        <location filename="src/mainwindow.cpp" line="600"/>
-        <location filename="src/mainwindow.cpp" line="635"/>
-        <location filename="src/mainwindow.cpp" line="677"/>
+        <location filename="src/mainwindow.cpp" line="604"/>
+        <location filename="src/mainwindow.cpp" line="639"/>
+        <location filename="src/mainwindow.cpp" line="681"/>
         <location filename="src/menufunc.cpp" line="94"/>
         <source>Load Firmware file</source>
         <translation>Charger le fichier Firmware</translation>
@@ -8611,14 +8628,6 @@ Ce paramètre n&apos;a pas de sens pour la détection continue.</translation>
         <location filename="src/grangles.cpp" line="248"/>
         <location filename="src/grangles.cpp" line="262"/>
         <location filename="src/grangles.cpp" line="276"/>
-        <location filename="src/grheight.cpp" line="34"/>
-        <location filename="src/grheight.cpp" line="45"/>
-        <location filename="src/grheight.cpp" line="56"/>
-        <location filename="src/grheight.cpp" line="67"/>
-        <location filename="src/grheight.cpp" line="84"/>
-        <location filename="src/grheight.cpp" line="95"/>
-        <location filename="src/grheight.cpp" line="106"/>
-        <location filename="src/grheight.cpp" line="117"/>
         <source>No Feedback / incorrect feedback received.</source>
         <translation>Pas de réponse / réponse reçue incorrecte.</translation>
     </message>
@@ -8772,23 +8781,22 @@ Au cours du processus, les paramètres suivants vont être ajustés :
         <location filename="src/grdet.cpp" line="427"/>
         <location filename="src/grdet.cpp" line="430"/>
         <location filename="src/grdet.cpp" line="433"/>
-        <location filename="src/grdet.cpp" line="495"/>
-        <location filename="src/grdet.cpp" line="506"/>
-        <location filename="src/grdet.cpp" line="517"/>
-        <location filename="src/grdet.cpp" line="528"/>
-        <location filename="src/grdet.cpp" line="540"/>
-        <location filename="src/grdet.cpp" line="561"/>
-        <location filename="src/grdet.cpp" line="570"/>
-        <location filename="src/grdet.cpp" line="585"/>
-        <location filename="src/grdet.cpp" line="599"/>
-        <location filename="src/grdet.cpp" line="610"/>
-        <location filename="src/grdet.cpp" line="621"/>
-        <location filename="src/grdet.cpp" line="632"/>
-        <location filename="src/grdet.cpp" line="643"/>
-        <location filename="src/grheight.cpp" line="137"/>
-        <location filename="src/grheight.cpp" line="145"/>
-        <location filename="src/grheight.cpp" line="167"/>
-        <location filename="src/grheight.cpp" line="173"/>
+        <location filename="src/grdet.cpp" line="530"/>
+        <location filename="src/grdet.cpp" line="539"/>
+        <location filename="src/grdet.cpp" line="554"/>
+        <location filename="src/grdet.cpp" line="567"/>
+        <location filename="src/grdet.cpp" line="580"/>
+        <location filename="src/grdet.cpp" line="593"/>
+        <location filename="src/grdet.cpp" line="606"/>
+        <location filename="src/grdet.cpp" line="619"/>
+        <location filename="src/grheight.cpp" line="58"/>
+        <location filename="src/grheight.cpp" line="71"/>
+        <location filename="src/grheight.cpp" line="84"/>
+        <location filename="src/grheight.cpp" line="97"/>
+        <location filename="src/grheight.cpp" line="121"/>
+        <location filename="src/grheight.cpp" line="129"/>
+        <location filename="src/grheight.cpp" line="151"/>
+        <location filename="src/grheight.cpp" line="157"/>
         <location filename="src/grnotes.cpp" line="88"/>
         <location filename="src/grnotes.cpp" line="115"/>
         <location filename="src/grnotes.cpp" line="142"/>
@@ -9313,13 +9321,13 @@ Essayer d&apos;utiliser un fond plus sombre ou d&apos;avoir une distance plus im
         <translation>===== Config MIDI </translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="574"/>
-        <location filename="src/mainwindow.cpp" line="608"/>
+        <location filename="src/mainwindow.cpp" line="578"/>
+        <location filename="src/mainwindow.cpp" line="612"/>
         <source>Legacy Bootloader Detected</source>
         <translation>Ancien Bootloader Détecté</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="574"/>
+        <location filename="src/mainwindow.cpp" line="578"/>
         <source>Legacy Bootloader Version: 1.0
 
 To obtain your firmware update (.kb2d file), please contact Lightdiction:
@@ -9332,126 +9340,136 @@ Pour obtenir la mise à jour du firmware (fichier .kb2d), veuillez contacter Lig
 contact@lightdiction.com</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="578"/>
+        <location filename="src/mainwindow.cpp" line="582"/>
         <source>Bootloader Version: 1.0 | Enter firmware KB file .kb2d</source>
         <translation>Ancienne Version: 1.0 | Entrez le fichier firmware .kb2d</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="583"/>
-        <location filename="src/mainwindow.cpp" line="618"/>
-        <location filename="src/mainwindow.cpp" line="660"/>
+        <location filename="src/mainwindow.cpp" line="587"/>
+        <location filename="src/mainwindow.cpp" line="622"/>
+        <location filename="src/mainwindow.cpp" line="664"/>
         <source>Cannot open </source>
         <translation>Impossible d&apos;ouvrir </translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="590"/>
-        <location filename="src/mainwindow.cpp" line="625"/>
-        <location filename="src/mainwindow.cpp" line="667"/>
+        <location filename="src/mainwindow.cpp" line="594"/>
+        <location filename="src/mainwindow.cpp" line="629"/>
+        <location filename="src/mainwindow.cpp" line="671"/>
         <source>Flash Error Code: </source>
         <translation>Code d&apos;Erreur Flash : </translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="595"/>
-        <location filename="src/mainwindow.cpp" line="630"/>
-        <location filename="src/mainwindow.cpp" line="672"/>
+        <location filename="src/mainwindow.cpp" line="599"/>
+        <location filename="src/mainwindow.cpp" line="634"/>
+        <location filename="src/mainwindow.cpp" line="676"/>
         <source>Firmware Upgrade complete</source>
         <translation>Mise à jour du Firmware terminée</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="596"/>
-        <location filename="src/mainwindow.cpp" line="631"/>
-        <location filename="src/mainwindow.cpp" line="673"/>
+        <location filename="src/mainwindow.cpp" line="600"/>
+        <location filename="src/mainwindow.cpp" line="635"/>
+        <location filename="src/mainwindow.cpp" line="677"/>
         <source>SUCCESS</source>
         <translation>SUCCÈS</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="596"/>
-        <location filename="src/mainwindow.cpp" line="631"/>
-        <location filename="src/mainwindow.cpp" line="673"/>
+        <location filename="src/mainwindow.cpp" line="600"/>
+        <location filename="src/mainwindow.cpp" line="635"/>
+        <location filename="src/mainwindow.cpp" line="677"/>
         <source>Memory correctly Flashed</source>
         <translation>Mémoire correctement flashée</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="608"/>
         <location filename="src/mainwindow.cpp" line="612"/>
-        <location filename="src/mainwindow.cpp" line="654"/>
+        <location filename="src/mainwindow.cpp" line="616"/>
+        <location filename="src/mainwindow.cpp" line="658"/>
         <source>Bootloader Version: </source>
         <translation>Version du Bootloader : </translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="609"/>
+        <location filename="src/mainwindow.cpp" line="613"/>
         <source>
 
 To obtain your firmware update (.kb2d file), please contact Lightdiction:
 
 contact@lightdiction.com</source>
-        <translation>Pour obtenir votre mise à jour du firmware (fichier .kb2d), veuillez contacter Lightdiction :
+        <translation>
+
+Pour obtenir votre mise à jour du firmware (fichier .kb2d), veuillez contacter Lightdiction :
 
 contact@lightdiction.com</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="613"/>
+        <location filename="src/mainwindow.cpp" line="617"/>
         <source> | Enter firmware KB file .kb2d</source>
         <translation> | Entrez le fichier firmware .kb2d</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="654"/>
+        <location filename="src/mainwindow.cpp" line="658"/>
         <source> | Unique ID: </source>
         <translation> | ID Unique : </translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="655"/>
+        <location filename="src/mainwindow.cpp" line="659"/>
         <source> | Enter firmware KB file .kbf</source>
         <translation> | Entrez le fichier firmware .kbf</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="695"/>
-        <location filename="src/mainwindow.cpp" line="700"/>
+        <location filename="src/mainwindow.cpp" line="699"/>
+        <location filename="src/mainwindow.cpp" line="704"/>
         <source>Parameters saved in Flash memory</source>
         <translation>Paramètres enregistrés dans la mémoire Flash</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="761"/>
-        <location filename="src/mainwindow.cpp" line="762"/>
+        <location filename="src/mainwindow.cpp" line="765"/>
+        <location filename="src/mainwindow.cpp" line="766"/>
         <source>Wait while restarting...</source>
         <translation>Veuillez patienter pendant le redémarrage...</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="765"/>
+        <location filename="src/mainwindow.cpp" line="769"/>
         <source>Ready</source>
         <translation>Prêt</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1041"/>
+        <location filename="src/mainwindow.cpp" line="1045"/>
         <source>Continuous (128)</source>
         <translation>Continu (128)</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1071"/>
-        <source>Please, update your firmware to the last version (7.21 or above) to get all functionnalities:
+        <location filename="src/mainwindow.cpp" line="1090"/>
+        <source>Please, update your firmware to the last version (7.22 or above) to get all functionnalities:
 &gt; The firmware can be downloaded here: https://lightdiction.com/Ressources
 &gt; Or contact us at contact@lightdiction.com</source>
-        <translation>Veuillez mettre à jour votre firmware vers la dernière version (7.21 ou supérieur) pour obtenir toutes les fonctionnalités :
+        <translation>Veuillez mettre à jour votre firmware vers la dernière version (7.22 ou supérieur) pour obtenir toutes les fonctionnalités :
 &gt; Le firmware peut être téléchargé ici : https://lightdiction.com/Ressources
 &gt; Ou contactez-nous à contact@lightdiction.com</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1073"/>
+        <source>Please, update your firmware to the last version (7.21 or above) to get all functionnalities:
+&gt; The firmware can be downloaded here: https://lightdiction.com/Ressources
+&gt; Or contact us at contact@lightdiction.com</source>
+        <translation type="vanished">Veuillez mettre à jour votre firmware vers la dernière version (7.21 ou supérieur) pour obtenir toutes les fonctionnalités :
+&gt; Le firmware peut être téléchargé ici : https://lightdiction.com/Ressources
+&gt; Ou contactez-nous à contact@lightdiction.com</translation>
+    </message>
+    <message>
+        <location filename="src/mainwindow.cpp" line="1092"/>
         <source>Firmware outdated</source>
         <translation>Firmware obsolète</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1082"/>
+        <location filename="src/mainwindow.cpp" line="1101"/>
         <source>KB2D connected - Device information</source>
         <translation>KB2D connecté - Informations du contrôleur</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1082"/>
+        <location filename="src/mainwindow.cpp" line="1101"/>
         <source>Firmware version: </source>
         <translation>Version du firmware : </translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1084"/>
+        <location filename="src/mainwindow.cpp" line="1103"/>
         <source>
 
 Find the version notes and manual at:
@@ -9462,7 +9480,7 @@ Trouvez les notes de version et le manuel sur :
 http://lightdiction.com/Ressources/</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1093"/>
+        <location filename="src/mainwindow.cpp" line="1112"/>
         <source>KB2D Parameters cannot be read.</source>
         <translation>Les Paramètres du KB2D ne peuvent pas être lus.</translation>
     </message>
@@ -9782,7 +9800,7 @@ Cette configuration (A) n&apos;existe pas.</translation>
     <message>
         <location filename="src/managemididialog.cpp" line="192"/>
         <source> already exists, do you want to overwrite it?</source>
-        <translation>existe déjà, voulez-vous la remplacer ?</translation>
+        <translation> existe déjà, voulez-vous la remplacer ?</translation>
     </message>
 </context>
 <context>

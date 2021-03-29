@@ -26,46 +26,22 @@
 
 void MainWindow::on_smoothZSpinBox_editingFinished()
 {
-    if (ui->smoothZSlider->value() != ui->smoothZSpinBox->value())
-    {
-        ui->smoothZSlider->setValue(ui->smoothZSpinBox->value());
-        kbDev.sendCom(MIDI_SMOOTHZ + (char)(127 - ui->smoothZSpinBox->value()));
-        if (kbDev.checkFeedback(Check_SmoothZ) != (127 - ui->smoothZSpinBox->value()))
-            SendError(this, tr("No Feedback / incorrect feedback received."), GrHeight_SmoothZ_C);
-    }
+    ui->smoothZSlider->setValue(ui->smoothZSpinBox->value());
 }
 
 void MainWindow::on_filterZSpinBox_editingFinished()
 {
-    if (ui->filterZSlider->value() != ui->filterZSpinBox->value())
-    {
-        ui->filterZSlider->setValue(ui->filterZSpinBox->value());
-        kbDev.sendCom(MIDI_FILTZ + (char)ui->filterZSpinBox->value());
-        if (kbDev.checkFeedback(Check_FiltZ) != ui->filterZSpinBox->value())
-            SendError(this, tr("No Feedback / incorrect feedback received."), GrHeight_FilterZ_C);
-    }
+    ui->filterZSlider->setValue(ui->filterZSpinBox->value());
 }
 
 void MainWindow::on_ampZSpinBox_editingFinished()
 {
-    if (ui->ampZSlider->value() != ui->ampZSpinBox->value())
-    {
-        ui->ampZSlider->setValue(ui->ampZSpinBox->value());
-        kbDev.sendCom(MIDI_AMPZ + (char)(128 - ui->ampZSpinBox->value()));
-        if (kbDev.checkFeedback(Check_AmpZ) != (128 - ui->ampZSpinBox->value()))
-            SendError(this, tr("No Feedback / incorrect feedback received."), GrHeight_AmpZ_C);
-    }
+    ui->ampZSlider->setValue(ui->ampZSpinBox->value());
 }
 
 void MainWindow::on_stabZSpinBox_editingFinished()
 {
-    if (ui->stabZSlider->value() != ui->stabZSpinBox->value())
-    {
-        ui->stabZSlider->setValue(ui->stabZSpinBox->value());
-        kbDev.sendCom(MIDI_STABZ + (char)ui->stabZSpinBox->value());
-        if (kbDev.checkFeedback(Check_StabZ) != ui->stabZSpinBox->value())
-            SendError(this, tr("No Feedback / incorrect feedback received."), GrHeight_StabZ_C);
-    }
+    ui->stabZSlider->setValue(ui->stabZSpinBox->value());
 }
 
 
@@ -74,47 +50,55 @@ void MainWindow::on_stabZSpinBox_editingFinished()
 /////////////////////////////////////
 
 
-void MainWindow::on_smoothZSlider_sliderReleased()
+void MainWindow::on_smoothZSlider_valueChanged(int value)
 {
-    if (ui->smoothZSlider->value() != ui->smoothZSpinBox->value())
+    kbDev.sendCom(MIDI_SMOOTHZ + (char)(127 - value));
+    int result = kbDev.checkFeedback(Check_SmoothZ);
+    if (result < 0)
+        SendError(this, tr("No Feedback received / Select MIDI Input."), GrHeight_SmoothZSlider_C);
+    else
     {
-        ui->smoothZSpinBox->setValue(ui->smoothZSlider->value());
-        kbDev.sendCom(MIDI_SMOOTHZ + (char)(127 - ui->smoothZSpinBox->value()));
-        if (kbDev.checkFeedback(Check_SmoothZ) != (127 - ui->smoothZSpinBox->value()))
-            SendError(this, tr("No Feedback / incorrect feedback received."), GrHeight_SmoothZSlider_C);
+        ui->smoothZSpinBox->setValue(127 - result);
+        ui->smoothZSlider->setValue(127 - result);
     }
 }
 
-void MainWindow::on_filterZSlider_sliderReleased()
+void MainWindow::on_filterZSlider_valueChanged(int value)
 {
-    if (ui->filterZSlider->value() != ui->filterZSpinBox->value())
+    kbDev.sendCom(MIDI_FILTZ + (char)(value));
+    int result = kbDev.checkFeedback(Check_FiltZ);
+    if (result < 0)
+        SendError(this, tr("No Feedback received / Select MIDI Input."), GrHeight_FilterZSlider_C);
+    else
     {
-        ui->filterZSpinBox->setValue(ui->filterZSlider->value());
-        kbDev.sendCom(MIDI_FILTZ + (char)ui->filterZSpinBox->value());
-        if (kbDev.checkFeedback(Check_FiltZ) != ui->filterZSpinBox->value())
-            SendError(this, tr("No Feedback / incorrect feedback received."), GrHeight_FilterZSlider_C);
+        ui->filterZSpinBox->setValue(result);
+        ui->filterZSlider->setValue(result);
     }
 }
 
-void MainWindow::on_ampZSlider_sliderReleased()
+void MainWindow::on_ampZSlider_valueChanged(int value)
 {
-    if (ui->ampZSlider->value() != ui->ampZSpinBox->value())
+    kbDev.sendCom(MIDI_AMPZ + (char)(128 - value));
+    int result = kbDev.checkFeedback(Check_AmpZ);
+    if (result < 0)
+        SendError(this, tr("No Feedback received / Select MIDI Input."), GrHeight_AmpZSlider_C);
+    else
     {
-        ui->ampZSpinBox->setValue(ui->ampZSlider->value());
-        kbDev.sendCom(MIDI_AMPZ + (char)(128 - ui->ampZSpinBox->value()));
-        if (kbDev.checkFeedback(Check_AmpZ) != (128 - ui->ampZSpinBox->value()))
-            SendError(this, tr("No Feedback / incorrect feedback received."), GrHeight_AmpZSlider_C);
+        ui->ampZSpinBox->setValue(128 - result);
+        ui->ampZSlider->setValue(128 - result);
     }
 }
 
-void MainWindow::on_stabZSlider_sliderReleased()
+void MainWindow::on_stabZSlider_valueChanged(int value)
 {
-    if (ui->stabZSlider->value() != ui->stabZSpinBox->value())
+    kbDev.sendCom(MIDI_STABZ + (char)(value));
+    int result = kbDev.checkFeedback(Check_StabZ);
+    if (result < 0)
+        SendError(this, tr("No Feedback received / Select MIDI Input."), GrHeight_StabZSlider_C);
+    else
     {
-        ui->stabZSpinBox->setValue(ui->stabZSlider->value());
-        kbDev.sendCom(MIDI_STABZ + (char)ui->stabZSpinBox->value());
-        if (kbDev.checkFeedback(Check_StabZ) != ui->stabZSpinBox->value())
-            SendError(this, tr("No Feedback / incorrect feedback received."), GrHeight_StabZSlider_C);
+        ui->stabZSpinBox->setValue(result);
+        ui->stabZSlider->setValue(result);
     }
 }
 

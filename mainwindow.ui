@@ -43,7 +43,7 @@
    <enum>Qt::DefaultContextMenu</enum>
   </property>
   <property name="windowTitle">
-   <string>Lightdiction - KB2D Laser Harp Interface - v3.11</string>
+   <string>Lightdiction - KB2D Laser Harp Interface - v3.12</string>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>
@@ -2122,7 +2122,7 @@ QSlider::handle:horizontal:hover {background-color:#606080;margin:-6px 0;width:5
 If this parameter is high enough, it will prevent the pitch to vary quickly.</string>
              </property>
              <property name="text">
-              <string>Smooth coeff (Relative only)</string>
+              <string>Smoothing filter</string>
              </property>
             </widget>
            </item>
@@ -2145,7 +2145,7 @@ If this parameter is high enough, it will prevent the pitch to vary quickly.</st
 This way, the pitch does not change for small height variation.</string>
              </property>
              <property name="text">
-              <string>Stabilization delta on Z</string>
+              <string>Stabilization delta</string>
              </property>
             </widget>
            </item>
@@ -2262,7 +2262,7 @@ This way, the pitch does not change for small height variation.</string>
 The value you put here is highly dependant on the power of the laser</string>
              </property>
              <property name="text">
-              <string>Amplitude on Z modulation</string>
+              <string>Amplitude (sensitivity)</string>
              </property>
             </widget>
            </item>
@@ -2396,7 +2396,7 @@ If this parameter is too low, it will prevent the pitch to vary quickly.</string
               <string>This allows to ignore Z variations at the beginning of the interaction.</string>
              </property>
              <property name="text">
-              <string>Attack Z Filter</string>
+              <string>Attack Filter</string>
              </property>
             </widget>
            </item>

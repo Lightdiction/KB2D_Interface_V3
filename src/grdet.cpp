@@ -487,58 +487,27 @@ void MainWindow::on_autosetButton_clicked()
 
 void MainWindow::on_detLevelspinBox_editingFinished()
 {
-    if (ui->detLevelSlider->value() != ui->detLevelspinBox->value())
-    {
-        ui->detLevelSlider->setValue(ui->detLevelspinBox->value());
-        kbDev.sendCom(MIDI_DET + (char)(ui->detLevelspinBox->value() - 1));
-        if (kbDev.checkFeedback(Check_DetLevel) != (ui->detLevelspinBox->value() - 1))
-            SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_DetLevelSpin_C);
-    }
+    ui->detLevelSlider->setValue(ui->detLevelspinBox->value());
 }
 
 void MainWindow::on_detSpeedspinBox_editingFinished()
 {
-    if (ui->detSpeedSlider->value() != ui->detSpeedspinBox->value())
-    {
-        ui->detSpeedSlider->setValue(ui->detSpeedspinBox->value());
-        kbDev.sendCom(MIDI_MINPOS + (char)(128 - ui->detSpeedspinBox->value()));
-        if (kbDev.checkFeedback(Check_MinPos) != (128 - ui->detSpeedspinBox->value()))
-            SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_DetSpeedSpin_C);
-    }
+    ui->detSpeedSlider->setValue(ui->detSpeedspinBox->value());
 }
 
 void MainWindow::on_detSelectivityspinBox_editingFinished()
 {
-    if (ui->detSelectivitySlider->value() != ui->detSelectivityspinBox->value())
-    {
-        ui->detSelectivitySlider->setValue(ui->detSelectivityspinBox->value());
-        kbDev.sendCom(MIDI_MAXPOS + (char)(128 - ui->detSelectivityspinBox->value()));
-        if (kbDev.checkFeedback(Check_MultPos) != (128 - ui->detSelectivityspinBox->value()))
-            SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_DetSelectivitySpin_C);
-    }
+    ui->detSelectivitySlider->setValue(ui->detSelectivityspinBox->value());
 }
 
 void MainWindow::on_FPSspinBox_editingFinished()
 {
-    if (ui->FPSSlider->value() != ui->FPSspinBox->value())
-    {
-        ui->FPSSlider->setValue(ui->FPSspinBox->value());
-        kbDev.sendCom(MIDI_FPS + (char)(ui->FPSspinBox->value() - 50));
-        if (kbDev.checkFeedback(Check_FPS) != (ui->FPSspinBox->value() - 50))
-            SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_FPSSpin_C);
-    }
+    ui->FPSSlider->setValue(ui->FPSspinBox->value());
 }
 
 void MainWindow::on_accuracySpinBox_editingFinished()
 {
-    if (ui->accuracySlider->value() != ui->accuracySpinBox->value())
-    {
-        ui->accuracySlider->setValue(ui->accuracySpinBox->value());
-        kbDev.sendCom(MIDI_HALFDELTA + (char)(ui->accuracySpinBox->value()));
-        int zzz = kbDev.checkFeedback(Check_HalfDelta);
-        if (zzz != (ui->accuracySpinBox->value()))
-            SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AccuracySpin_C);
-    }
+    ui->accuracySlider->setValue(ui->accuracySpinBox->value());
 }
 
 /*
@@ -589,58 +558,69 @@ void MainWindow::on_hardAmpComboBox_currentIndexChanged(int index)
 ////////////// SLIDER ///////////////
 /////////////////////////////////////
 
-void MainWindow::on_detLevelSlider_sliderReleased()
+
+void MainWindow::on_FPSSlider_valueChanged(int value)
 {
-    if (ui->detLevelSlider->value() != ui->detLevelspinBox->value())
+    kbDev.sendCom(MIDI_FPS + (char)(value - 50));
+    int result = kbDev.checkFeedback(Check_FPS);
+    if (result < 0)
+        SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_FPSSlider_C);
+    else
     {
-        ui->detLevelspinBox->setValue(ui->detLevelSlider->value());
-        kbDev.sendCom(MIDI_DET + (char)(ui->detLevelspinBox->value() - 1));
-        if (kbDev.checkFeedback(Check_DetLevel) != (ui->detLevelspinBox->value() - 1))
-            SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_DetLevelSlider_C);
+        ui->FPSspinBox->setValue(result + 50);
+        ui->FPSSlider->setValue(result + 50);
     }
 }
 
-void MainWindow::on_detSpeedSlider_sliderReleased()
+void MainWindow::on_detLevelSlider_valueChanged(int value)
 {
-    if (ui->detSpeedSlider->value() != ui->detSpeedspinBox->value())
+    kbDev.sendCom(MIDI_DET + (char)(value - 1));
+    int result = kbDev.checkFeedback(Check_DetLevel);
+    if (result < 0)
+        SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_DetLevelSlider_C);
+    else
     {
-        ui->detSpeedspinBox->setValue(ui->detSpeedSlider->value());
-        kbDev.sendCom(MIDI_MINPOS + (char)(128 - ui->detSpeedspinBox->value()));
-        if (kbDev.checkFeedback(Check_MinPos) != (128 - ui->detSpeedspinBox->value()))
-            SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_DetSpeedSlider_C);
+        ui->detLevelspinBox->setValue(result + 1);
+        ui->detLevelSlider->setValue(result + 1);
     }
 }
 
-void MainWindow::on_detSelectivitySlider_sliderReleased()
+void MainWindow::on_detSpeedSlider_valueChanged(int value)
 {
-    if (ui->detSelectivitySlider->value() != ui->detSelectivityspinBox->value())
+    kbDev.sendCom(MIDI_MINPOS + (char)(128 - value));
+    int result = kbDev.checkFeedback(Check_MinPos);
+    if (result < 0)
+        SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_DetSpeedSlider_C);
+    else
     {
-        ui->detSelectivityspinBox->setValue(ui->detSelectivitySlider->value());
-        kbDev.sendCom(MIDI_MAXPOS + (char)(128 - ui->detSelectivityspinBox->value()));
-        if (kbDev.checkFeedback(Check_MultPos) != (128 - ui->detSelectivityspinBox->value()))
-            SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_DetSelectivitySlider_C);
+        ui->detSpeedspinBox->setValue(128 - result);
+        ui->detSpeedSlider->setValue(128 - result);
     }
 }
 
-void MainWindow::on_FPSSlider_sliderReleased()
+void MainWindow::on_detSelectivitySlider_valueChanged(int value)
 {
-    if (ui->FPSSlider->value() != ui->FPSspinBox->value())
+    kbDev.sendCom(MIDI_MAXPOS + (char)(128 - value));
+    int result = kbDev.checkFeedback(Check_MultPos);
+    if (result < 0)
+        SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_DetSelectivitySlider_C);
+    else
     {
-        ui->FPSspinBox->setValue(ui->FPSSlider->value());
-        kbDev.sendCom(MIDI_FPS + (char)(ui->FPSspinBox->value() - 50));
-        if (kbDev.checkFeedback(Check_FPS) != (ui->FPSspinBox->value() - 50))
-            SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_FPSSlider_C);
+        ui->detSelectivityspinBox->setValue(128 - result);
+        ui->detSelectivitySlider->setValue(128 - result);
     }
 }
 
-void MainWindow::on_accuracySlider_sliderReleased()
+void MainWindow::on_accuracySlider_valueChanged(int value)
 {
-    if (ui->accuracySlider->value() != ui->accuracySpinBox->value())
+    kbDev.sendCom(MIDI_HALFDELTA + (char)(value));
+    int result = kbDev.checkFeedback(Check_HalfDelta);
+    if (result < 0)
+        SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AccuracySlider_C);
+    else
     {
-        ui->accuracySpinBox->setValue(ui->accuracySlider->value());
-        kbDev.sendCom(MIDI_HALFDELTA + (char)(ui->accuracySpinBox->value()));
-        if (kbDev.checkFeedback(Check_HalfDelta) != (ui->accuracySpinBox->value()))
-            SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AccuracySlider_C);
+        ui->accuracySpinBox->setValue(result);
+        ui->accuracySlider->setValue(result);
     }
 }
 

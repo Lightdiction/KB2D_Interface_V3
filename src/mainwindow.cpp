@@ -157,6 +157,10 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
     return false;
 }
 
+void MainWindow::updateWidgetsDisplay()
+{
+}
+
 /*
  * ======================================
  * All ports are initialized in main.cpp
@@ -1067,8 +1071,23 @@ void MainWindow::updateAll(bool optionWin)
         else
             retErr = 1;
     }
+
+    ////////////////////////////
+    //////////// V7.22 /////////
+    ////////////////////////////
+
+    if ((kbDev.getID(VERSION) > 7) || ((kbDev.getID(VERSION) == 7) && (kbDev.getID(SUBVERSION) >= 22)))
+    {
+        if (kbDev.checkFeedback(Check_Gain) >= 0)
+        {
+            ui->hardAmpComboBox->setCurrentIndex(kbDev.checkFeedback(Check_Gain));
+            ui->hardAmpComboBox->setEnabled(1);
+        }
+        else
+            retErr = 1;
+    }
     else if ((retErr == 0) && (optionWin == 1)) //
-        SendError(this, tr("Please, update your firmware to the last version (7.21 or above) to get all functionnalities:"
+        SendError(this, tr("Please, update your firmware to the last version (7.22 or above) to get all functionnalities:"
                                                         "\n> The firmware can be downloaded here: https://lightdiction.com/Ressources"
                                                         "\n> Or contact us at contact@lightdiction.com"), MainWindow_UpdateAll_FWUP, tr("Firmware outdated"));
 

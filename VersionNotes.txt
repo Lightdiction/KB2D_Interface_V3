@@ -8,6 +8,29 @@
 
 
 ===========================================
+V3.12 - 28/03/2021
+===========================================
+
+----- 	MAPPING
+
+	- When we learned a MIDI value on a "controller" type message (the 3rd MIDI parameter is -1), this 3rd parameter was also "learned" instead of staying at -1. This has been corrected.
+
+----- 	GLOBAL DESIGN
+
+	- Sliders and SpinBox interactions have been changed. When we change the value of a slider, it is now updated in live on the KB2D and on the SpinBox.
+
+----- 	HARDWARE GAIN
+
+	- Hardware Gain is now available. We can select between "No amplification" / x2 / x4 / x8 / x16. This amplifies the signal received on the KB2D. This means it is possible de multiply by 4 the distance of interaction (by selecting x16), compared to "No Amplification".
+
+< FIRMWARE V7.22 >
+	- [Important] Hardware Gain has been implemented
+	- [Important] There was a bug on all Note Off: a high latency was observed (on Note Off only). This has been corrected.
+	- With default parameters, all notes are now different on 16 beams, and not only on the 12 first.
+	- The LED of the start button was not completely turned off, when it was supposed to be Off. It is now corrected.
+	- Other minor corrections...
+
+===========================================
 V3.11 - 17/01/2021
 ===========================================
 

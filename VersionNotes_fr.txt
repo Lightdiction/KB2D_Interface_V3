@@ -8,6 +8,29 @@
 
 
 ===========================================
+V3.12 - 28/03/2021
+===========================================
+
+----- 	MAPPING
+
+	- Lors de l'apprentissage d'une valeur MIDI sur un message de type "contrôleur" (le dernier paramètre vaut -1), ce dernier paramètre était également "appris" au lieu de rester à -1. C'est corrigé.
+
+----- 	DESIGN GLOBAL
+
+	- Les interactions sur les Sliders et SpinBox ont été modifiées. Quand on change la valeur d'un Slider, cette valeur est maintenant mise à jour en temps réel sur le KB2D et sur les SpinBox.
+
+----- 	GAIN HARDWARE
+
+	- Le Gain Hardware est maintenant disponible et fonctionnel. On peut choisir entre "Pas d'amplification" / x2 / x4 / x8 / x16. Cela amplifie le signal reçu sur le KB2D. Cela signifie qu'il est maintenant possible de multiplier par 4 la distance d'interaction (en sélectionnant x16), comparé à "Pas d'amplification".
+
+< FIRMWARE V7.22 >
+	- [Important] Le Gain Hardware a été implémenté.
+	- [Important] Il y avait un bug sur les Notes Off: une latence importante était observée (uniquement sur les notes off). Cela a été corrigé.
+	- Avec les paramètres par défaut, toutes les notes sont maintenant différentes sur les 16 faisceaux, et non seulement sur les 12 premiers.
+	- La LED du bouton Start du KB2D n'était pas complètement éteinte, lorsqu'elle devait être Off. C'est corrigé.
+	- Autres corrections mineures...
+
+===========================================
 V3.11 - 17/01/2021
 ===========================================
 
