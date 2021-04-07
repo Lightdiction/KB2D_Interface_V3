@@ -21,9 +21,6 @@
 // MIDI Commands to send to KB2D //
 #define MIDI_SN 			0x90, 0x10, 0x00
 #define MIDI_SUBSN 			0x90, 0x11, 0x00
-#define MIDI_PONGSEND 		0x90, 0x12, 0x00 	// Obsolete
-#define MIDI_PONGLEFT2 		0x90, 0x13, 0x00 	// Obsolete
-#define MIDI_PONGRIGHT2 	0x90, 0x14, 0x00 	// Obsolete
 
 #define MIDI_START 			0xC0, 0x00, 0x00
 #define MIDI_PAUSE 			0xC0, 0x11, 0x00
@@ -32,10 +29,11 @@
 #define MIDI_DET 			0xB0, 0x10, 0x00
 #define MIDI_MINPOS 		0xB0, 0x11, 0x00
 #define MIDI_MAXPOS 		0xB0, 0x12, 0x00
+#define MIDI_DETH 			0xB0, 0x13, 0x00
 #define MIDI_SAVEALL 		0xC7, 0x50, 0x00
-#define MIDI_DEFAULT 		0xC7, 0x58, 0x00
 #define MIDI_FPS 			0xB0, 0x14, 0x00
-#define MIDI_AUTOANGLE 		0xB7, 0x30, 0x00    // Obsolete
+#define MIDI_RELEASE 		0xB0, 0x15, 0x00
+#define MIDI_DEFAULT 		0xC7, 0x58, 0x00
 
 #define MIDI_NBEAMSX 		0xB1, 0x20, 0x00
 #define MIDI_NBEAMSY 		0xB2, 0x20, 0x00
@@ -111,11 +109,6 @@
 
 #define MIDI_STARTNOTES 	0xC0, 0x30, 0x00
 #define MIDI_STOPNOTES 		0xC0, 0x38, 0x00
-
-#define MIDI_KBLFULLANGLE 	0xB4, 0x50, 0x00    // Obsolete KBL
-#define MIDI_KBLSCANSHIFT 	0xB4, 0x51, 0x00    // Obsolete KBL
-#define MIDI_KBLPULSEWIDTH 	0xB4, 0x52, 0x00    // Obsolete KBL
-#define MIDI_KBLMOTORSPEED 	0xB4, 0x53, 0x00    // Obsolete KBL
 
 #define MIDI_ANGLEXL0 		0xB1, 0x50, 0x00
 #define MIDI_ANGLEXH0 		0xB1, 0x60, 0x00
@@ -201,12 +194,14 @@ enum checkList : unsigned char
     Check_NoteToPlay13,
     Check_NoteToPlay14,
     Check_NoteToPlay15,
+    Check_DetLevelH,
 
     Check_PauseOn = 44,
     Check_SmoothZ,
     Check_FiltZ,
     Check_InvertZ,
     Check_Gain,
+    Check_Release,
 
     Check_BeamAngleListX0 = 80,
     Check_BeamAngleListX1,

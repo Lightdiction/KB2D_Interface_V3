@@ -8,6 +8,31 @@
 
 
 ===========================================
+V3.13 - 07/04/2021
+===========================================
+
+----- 	RELEASE OFF (requiert le firmware 7.23)
+
+	- Le nouveau bouton Release Off a été implémenté. Cela permet d'ajuster la sensibilité et la latence de la "Note Off". Par défaut, ce paramètre vaut 4, ce qui signifie que cela prend 4 images (au sens du nombre d'images par seconde) pour que la note Off se déclenche. Si le nombre d'Images par Seconde et les paramètres de détection sont correct, on peut facilement descendre à 1 pour réduire la latence au minimum.
+
+----- 	ASSISTANT DE DETECTION (requiert le firmware 7.23)
+
+	- Il n'y a plus de fenêtre d'erreur lorsque l'on stop la calibration. Le KB2D revient simplement dans sa configuration précédente.
+	- L'assistant de détection a été fortement amélioré. Il est maintenant plus rapide, et couvre une gamme très large de mesure. Il est également plus précis. EN particulier, cela devient beaucoup plus pratique pour les lasers à moyenne / forte puissance.
+
+----- 	SEUIL DE DETECTION (requiert le firmware 7.23)
+
+	- Tout comme l'Assistant de Détection, le Seuil de Détection est maintenant beaucoup plus précis et couvre une gamme de mesure beaucoup plus large. Il peut aller de 5 à 3000 (ce qui ets plus que suffisant). A titre de comparaison, la valeur 127 des anciennes versions (qui était le maximum) correspond à la valeur 385 ( / 3000).
+
+----- 	MODE CONTINU
+
+	- Le mode continu n'était pas correctement chargé quand l'on démarre l'interface, si le KB2D est déjà dans ce mode avant le lancement de l'interface. Ce bug est corrigé.
+
+< FIRMWARE V7.23 >
+	- Toutes les fonctions décrites ci-dessus ont été implémentées.
+
+
+===========================================
 V3.12 - 28/03/2021
 ===========================================
 

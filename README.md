@@ -1,7 +1,7 @@
 **********************************
-KB2D Interface V3.11
+KB2D Interface V3.13
 
-04/02/2021
+07/04/2021
 
 Company: Lightdiction SAS
 

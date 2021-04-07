@@ -123,9 +123,9 @@ QLabel {background-color: rgba(0, 0, 0, 0);}</string>
         </property>
         <property name="text">
          <string>KB2D Laser Harp Interface
-Version: 3.12
+Version: 3.13
 
-Date: 28 March 2021
+Date: 07 April 2021
 
 Company: Lightdiction SAS
 Author: Thomas Avisse

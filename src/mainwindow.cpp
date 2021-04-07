@@ -869,6 +869,10 @@ void MainWindow::updateAll(bool optionWin)
 
         //////////////////////////////
 
+        kbDev.setID(VERSION, kbDev.checkFeedback(Check_Version));
+        kbDev.setID(SUBVERSION, kbDev.checkFeedback(Check_SubVersion));
+        kbDev.setID(SERIAL, (kbDev.checkFeedback(Check_SN) << 7) + kbDev.checkFeedback(Check_SubSN));
+
         for (int _ii = 0 ; _ii < MAX_NBEAMS ; _ii++)
             Z0_ComboBox[_ii]->setCurrentIndex(kbDev.checkFeedback(Check_NoteToPlay0 + _ii));
 
@@ -882,29 +886,23 @@ void MainWindow::updateAll(bool optionWin)
             ui->nBeamsXComboBox->addItem(QString::number(iii + 1));
         ui->nBeamsXComboBox->setCurrentIndex(saveNBeamsIndex);
 
-        ui->detLevelspinBox->setValue(kbDev.checkFeedback(Check_DetLevel) + 1);
-        ui->detSpeedspinBox->setValue(128 - kbDev.checkFeedback(Check_MinPos));
-        ui->detSelectivityspinBox->setValue(128 - kbDev.checkFeedback(Check_MultPos));
-        ui->FPSspinBox->setValue(kbDev.checkFeedback(Check_FPS) + 50);
-        ui->accuracySpinBox->setValue(kbDev.checkFeedback(Check_HalfDelta));
-        ui->detLevelSlider->setValue(ui->detLevelspinBox->value());
-        ui->detSpeedSlider->setValue(ui->detSpeedspinBox->value());
-        ui->detSelectivitySlider->setValue(ui->detSelectivityspinBox->value());
-        ui->FPSSlider->setValue(ui->FPSspinBox->value());
-        ui->accuracySlider->setValue(ui->accuracySpinBox->value());
+
+        if ((kbDev.getID(VERSION) > 7) || ((kbDev.getID(VERSION) == 7) && (kbDev.getID(SUBVERSION) >= 23))) {}
+        else
+        {
+            ui->detLevelSlider->setValue(kbDev.checkFeedback(Check_DetLevel) + 1);
+        }
+
+        ui->detSpeedSlider->setValue(128 - kbDev.checkFeedback(Check_MinPos));
+        ui->detSelectivitySlider->setValue(128 - kbDev.checkFeedback(Check_MultPos));
+        ui->FPSSlider->setValue(kbDev.checkFeedback(Check_FPS) + 50);
+        ui->accuracySlider->setValue(kbDev.checkFeedback(Check_HalfDelta));
 
         for (int _ii = 0 ; _ii < MAX_NBEAMS ; _ii++)
         {
             angleSaveValue[_ii] = (double)(kbDev.checkFeedback(Check_BeamAngleListX0 + _ii) + ((kbDev.checkFeedback(Check_BeamAngleListXH0 + _ii) - 63) * 128)) / 10;
             angleDoubleSpinBox[_ii]->setValue(angleSaveValue[_ii]);
         }
-
-        kbDev.setID(VERSION, kbDev.checkFeedback(Check_Version));
-        kbDev.setID(SUBVERSION, kbDev.checkFeedback(Check_SubVersion));
-        kbDev.setID(SERIAL, (kbDev.checkFeedback(Check_SN) << 7) + kbDev.checkFeedback(Check_SubSN));
-
-        setStatus("KB2D connected: Firmware version: " + (QString::number(kbDev.getID(VERSION))) + "."+ (QString::number(kbDev.getID(SUBVERSION))) + \
-                  " - S/N: " + (QString::number(kbDev.getID(SERIAL))));
     }
     else
         retErr = 1;
@@ -1086,8 +1084,39 @@ void MainWindow::updateAll(bool optionWin)
         else
             retErr = 1;
     }
+
+    ////////////////////////////
+    //////////// V7.23 /////////
+    ////////////////////////////
+
+    ui->releaseSlider->hide();
+    ui->releaseSpinBox->hide();
+    ui->releaseLabel->hide();
+    if ((kbDev.getID(VERSION) > 7) || ((kbDev.getID(VERSION) == 7) && (kbDev.getID(SUBVERSION) >= 23)))
+    {
+        ui->releaseSlider->show();
+        ui->releaseSpinBox->show();
+        ui->releaseLabel->show();
+
+        if ((kbDev.checkFeedback(Check_Release) >= 0) && (kbDev.checkFeedback(Check_DetLevelH) >= 0))
+        {
+            ui->releaseSlider->setValue(kbDev.checkFeedback(Check_Release));
+
+            ui->detLevelspinBox->setMaximum(3000);
+            ui->detLevelspinBox->setMinimum(5);
+            ui->detLevelSlider->setMaximum(3000);
+            ui->detLevelSlider->setMinimum(5);
+            int valueFb = (kbDev.checkFeedback(Check_DetLevelH) << 7) + kbDev.checkFeedback(Check_DetLevel);
+            if (valueFb <= 3000)
+                ui->detLevelSlider->setValue(valueFb);
+            else
+                ui->detLevelSlider->setValue(3000);
+        }
+        else
+            retErr = 1;
+    }
     else if ((retErr == 0) && (optionWin == 1)) //
-        SendError(this, tr("Please, update your firmware to the last version (7.22 or above) to get all functionnalities:"
+        SendError(this, tr("Please, update your firmware to the last version (7.23 or above) to get all functionnalities:"
                                                         "\n> The firmware can be downloaded here: https://lightdiction.com/Ressources"
                                                         "\n> Or contact us at contact@lightdiction.com"), MainWindow_UpdateAll_FWUP, tr("Firmware outdated"));
 
@@ -1096,6 +1125,10 @@ void MainWindow::updateAll(bool optionWin)
     if (retErr == 0)
     {
         SendLog("KB2D Connected - SN: " + QString::number(kbDev.getID(SERIAL)));
+
+
+        setStatus(tr("KB2D connected: Firmware version: ") + (QString::number(kbDev.getID(VERSION))) + "."+ (QString::number(kbDev.getID(SUBVERSION))) + \
+                  " - S/N: " + (QString::number(kbDev.getID(SERIAL))));
 
         if (optionWin == 1)
             QMessageBox::information(this, tr("KB2D connected - Device information"), tr("Firmware version: ") + (QString::number(kbDev.getID(VERSION))) + \

@@ -8,6 +8,31 @@
 
 
 ===========================================
+V3.13 - 07/04/2021
+===========================================
+
+----- 	RELEASE OFF (requires firmware 7.23)
+
+	- The new button Release Off has been implemented. It enables to adjust the sensitivity and latency of the "Off Note". By default, it is set to 4. Which means a note takes 4 Frames to go Off. If the FPS rate is correctly set, and detection settings are good, we can easily go to 1 to reduce the latency to the minimum.
+
+----- 	DETECTION ASSISTANT (requires firmware 7.23)
+
+	- There is no more error window when we stop the calibration. The KB2D just goes to its previous state.
+	- The Detection Assistant has been greatly improved. It is a bit faster and now has a very large range. It is also more accurate. In particular, this is very convenient for Medium / High power lasers.
+
+----- 	DETECTION THRESHOLD (requires firmware 7.23)
+
+	- Just like the Detection Assistant, the Detection Threshold is now very accurate and has a large range. It can go from 5 to 3000 (which is clearly enough). In comparison, in older versions, the "127" value corresponded to only 385.
+
+----- 	CONTINUOUS MODE
+
+	- The continuous mode was not correctly loaded when we start the interface, if the KB2D is already in this mode before starting. This bug is fixed.
+
+< FIRMWARE V7.23 >
+	- All functions described above have been implemented.
+
+
+===========================================
 V3.12 - 28/03/2021
 ===========================================
 

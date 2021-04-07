@@ -525,6 +525,10 @@ private slots:
     void on_actionShow_Version_Notes_triggered();
 
 
+    void on_releaseSlider_valueChanged(int value);
+
+    void on_releaseSpinBox_editingFinished();
+
 protected:
     Ui::MainWindow *ui;
 

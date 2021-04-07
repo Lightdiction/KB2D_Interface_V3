@@ -60,15 +60,30 @@ void MainWindow::updateAngleBoxVisibility()
     }
 }
 
+/*
+ * ========================
+ * Detection Assistant
+ * ========================
+ */
 void MainWindow::autoSetDet()
 {
     int detOK = 0, actualDetLevel = 0, saveDetLevel = 0, saveSpeed = 0;
     int initialDetLevel, initialSpeed, initialSelectivity;
 
+    int factorDet = 1;
+    int maxDetLevel = 127;
+
     // Save Parameters in case of cancellation
     initialDetLevel = ui->detLevelSlider->value() - 1;
     initialSpeed = 128 - ui->detSpeedSlider->value();
     initialSelectivity = 128 - ui->detSelectivitySlider->value();
+
+    if ((kbDev.getID(VERSION) > 7) || ((kbDev.getID(VERSION) == 7) && (kbDev.getID(SUBVERSION) >= 23)))
+    {
+        factorDet = 5;
+        maxDetLevel = 4095;
+        initialDetLevel = ui->detLevelSlider->value();
+    }
 
     // First: Detect only the background.
     // Calibration may not work properly with parasitic lights...
@@ -87,10 +102,22 @@ void MainWindow::autoSetDet()
                                                         "- Speed selectivity\n\n"), QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Ok)) != QMessageBox::Cancel)
     {
         // Set det threshold to minimum.
-        actualDetLevel = 2;
-        kbDev.sendCom(MIDI_DET + actualDetLevel);
-        if (kbDev.checkFeedback(Check_DetLevel) != actualDetLevel)
-            SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_1_C);
+        actualDetLevel = 0 + factorDet;
+        if ((kbDev.getID(VERSION) > 7) || ((kbDev.getID(VERSION) == 7) && (kbDev.getID(SUBVERSION) >= 23)))
+        {
+            kbDev.sendCom(MIDI_DET + (actualDetLevel & 0x7F));
+            if (kbDev.checkFeedback(Check_DetLevel) != (actualDetLevel & 0x7F))
+                SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_1_C);
+            kbDev.sendCom(MIDI_DETH + (actualDetLevel >> 7));
+            if (kbDev.checkFeedback(Check_DetLevelH) != (actualDetLevel >> 7))
+                SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_1b_C);
+        }
+        else
+        {
+            kbDev.sendCom(MIDI_DET + actualDetLevel);
+            if (kbDev.checkFeedback(Check_DetLevel) != actualDetLevel)
+                SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_1c_C);
+        }
 
         // Set Detection Speed and Speed Selectivity to large values. Set Angle deviation to 25.
         kbDev.sendCom(MIDI_MINPOS + 3);
@@ -127,14 +154,17 @@ void MainWindow::autoSetDet()
 
         while ((detOK == 0) && (cancelValue == 0))
         {
-            kbDev.sendCom(MIDI_LEARNONE + 0x7D);
+            if ((kbDev.getID(VERSION) > 7) || ((kbDev.getID(VERSION) == 7) && (kbDev.getID(SUBVERSION) >= 23)))
+                kbDev.sendCom(MIDI_LEARNONE + 0x7C);
+            else
+                kbDev.sendCom(MIDI_LEARNONE + 0x7D);
 
             QElapsedTimer timer;
             timer.start();
             // The system is calibrated with the help of the first confirmation (after 0.1 second) and fine tuning with the second calibration (after 2,2 seconds for instance).
             // Open a warning window if the level of the background is higher than 0x3F (lower laser power).
             kbDev.waitForFeedback(1);
-            while (kbDev.isWaitingFb() && (cancelValue == 0))
+            while (kbDev.isWaitingFb() && (cancelValue == 0))   // Check if we have a detection at lower lovel.
             {
                 QCoreApplication::processEvents();
                 if (timer.elapsed() > 500)
@@ -147,52 +177,82 @@ void MainWindow::autoSetDet()
                     detOK = 1;  // No more detection - det level is OK
                 }
             }
-            if ((harpIn.getParam(0) == 0x80) && (harpIn.getParam(1) == 0x0) && (harpIn.getParam(2) == 0x0))     // first detection has been validated...
+
+            // Background has been detected... (Averaging has started, it takes minimum 2 seconds).
+            if ((harpIn.getParam(0) == 0x80) && (harpIn.getParam(1) == 0x0) && (harpIn.getParam(2) == 0x0))
             {
                 timer.restart();
                 kbDev.waitForFeedback(1);
                 while (kbDev.isWaitingFb() && (cancelValue == 0))
                 {
                     QCoreApplication::processEvents();
-                    if (timer.elapsed() > 3000)      // Level is almost good, but not yet...
+
+                    // If the detection is perfect, 0x90 feedback is received after 2s. We take 3s ta have a small margin (bad detection = almost good threshold).
+                    if (timer.elapsed() > 3000)
                     {
                         // No background detection...
                         harpIn.setParam(0,0);
                         harpIn.setParam(1,0);
                         harpIn.setParam(2,0);
                         kbDev.waitForFeedback(0);    // End the loop
-                        actualDetLevel += 2;    // Increase very slightly, until the first detection do not happen again.
-                        if (actualDetLevel > 127)
+                        actualDetLevel += (2 * factorDet);    // Increase very slightly, and now the background is set
+                        if (actualDetLevel > maxDetLevel)
                         {
-                            actualDetLevel = 127;
+                            actualDetLevel = maxDetLevel;
                             detOK = 1;          // We already reached the maximum level.
                         }
-                        kbDev.sendCom(MIDI_DET + actualDetLevel);
-                        if (kbDev.checkFeedback(Check_DetLevel) != actualDetLevel)
-                            SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_5_C);
+                        if ((kbDev.getID(VERSION) > 7) || ((kbDev.getID(VERSION) == 7) && (kbDev.getID(SUBVERSION) >= 23)))
+                        {
+                            kbDev.sendCom(MIDI_DET + (actualDetLevel & 0x7F));
+                            if (kbDev.checkFeedback(Check_DetLevel) != (actualDetLevel & 0x7F))
+                                SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_5_C);
+                            kbDev.sendCom(MIDI_DETH + (actualDetLevel >> 7));
+                            if (kbDev.checkFeedback(Check_DetLevelH) != (actualDetLevel >> 7))
+                                SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_5b_C);
+                        }
+                        else
+                        {
+                            kbDev.sendCom(MIDI_DET + actualDetLevel);
+                            if (kbDev.checkFeedback(Check_DetLevel) != actualDetLevel)
+                                SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_5c_C);
+                        }
                     }
                 }
-                if ((harpIn.getParam(0) == 0x90) && (harpIn.getParam(1) == 0x0))        // Detection process is done, power level has been measured.
+                // Background has been detected - power has been returned on param(2)
+                if (harpIn.getParam(0) == 0x90)
                 {
-                    harpIn.setParam(2, (unsigned int)(4 * harpIn.getParam(2)) / 3);
+                    //harpIn.setParam(2, (unsigned int)(4 * (harpIn.getParam(2) + (harpIn.getParam(1) << 7))) / 3);
+                    int tempResult = (4 * (harpIn.getParam(2) + (harpIn.getParam(1) << 7))) / 3;
 
-                    if (harpIn.getParam(2) > actualDetLevel)    // Since the value returned by param 3 is an average, it can be less than the actual detection threshold needed to avoid detections.
-                        actualDetLevel = harpIn.getParam(2);
+                    if (tempResult > actualDetLevel)    // Since the value returned by param 3 is an average, it can be less than the actual detection threshold needed to avoid detections.
+                        actualDetLevel = tempResult;
                     else
-                        actualDetLevel += 2;        // For this reason actual detection level can only increase.
+                        actualDetLevel += (2 * factorDet);        // For this reason actual detection level can only increase.
 
-                    if (actualDetLevel > 127)
-                        actualDetLevel = 127;
+                    if (actualDetLevel > maxDetLevel)
+                        actualDetLevel = maxDetLevel;
 
-                    kbDev.sendCom(MIDI_DET + actualDetLevel);
-                    if (kbDev.checkFeedback(Check_DetLevel) != actualDetLevel)
-                        SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_6_C);
+                    if ((kbDev.getID(VERSION) > 7) || ((kbDev.getID(VERSION) == 7) && (kbDev.getID(SUBVERSION) >= 23)))
+                    {
+                        kbDev.sendCom(MIDI_DET + (actualDetLevel & 0x7F));
+                        if (kbDev.checkFeedback(Check_DetLevel) != (actualDetLevel & 0x7F))
+                            SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_6_C);
+                        kbDev.sendCom(MIDI_DETH + (actualDetLevel >> 7));
+                        if (kbDev.checkFeedback(Check_DetLevelH) != (actualDetLevel >> 7))
+                            SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_6b_C);
+                    }
+                    else
+                    {
+                        kbDev.sendCom(MIDI_DET + actualDetLevel);
+                        if (kbDev.checkFeedback(Check_DetLevel) != actualDetLevel)
+                            SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_6c_C);
+                    }
 
-                    if (actualDetLevel == 127)
+                    if (actualDetLevel == maxDetLevel)
                         SendError(this, tr("The background level is high, it may cause decrease of accuracy or detection error.\n\n"
                                         "To avoid this, reduce the power of your laser or choose an environment with a higher or darker ceiling / background.\n"
                                         "The background shall have a low reflectance"), GrDet_AutoSet_1, tr("Background is high = 127"));
-                    if (actualDetLevel == 127)
+                    if (actualDetLevel == maxDetLevel)
                         detOK = 1;          // We already reached the maximum level
                 }
             }
@@ -210,13 +270,18 @@ void MainWindow::autoSetDet()
                                                                 tr("\n\nAfter pressing OK, interact with a beam at the desired height, then wait for the end of calibration confirmation.\n\n"
                                                                 "This may take a few seconds. Do not change or remove the interaction while the calibration is running."));
 
-        // Ask to the user to interact with one beam (center beam for instance).
-        ////////// Now finish calibrating the detection threshold //////////
+        //////////////////////////////////////////////////////////////////////////
+        // Ask to the user to interact with one beam (center beam for instance) //
+        ///////////// Now finish calibrating the detection threshold /////////////
+        //////////////////////////////////////////////////////////////////////////
 
         detOK = 0;
 
         ui->statusBar->showMessage(tr("Calibration in process... Detection level of interaction"), 0);
-        kbDev.sendCom(MIDI_LEARNONE + 0x7D);  // Send test signal
+        if ((kbDev.getID(VERSION) > 7) || ((kbDev.getID(VERSION) == 7) && (kbDev.getID(SUBVERSION) >= 23)))
+            kbDev.sendCom(MIDI_LEARNONE + 0x7C);
+        else
+            kbDev.sendCom(MIDI_LEARNONE + 0x7D);
         startFunc();
 #ifndef NO_MORE_BUTTONS
         ui->startButton->setHidden(1);
@@ -231,7 +296,10 @@ void MainWindow::autoSetDet()
         }
         while ((detOK == 0) && (cancelValue == 0))
         {
-            kbDev.sendCom(MIDI_LEARNONE + 0x7D);  // Send test signal
+            if ((kbDev.getID(VERSION) > 7) || ((kbDev.getID(VERSION) == 7) && (kbDev.getID(SUBVERSION) >= 23)))
+                kbDev.sendCom(MIDI_LEARNONE + 0x7C);
+            else
+                kbDev.sendCom(MIDI_LEARNONE + 0x7D);
             QElapsedTimer timer;
             timer.start();
             kbDev.waitForFeedback(1);
@@ -262,52 +330,93 @@ void MainWindow::autoSetDet()
                         harpIn.setParam(1,0);
                         harpIn.setParam(2,0);
                         kbDev.waitForFeedback(0);    // End the loop
-                        actualDetLevel = actualDetLevel + 2;    // Increase very slightly, until the first detection do not happen again.
-                        if (actualDetLevel > 127)
+                        actualDetLevel += (2 * factorDet);    // Increase very slightly, until the first detection do not happen again.
+                        if (actualDetLevel > maxDetLevel)
                         {
-                            actualDetLevel = 127;
+                            actualDetLevel = maxDetLevel;
                             detOK = 1;          // We already reached the maximum level
                         }
-                        kbDev.sendCom(MIDI_DET + actualDetLevel);
-                        if (kbDev.checkFeedback(Check_DetLevel) != actualDetLevel)
-                            SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_7_C);
+                        if ((kbDev.getID(VERSION) > 7) || ((kbDev.getID(VERSION) == 7) && (kbDev.getID(SUBVERSION) >= 23)))
+                        {
+                            kbDev.sendCom(MIDI_DET + (actualDetLevel & 0x7F));
+                            if (kbDev.checkFeedback(Check_DetLevel) != (actualDetLevel & 0x7F))
+                                SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_7_C);
+                            kbDev.sendCom(MIDI_DETH + (actualDetLevel >> 7));
+                            if (kbDev.checkFeedback(Check_DetLevelH) != (actualDetLevel >> 7))
+                                SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_7b_C);
+                        }
+                        else
+                        {
+                            kbDev.sendCom(MIDI_DET + actualDetLevel);
+                            if (kbDev.checkFeedback(Check_DetLevel) != actualDetLevel)
+                                SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_7c_C);
+                        }
                     }
                 }
-                if ((harpIn.getParam(0) == 0x90) && (harpIn.getParam(1) == 0x0))        // Detection process is done, power level has been measured.
+                if (harpIn.getParam(0) == 0x90)        // Detection process is done, power level has been measured.
                 {
-                    if (actualDetLevel < harpIn.getParam(2) + 3)
-                        actualDetLevel = harpIn.getParam(2) + 3;
+                    if (actualDetLevel < (harpIn.getParam(2) + (harpIn.getParam(1) << 7)) + (3 * factorDet))
+                        actualDetLevel = (harpIn.getParam(2) + (harpIn.getParam(1) << 7)) + (3 * factorDet);
                     else
-                        actualDetLevel += 2;
-                    if (actualDetLevel >= 127)
+                        actualDetLevel += (2 * factorDet);
+                    if (actualDetLevel >= maxDetLevel)
                     {
-                        actualDetLevel = 127;
+                        actualDetLevel = maxDetLevel;
                         detOK = 1;          // We already reached the maximum level
                     }
-                    kbDev.sendCom(MIDI_DET + actualDetLevel);
-                    if (kbDev.checkFeedback(Check_DetLevel) != actualDetLevel)
-                        SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_8_C);
+                    if ((kbDev.getID(VERSION) > 7) || ((kbDev.getID(VERSION) == 7) && (kbDev.getID(SUBVERSION) >= 23)))
+                    {
+                        kbDev.sendCom(MIDI_DET + (actualDetLevel & 0x7F));
+                        if (kbDev.checkFeedback(Check_DetLevel) != (actualDetLevel & 0x7F))
+                            SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_8_C);
+                        kbDev.sendCom(MIDI_DETH + (actualDetLevel >> 7));
+                        if (kbDev.checkFeedback(Check_DetLevelH) != (actualDetLevel >> 7))
+                            SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_8b_C);
+                    }
+                    else
+                    {
+                        kbDev.sendCom(MIDI_DET + actualDetLevel);
+                        if (kbDev.checkFeedback(Check_DetLevel) != actualDetLevel)
+                            SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_8c_C);
+                    }
                 }
             }
         }
         ui->statusBar->showMessage(tr("Calibration in process... Speed..."), 0);
 
-        if(actualDetLevel == saveDetLevel) // <============
+        if (actualDetLevel == saveDetLevel)
         {
-            SendError(this, tr("The KB2D cannot detect interactions with the subject.\nThe background may be too close or too reflective compared to the object."), GrDet_AutoSet_9_C);
+            if (cancelValue == 0)
+                SendError(this, tr("The KB2D cannot detect interactions with the subject.\nThe background may be too close or too reflective compared to the object."), GrDet_AutoSet_9_C);
         }
         else if((actualDetLevel * RATIO_WARNING_BG) < saveDetLevel)
         {
-            // If the signal level is close to the background level (30%), display a warning. If it cannot detect, display an error. Else, adapt the detection level to half the signal level.
-            kbDev.sendCom(MIDI_DET + saveDetLevel);
-            if (kbDev.checkFeedback(Check_DetLevel) != saveDetLevel)
-                SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_10_C);
+            // If the signal level is close to the background level (30%), display a warning. If it cannot detect, display an error.
+            // Else, adapt the detection level to half the signal level.
+            if ((kbDev.getID(VERSION) > 7) || ((kbDev.getID(VERSION) == 7) && (kbDev.getID(SUBVERSION) >= 23)))
+            {
+                kbDev.sendCom(MIDI_DET + (saveDetLevel & 0x7F));
+                if (kbDev.checkFeedback(Check_DetLevel) != (saveDetLevel & 0x7F))
+                    SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_10_C);
+                kbDev.sendCom(MIDI_DETH + (saveDetLevel >> 7));
+                if (kbDev.checkFeedback(Check_DetLevelH) != (saveDetLevel >> 7))
+                    SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_10b_C);
+            }
+            else
+            {
+                kbDev.sendCom(MIDI_DET + saveDetLevel);
+                if (kbDev.checkFeedback(Check_DetLevel) != saveDetLevel)
+                    SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_10c_C);
+            }
             // Then, adapt the Speed.
             detOK = 0;
             saveSpeed = 3;
             while ((detOK == 0) && (cancelValue == 0))
             {
-                kbDev.sendCom(MIDI_LEARNONE + 0x7D);  // Send test signal
+                if ((kbDev.getID(VERSION) > 7) || ((kbDev.getID(VERSION) == 7) && (kbDev.getID(SUBVERSION) >= 23)))
+                    kbDev.sendCom(MIDI_LEARNONE + 0x7C);
+                else
+                    kbDev.sendCom(MIDI_LEARNONE + 0x7D);
                 QElapsedTimer timer;
                 timer.start();
                 kbDev.waitForFeedback(1);
@@ -355,16 +464,31 @@ void MainWindow::autoSetDet()
         }
         else
         {
-            kbDev.sendCom(MIDI_DET + (actualDetLevel * RATIO_WARNING_BG));
-            if (kbDev.checkFeedback(Check_DetLevel) != (actualDetLevel * RATIO_WARNING_BG))
-                SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_13_C);
+            if ((kbDev.getID(VERSION) > 7) || ((kbDev.getID(VERSION) == 7) && (kbDev.getID(SUBVERSION) >= 23)))
+            {
+                kbDev.sendCom(MIDI_DET + ((actualDetLevel * RATIO_WARNING_BG) & 0x7F));
+                if (kbDev.checkFeedback(Check_DetLevel) != ((actualDetLevel * RATIO_WARNING_BG) & 0x7F))
+                    SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_13_C);
+                kbDev.sendCom(MIDI_DETH + ((actualDetLevel * RATIO_WARNING_BG) >> 7));
+                if (kbDev.checkFeedback(Check_DetLevelH) != ((actualDetLevel * RATIO_WARNING_BG) >> 7))
+                    SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_13b_C);
+            }
+            else
+            {
+                kbDev.sendCom(MIDI_DET + (actualDetLevel * RATIO_WARNING_BG));
+                if (kbDev.checkFeedback(Check_DetLevel) != (actualDetLevel * RATIO_WARNING_BG))
+                    SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_13c_C);
+            }
 
             // Then, adapt the Speed.
             detOK = 0;
             saveSpeed = 3;
             while ((detOK == 0) && (cancelValue == 0))
             {
-                kbDev.sendCom(MIDI_LEARNONE + 0x7D);  // Send test signal
+                if ((kbDev.getID(VERSION) > 7) || ((kbDev.getID(VERSION) == 7) && (kbDev.getID(SUBVERSION) >= 23)))
+                    kbDev.sendCom(MIDI_LEARNONE + 0x7C);
+                else
+                    kbDev.sendCom(MIDI_LEARNONE + 0x7D);
                 QElapsedTimer timer;
                 timer.start();
                 kbDev.waitForFeedback(1);
@@ -420,11 +544,25 @@ void MainWindow::autoSetDet()
                 SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_17_C);
         }
 
+        // Calibration aborted
         if (cancelValue == 1)   // Reset Det Level, Speed and Speed Selectivity to previous levels
         {
-            kbDev.sendCom(MIDI_DET + initialDetLevel);
-            if (kbDev.checkFeedback(Check_DetLevel) != initialDetLevel)
-                SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_18_C);
+            if ((kbDev.getID(VERSION) > 7) || ((kbDev.getID(VERSION) == 7) && (kbDev.getID(SUBVERSION) >= 23)))
+            {
+                kbDev.sendCom(MIDI_DET + (initialDetLevel & 0x7F));
+                if (kbDev.checkFeedback(Check_DetLevel) != (initialDetLevel & 0x7F))
+                    SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_18_C);
+                kbDev.sendCom(MIDI_DETH + (initialDetLevel >> 7));
+                if (kbDev.checkFeedback(Check_DetLevelH) != (initialDetLevel >> 7))
+                    SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_18b_C);
+            }
+            else
+            {
+                kbDev.sendCom(MIDI_DET + initialDetLevel);
+                if (kbDev.checkFeedback(Check_DetLevel) != initialDetLevel)
+                    SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_18c_C);
+            }
+
             kbDev.sendCom(MIDI_MINPOS + initialSpeed);
             if (kbDev.checkFeedback(Check_MinPos) != initialSpeed)
                 SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_AutoSet_19_C);
@@ -485,6 +623,11 @@ void MainWindow::on_autosetButton_clicked()
 ///////// SPIN BOX ////////
 ///////////////////////////
 
+void MainWindow::on_FPSspinBox_editingFinished()
+{
+    ui->FPSSlider->setValue(ui->FPSspinBox->value());
+}
+
 void MainWindow::on_detLevelspinBox_editingFinished()
 {
     ui->detLevelSlider->setValue(ui->detLevelspinBox->value());
@@ -500,14 +643,14 @@ void MainWindow::on_detSelectivityspinBox_editingFinished()
     ui->detSelectivitySlider->setValue(ui->detSelectivityspinBox->value());
 }
 
-void MainWindow::on_FPSspinBox_editingFinished()
-{
-    ui->FPSSlider->setValue(ui->FPSspinBox->value());
-}
-
 void MainWindow::on_accuracySpinBox_editingFinished()
 {
     ui->accuracySlider->setValue(ui->accuracySpinBox->value());
+}
+
+void MainWindow::on_releaseSpinBox_editingFinished()
+{
+    ui->releaseSlider->setValue(ui->releaseSpinBox->value());
 }
 
 /*
@@ -574,14 +717,42 @@ void MainWindow::on_FPSSlider_valueChanged(int value)
 
 void MainWindow::on_detLevelSlider_valueChanged(int value)
 {
-    kbDev.sendCom(MIDI_DET + (char)(value - 1));
-    int result = kbDev.checkFeedback(Check_DetLevel);
-    if (result < 0)
-        SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_DetLevelSlider_C);
+    static bool isBusy = false;
+    if ((kbDev.getID(VERSION) > 7) || ((kbDev.getID(VERSION) == 7) && (kbDev.getID(SUBVERSION) >= 23)))
+    {
+        if (!isBusy)
+        {
+            isBusy = true;
+            kbDev.sendCom(MIDI_DET + (value & 0x7F));
+            int result = kbDev.checkFeedback(Check_DetLevel);
+            if (result < 0)
+                SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_DetLevelSlider_C);
+            else
+            {
+                kbDev.sendCom(MIDI_DETH + (value >> 7));
+                int result2 = kbDev.checkFeedback(Check_DetLevelH);
+                if (result2 < 0)
+                    SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_DetLevelSlider_2_C);
+                else
+                {
+                    ui->detLevelspinBox->setValue(result + (result2 << 7));
+                    ui->detLevelSlider->setValue(result + (result2 << 7));
+                }
+            }
+            isBusy = false;
+        }
+    }
     else
     {
-        ui->detLevelspinBox->setValue(result + 1);
-        ui->detLevelSlider->setValue(result + 1);
+        kbDev.sendCom(MIDI_DET + (char)(value - 1));
+        int result = kbDev.checkFeedback(Check_DetLevel);
+        if (result < 0)
+            SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_DetLevelSlider_3_C);
+        else
+        {
+            ui->detLevelspinBox->setValue(result + 1);
+            ui->detLevelSlider->setValue(result + 1);
+        }
     }
 }
 
@@ -621,6 +792,19 @@ void MainWindow::on_accuracySlider_valueChanged(int value)
     {
         ui->accuracySpinBox->setValue(result);
         ui->accuracySlider->setValue(result);
+    }
+}
+
+void MainWindow::on_releaseSlider_valueChanged(int value)
+{
+    kbDev.sendCom(MIDI_RELEASE + (char)(value));
+    int result = kbDev.checkFeedback(Check_Release);
+    if (result < 0)
+        SendError(this, tr("No Feedback received / Select MIDI Input."), GrDet_ReleaseSlider_C);
+    else
+    {
+        ui->releaseSpinBox->setValue(result);
+        ui->releaseSlider->setValue(result);
     }
 }
 
