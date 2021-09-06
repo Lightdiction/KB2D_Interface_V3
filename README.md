@@ -13,7 +13,7 @@ Contact: contact@lightdiction.com
 
 **********************************
 
-This software has been created using Qt v5.14.2
+This software has been created using Qt v6.1.0
 
 License: GNU Lesser General Public License V3
 
