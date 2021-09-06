@@ -20,6 +20,9 @@
 
 #include "../inc/versiondialog.h"
 
+#include "QStyle"
+#include "QStyleFactory"
+
 //#include "comhw.h"
 
 //#define Z_DIMENSION
@@ -39,83 +42,17 @@ int saveIndexMidiIn = 0;
 
 int extMidiIndexToLearn;
 
-void qSleep(int timeToSleep)
-{
-    QElapsedTimer tim;
-    tim.start();
-    while(tim.elapsed() < timeToSleep)
-        QApplication::processEvents();
-}
 
 /*
- * ==============================
- * Send Error to User and
- * Write error in log file
- * ==============================
- */
-void SendError(QWidget *parent, const QString &errMessage, int errorIndex, const QString &compMessage, bool disp)
+ * ========================
+ * Custom Resize event
+ * ========================
+ *//*
+void MainWindow::resizeEvent(QResizeEvent* event)
 {
-    if (errorIndex > 10000)
-    {
-        if (disp)
-            QMessageBox::critical(parent, QObject::tr("Error"), errMessage + QObject::tr("\nError code: ") + QString::number(errorIndex));
-    }
-    else
-    {
-        if (disp)
-            QMessageBox::warning(parent, "Warning", errMessage + "\nWarning code: " + QString::number(errorIndex));
-    }
-
-    // Check and create logs directory
-    QDir dir("logs");
-    if (!dir.exists())
-        dir.mkpath(".");
-    // Log File
-    QFile logFile("logs/" + QDateTime::currentDateTime().toString("yyMM") + "_kb" + QString::number(LAST_VERSION) + ".log");
-    logFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text);
-    if (logFile.isOpen())
-    {
-        if (compMessage == "xxx")
-        {
-            QTextStream outStream(&logFile);
-            outStream << QDateTime::currentDateTime().toString("yy/MM/dd") << " " << QDateTime::currentDateTime().toString("hh:mm:ss.zzz") << " > " \
-                      << "Err " << QString::number(errorIndex) << " _ " << errMessage << "\n";
-        }
-        else
-        {
-            QTextStream outStream(&logFile);
-            outStream << QDateTime::currentDateTime().toString("yy/MM/dd") << " " << QDateTime::currentDateTime().toString("hh:mm:ss.zzz") << " > " \
-                      << "Err " << QString::number(errorIndex) << " _ " << compMessage << "\n";
-        }
-        logFile.close();
-    }
-    else
-        qDebug() << "Can't open log file";
-}
-
-/*
- * ==============================
- * Write information in log file
- * ==============================
- */
-void SendLog(const QString &logMessage)
-{
-    // Check and create logs directory
-    QDir dir("logs");
-    if (!dir.exists())
-        dir.mkpath(".");
-    // Log File
-    QFile logFile("logs/" + QDateTime::currentDateTime().toString("yyMM") + "_kb" + QString::number(LAST_VERSION) + ".log");
-    logFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text);
-    if (logFile.isOpen())
-    {
-        QTextStream outStream(&logFile);
-        outStream << QDateTime::currentDateTime().toString("yy/MM/dd") << " " << QDateTime::currentDateTime().toString("hh:mm:ss.zzz") << " > " << logMessage << "\n";
-        logFile.close();
-    }
-    else
-        qDebug() << "Can't open log file";
-}
+    QMainWindow::resizeEvent(event);
+    //
+}*/
 
 /*
  * =============================================
@@ -157,10 +94,6 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
     return false;
 }
 
-void MainWindow::updateWidgetsDisplay()
-{
-}
-
 /*
  * ======================================
  * All ports are initialized in main.cpp
@@ -172,7 +105,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
-    SendLog("Program starting...");
+    //qDebug() << QStyleFactory::keys();
+    QApplication::setStyle("windowsvista");
+
+    SendLog("\n===================== Starting...");
 
     /////// Filter for Wheel Events ///////
     QList <QSpinBox *> listSpin = this->findChildren<QSpinBox *>();
@@ -206,72 +142,107 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->thresholdWidget->setHidden(1);
 
+    ui->thresholdButton->setHidden(1);
+
+    updateInProgress = true;
+    for (int _i = 0 ; _i < Note_Number ; _i ++)
+    {
+        ui->startKeyComboBox->addItem(ListNameNotes[_i]);
+        ui->startKeyComboBox_2->addItem(ListNameNotes[_i]);
+        ui->startKeyComboBox_3->addItem(ListNameNotes[_i]);
+    }
+    QApplication::processEvents();
     updateInProgress = false;
+
     extMidiIndexToLearn = -1;
 
     ui->statusBar->addPermanentWidget(ui->statusLabel, 0);
 
-#ifdef NO_MORE_BUTTONS
-    ui->startButton->setHidden(1);
-    ui->startButton->setEnabled(0);
-    ui->pauseButton->setHidden(1);
-    ui->pauseButton->setEnabled(0);
-    ui->stopCalButton->setHidden(1);
-    ui->stopCalButton->setEnabled(0);
-    ui->SaveParamButton->setHidden(1);
-    ui->SaveParamButton->setEnabled(0);
+    // List all Tabs once, before we remove some of these.
+    for (int _i = 0; _i < Tab_NumTabs; _i++)
+        listNameTabs[_i] = ui->tabWidget->tabText(_i);
 
-    ui->widgetStartStop->setHidden(1);
-
-    //ui->detAssistantWidget->setHidden(0);
-#ifndef TEST_MODE
-    ui->widget_SNFlash->setHidden(1);
-#endif
-#endif
-/*
-    QFont swFont = QFont();
-    swFont.setPointSize(6);
-    ui->ThreLabel->setFont(swFont);
-*/
-    ui->XMin_Label->setVisible(0);
-    ui->XMax_Label->setVisible(0);
-    ui->angleMinDoubleSpinBox->setVisible(0);
-    ui->angleMaxDoubleSpinBox->setVisible(0);
-
-    groupList[Group_DetXParam] = ui->detXGroup;
-    groupList[Group_DetZParam] = ui->detZGroup;
+    groupList[Group_KB2DPorts] = ui->kb2dPortsGroup;
+    groupList[Group_MainPresets] = ui->presetsGroup;
     groupList[Group_AnglesParam] = ui->anglesParamGroup;
-    groupList[Group_MidiParam] = ui->midiParamGroup;
-    groupList[Group_NotesParam] = ui->notesParamGroup;
-    groupList[Group_MainPresets] = ui->mainPresetsGroup;
-    groupList[Group_MidiPresets] = ui->midiPresetsGroup;
-    groupList[Group_MainMapping] = ui->mainScrollArea;
-    groupList[Group_MidiMapping] = ui->midiScrollArea;
-    groupList[Group_DetXMapping] = ui->detXScrollArea;
-    groupList[Group_DetZMapping] = ui->detZScrollArea;
-    groupList[Group_MainPresetsMapping] = ui->mainPresetsScrollArea;
-    groupList[Group_MidiPresetsMapping] = ui->midiPresetsScrollArea;
+    groupList[Group_AngleDetails] = ui->anglesWidget;
+    groupList[Group_GlobalMidiAngle] = ui->globalMidiAngleWidget;
+    groupList[Group_MidiTab] = ui->midiTabWidget;
 
+    groupList[Group_Assign] = ui->assignGroup;
+    groupList[Group_NotesSetWidget] = ui->notesSetWidget;
+    groupList[Group_Enable] = ui->enableGroup;
+    groupList[Group_AllMidi] = ui->midiAllWidget;
+    groupList[Group_NotesMidi] = ui->notesMidiWidget;
+    groupList[Group_CC1Midi] = ui->CC1MidiWidget;
+    groupList[Group_CC2Midi] = ui->CC2MidiWidget;
+    groupList[Group_NotesParam] = ui->notesParamGroup;
+    groupList[Group_KeyboardSetWidget] = ui->keyboardSetWidget;
+    groupList[Group_NotesScroll] = ui->notesScrollArea;
+    groupList[Group_Effect0] = ui->effect01GroupBox;
+    groupList[Group_Effect1] = ui->effect11GroupBox;
+    groupList[Group_Effect2] = ui->effect21GroupBox;
+
+    groupList[Group_MainWidget] = ui->mainSettingsWidget;
+    groupList[Group_DetXParam] = ui->detectionGroup;
+    groupList[Group_PosXParam] = ui->posXGroup;
+    groupList[Group_DetZParam] = ui->heightGroup;
+
+    groupList[Group_Assign_2] = ui->assignGroup_2;
+    groupList[Group_NotesSetWidget_2] = ui->notesSetWidget_2;
+    groupList[Group_Enable_2] = ui->enableGroup_2;
+    groupList[Group_AllMidi_2] = ui->midiAllWidget_2;
+    groupList[Group_NotesMidi_2] = ui->notesMidiWidget_2;
+    groupList[Group_CC1Midi_2] = ui->CC1MidiWidget_2;
+    groupList[Group_CC2Midi_2] = ui->CC2MidiWidget_2;
+    groupList[Group_NotesParam_2] = ui->notesParamGroup_2;
+    groupList[Group_KeyboardSetWidget_2] = ui->keyboardSetWidget_2;
+    groupList[Group_NotesScroll_2] = ui->notesScrollArea_2;
+    groupList[Group_Effect0_2] = ui->effect02GroupBox;
+    groupList[Group_Effect1_2] = ui->effect12GroupBox;
+    groupList[Group_Effect2_2] = ui->effect22GroupBox;
+
+    groupList[Group_Assign_3] = ui->assignGroup_3;
+    groupList[Group_NotesSetWidget_3] = ui->notesSetWidget_3;
+    groupList[Group_Enable_3] = ui->enableGroup_3;
+    groupList[Group_AllMidi_3] = ui->midiAllWidget_3;
+    groupList[Group_NotesMidi_3] = ui->notesMidiWidget_3;
+    groupList[Group_CC1Midi_3] = ui->CC1MidiWidget_3;
+    groupList[Group_CC2Midi_3] = ui->CC2MidiWidget_3;
+    groupList[Group_NotesParam_3] = ui->notesParamGroup_3;
+    groupList[Group_KeyboardSetWidget_3] = ui->keyboardSetWidget_3;
+    groupList[Group_NotesScroll_3] = ui->notesScrollArea_3;
+    groupList[Group_Effect0_3] = ui->effect03GroupBox;
+    groupList[Group_Effect1_3] = ui->effect13GroupBox;
+    groupList[Group_Effect2_3] = ui->effect23GroupBox;
+
+    qDebug() << "Reset Ports";
     resetMidiPorts();
 
-    ///// TAB 1 /////
-    angleLabel[0] = ui->X1_Label;
-    angleLabel[1] = ui->X2_Label;
-    angleLabel[2] = ui->X3_Label;
-    angleLabel[3] = ui->X4_Label;
-    angleLabel[4] = ui->X5_Label;
-    angleLabel[5] = ui->X6_Label;
-    angleLabel[6] = ui->X7_Label;
-    angleLabel[7] = ui->X8_Label;
-    angleLabel[8] = ui->X9_Label;
-    angleLabel[9] = ui->X10_Label;
-    angleLabel[10] = ui->X11_Label;
-    angleLabel[11] = ui->X12_Label;
-    angleLabel[12] = ui->X13_Label;
-    angleLabel[13] = ui->X14_Label;
-    angleLabel[14] = ui->X15_Label;
-    angleLabel[15] = ui->X16_Label;
+    qDebug() << "Set Angle Learn";
+    ///// Angle Learn /////
+    angleLearn[0] = ui->learn_1;
+    angleLearn[1] = ui->learn_2;
+    angleLearn[2] = ui->learn_3;
+    angleLearn[3] = ui->learn_4;
+    angleLearn[4] = ui->learn_5;
+    angleLearn[5] = ui->learn_6;
+    angleLearn[6] = ui->learn_7;
+    angleLearn[7] = ui->learn_8;
+    angleLearn[8] = ui->learn_9;
+    angleLearn[9] = ui->learn_10;
+    angleLearn[10] = ui->learn_11;
+    angleLearn[11] = ui->learn_12;
+    angleLearn[12] = ui->learn_13;
+    angleLearn[13] = ui->learn_14;
+    angleLearn[14] = ui->learn_15;
+    angleLearn[15] = ui->learn_16;
 
+    for (int _i = 0 ; _i < MAX_NBEAMS ; _i++)
+        connect(angleLearn[_i], &QPushButton::clicked, this, [this, _i] () {this->learnOneAngle(_i);});
+
+    qDebug() << "Set Angle SpinBox";
+    ///// Angle Spin Box /////
     angleDoubleSpinBox[0] = ui->angleDoubleSpinBox_1;
     angleDoubleSpinBox[1] = ui->angleDoubleSpinBox_2;
     angleDoubleSpinBox[2] = ui->angleDoubleSpinBox_3;
@@ -289,47 +260,406 @@ MainWindow::MainWindow(QWidget *parent) :
     angleDoubleSpinBox[14] = ui->angleDoubleSpinBox_15;
     angleDoubleSpinBox[15] = ui->angleDoubleSpinBox_16;
 
-    ///// TAB 2 /////
-    Z0_ComboBox[0] = ui->X0Z0_ComboBox;
-    Z0_ComboBox[1] = ui->X1Z0_ComboBox;
-    Z0_ComboBox[2] = ui->X2Z0_ComboBox;
-    Z0_ComboBox[3] = ui->X3Z0_ComboBox;
-    Z0_ComboBox[4] = ui->X4Z0_ComboBox;
-    Z0_ComboBox[5] = ui->X5Z0_ComboBox;
-    Z0_ComboBox[6] = ui->X6Z0_ComboBox;
-    Z0_ComboBox[7] = ui->X7Z0_ComboBox;
-    Z0_ComboBox[8] = ui->X8Z0_ComboBox;
-    Z0_ComboBox[9] = ui->X9Z0_ComboBox;
-    Z0_ComboBox[10] = ui->X10Z0_ComboBox;
-    Z0_ComboBox[11] = ui->X11Z0_ComboBox;
-    Z0_ComboBox[12] = ui->X12Z0_ComboBox;
-    Z0_ComboBox[13] = ui->X13Z0_ComboBox;
-    Z0_ComboBox[14] = ui->X14Z0_ComboBox;
-    Z0_ComboBox[15] = ui->X15Z0_ComboBox;
-/*
-    for (int _i = 0; _i < MAX_NBEAMS; _i++)
+    for (int _i = 0 ; _i < MAX_NBEAMS ; _i++)
     {
-        Z0_ComboBox[_i]->setEditable(true);
-        Z0_ComboBox[_i]->lineEdit()->setAlignment(Qt::AlignCenter);
-        Z0_ComboBox[_i]->lineEdit()->setReadOnly(true);
+        if (angleDoubleSpinBox[_i])
+            connect(angleDoubleSpinBox[_i], &QDoubleSpinBox::editingFinished, this, [this, _i] () {this->multiAngleSpinBox_editing(_i);});
     }
-*/
 
-    ///// QSettings MIDI /////
-    InitializeMidiConfig();
+    // PORT 1 2 3
+    ///// Assign Button /////
+    assignAllButton[Ports_Midi1] = ui->assignAllButton;
+    assignAllButton[Ports_Midi3] = ui->assignAllButton_2;
+    assignAllButton[Ports_Midi4] = ui->assignAllButton_3;
 
+    assignButton[Ports_Midi1][0] = ui->assign1Button;
+    assignButton[Ports_Midi1][1] = ui->assign2Button;
+    assignButton[Ports_Midi1][2] = ui->assign3Button;
+    assignButton[Ports_Midi1][3] = ui->assign4Button;
+    assignButton[Ports_Midi1][4] = ui->assign5Button;
+    assignButton[Ports_Midi1][5] = ui->assign6Button;
+    assignButton[Ports_Midi1][6] = ui->assign7Button;
+    assignButton[Ports_Midi1][7] = ui->assign8Button;
+    assignButton[Ports_Midi1][8] = ui->assign9Button;
+    assignButton[Ports_Midi1][9] = ui->assign10Button;
+    assignButton[Ports_Midi1][10] = ui->assign11Button;
+    assignButton[Ports_Midi1][11] = ui->assign12Button;
+    assignButton[Ports_Midi1][12] = ui->assign13Button;
+    assignButton[Ports_Midi1][13] = ui->assign14Button;
+    assignButton[Ports_Midi1][14] = ui->assign15Button;
+    assignButton[Ports_Midi1][15] = ui->assign16Button;
+
+    assignButton[Ports_Midi3][0] = ui->assign1Button_2;
+    assignButton[Ports_Midi3][1] = ui->assign2Button_2;
+    assignButton[Ports_Midi3][2] = ui->assign3Button_2;
+    assignButton[Ports_Midi3][3] = ui->assign4Button_2;
+    assignButton[Ports_Midi3][4] = ui->assign5Button_2;
+    assignButton[Ports_Midi3][5] = ui->assign6Button_2;
+    assignButton[Ports_Midi3][6] = ui->assign7Button_2;
+    assignButton[Ports_Midi3][7] = ui->assign8Button_2;
+    assignButton[Ports_Midi3][8] = ui->assign9Button_2;
+    assignButton[Ports_Midi3][9] = ui->assign10Button_2;
+    assignButton[Ports_Midi3][10] = ui->assign11Button_2;
+    assignButton[Ports_Midi3][11] = ui->assign12Button_2;
+    assignButton[Ports_Midi3][12] = ui->assign13Button_2;
+    assignButton[Ports_Midi3][13] = ui->assign14Button_2;
+    assignButton[Ports_Midi3][14] = ui->assign15Button_2;
+    assignButton[Ports_Midi3][15] = ui->assign16Button_2;
+
+    assignButton[Ports_Midi4][0] = ui->assign1Button_3;
+    assignButton[Ports_Midi4][1] = ui->assign2Button_3;
+    assignButton[Ports_Midi4][2] = ui->assign3Button_3;
+    assignButton[Ports_Midi4][3] = ui->assign4Button_3;
+    assignButton[Ports_Midi4][4] = ui->assign5Button_3;
+    assignButton[Ports_Midi4][5] = ui->assign6Button_3;
+    assignButton[Ports_Midi4][6] = ui->assign7Button_3;
+    assignButton[Ports_Midi4][7] = ui->assign8Button_3;
+    assignButton[Ports_Midi4][8] = ui->assign9Button_3;
+    assignButton[Ports_Midi4][9] = ui->assign10Button_3;
+    assignButton[Ports_Midi4][10] = ui->assign11Button_3;
+    assignButton[Ports_Midi4][11] = ui->assign12Button_3;
+    assignButton[Ports_Midi4][12] = ui->assign13Button_3;
+    assignButton[Ports_Midi4][13] = ui->assign14Button_3;
+    assignButton[Ports_Midi4][14] = ui->assign15Button_3;
+    assignButton[Ports_Midi4][15] = ui->assign16Button_3;
+
+    repaintAssignButtons();
+
+    for (int _i = 0; _i < Ports_Num; _i++)
+    {
+        if (assignAllButton[_i])
+            connect(assignAllButton[_i], &QPushButton::clicked, this, [this, _i] () {this->assignAllButtonClicked(_i);});
+    }
+
+    for (int _i = 0; _i < Ports_Num; _i++)
+    {
+        for (int _j = 0 ; _j < MAX_NBEAMS ; _j++)
+        {
+            if (assignButton[_i][_j])
+                connect(assignButton[_i][_j], &QPushButton::clicked, this, [this, _i, _j] () {this->assignButtonClicked(_i, _j);});
+        }
+    }
+
+    ///// Tone Shift /////
+    toneShiftButton[Ports_Midi1][ToneShift_PlusHalfTone] = ui->plusHtButton;
+    toneShiftButton[Ports_Midi1][ToneShift_MinusHalfTone] = ui->minusHtButton;
+    toneShiftButton[Ports_Midi1][ToneShift_PlusTone] = ui->plusToneButton;
+    toneShiftButton[Ports_Midi1][ToneShift_MinusTone] = ui->minusToneButton;
+
+    toneShiftButton[Ports_Midi3][ToneShift_PlusHalfTone] = ui->plusHtButton_2;
+    toneShiftButton[Ports_Midi3][ToneShift_MinusHalfTone] = ui->minusHtButton_2;
+    toneShiftButton[Ports_Midi3][ToneShift_PlusTone] = ui->plusToneButton_2;
+    toneShiftButton[Ports_Midi3][ToneShift_MinusTone] = ui->minusToneButton_2;
+
+    toneShiftButton[Ports_Midi4][ToneShift_PlusHalfTone] = ui->plusHtButton_3;
+    toneShiftButton[Ports_Midi4][ToneShift_MinusHalfTone] = ui->minusHtButton_3;
+    toneShiftButton[Ports_Midi4][ToneShift_PlusTone] = ui->plusToneButton_3;
+    toneShiftButton[Ports_Midi4][ToneShift_MinusTone] = ui->minusToneButton_3;
+
+    for (int _i = 0; _i < Ports_Num; _i++)
+    {
+        for (int _j = 0 ; _j < ToneShift_NumTotal ; _j++)
+        {
+            if (toneShiftButton[_i][_j])
+                connect(toneShiftButton[_i][_j], &QPushButton::clicked, this, [this, _i, _j] () {this->toneShiftClicked(_i, _j);});
+        }
+    }
+
+    ///// Note Presets /////
+    notePresetButton[Ports_Midi1][NotePreset_User1] = ui->user1Button;
+    notePresetButton[Ports_Midi1][NotePreset_User2] = ui->user2Button;
+    notePresetButton[Ports_Midi1][NotePreset_User3] = ui->user3Button;
+
+    notePresetButton[Ports_Midi3][NotePreset_User1] = ui->user1Button_2;
+    notePresetButton[Ports_Midi3][NotePreset_User2] = ui->user2Button_2;
+    notePresetButton[Ports_Midi3][NotePreset_User3] = ui->user3Button_2;
+
+    notePresetButton[Ports_Midi4][NotePreset_User1] = ui->user1Button_3;
+    notePresetButton[Ports_Midi4][NotePreset_User2] = ui->user2Button_3;
+    notePresetButton[Ports_Midi4][NotePreset_User3] = ui->user3Button_3;
+
+    for (int _i = 0; _i < Ports_Num; _i++)
+    {
+        for (int _j = 0 ; _j < NotePreset_NumTotal ; _j++)
+        {
+            if (notePresetButton[_i][_j])
+                connect(notePresetButton[_i][_j], &QPushButton::clicked, this, [this, _i, _j] () {this->notePresetClicked(_i, _j);});
+        }
+    }
+
+    saveNotesDialogButton[Ports_Midi1] = ui->saveNotesPresetButton;
+    saveNotesDialogButton[Ports_Midi3] = ui->saveNotesPresetButton_2;
+    saveNotesDialogButton[Ports_Midi4] = ui->saveNotesPresetButton_3;
+
+    for (int _i = 0; _i < Ports_Num; _i++)
+    {
+        connect(saveNotesDialogButton[_i], &QPushButton::clicked, this, [this, _i] () { this->saveNotesDialogClicked(_i); });
+    }
+
+    manageNotesDialogButton[Ports_Midi1] = ui->mngNotesPresetButton;
+    manageNotesDialogButton[Ports_Midi3] = ui->mngNotesPresetButton_2;
+    manageNotesDialogButton[Ports_Midi4] = ui->mngNotesPresetButton_3;
+
+    for (int _i = 0; _i < Ports_Num; _i++)
+    {
+        connect(manageNotesDialogButton[_i], &QPushButton::clicked, this, [this, _i] () { this->manageNotesDialogClicked(_i); });
+    }
+
+    notesPresetCombos[Ports_Midi1] = ui->notesPresetCombo;
+    notesPresetCombos[Ports_Midi3] = ui->notesPresetCombo_2;
+    notesPresetCombos[Ports_Midi4] = ui->notesPresetCombo_3;
+
+    for (int _i = 0; _i < Ports_Num; _i++)
+    {
+        connect(notesPresetCombos[_i], &QComboBox::currentIndexChanged, this, [this, _i] (int ind) { this->notesPresetComboChanged(_i,ind); });
+    }
+
+    updateNotesPresetList();
+
+    ///// Beam Activation /////
+    enableButton[Ports_Midi1][0] = ui->enable1Button;
+    enableButton[Ports_Midi1][1] = ui->enable2Button;
+    enableButton[Ports_Midi1][2] = ui->enable3Button;
+    enableButton[Ports_Midi1][3] = ui->enable4Button;
+    enableButton[Ports_Midi1][4] = ui->enable5Button;
+    enableButton[Ports_Midi1][5] = ui->enable6Button;
+    enableButton[Ports_Midi1][6] = ui->enable7Button;
+    enableButton[Ports_Midi1][7] = ui->enable8Button;
+    enableButton[Ports_Midi1][8] = ui->enable9Button;
+    enableButton[Ports_Midi1][9] = ui->enable10Button;
+    enableButton[Ports_Midi1][10] = ui->enable11Button;
+    enableButton[Ports_Midi1][11] = ui->enable12Button;
+    enableButton[Ports_Midi1][12] = ui->enable13Button;
+    enableButton[Ports_Midi1][13] = ui->enable14Button;
+    enableButton[Ports_Midi1][14] = ui->enable15Button;
+    enableButton[Ports_Midi1][15] = ui->enable16Button;
+
+    enableButton[Ports_Midi3][0] = ui->enable1Button_2;
+    enableButton[Ports_Midi3][1] = ui->enable2Button_2;
+    enableButton[Ports_Midi3][2] = ui->enable3Button_2;
+    enableButton[Ports_Midi3][3] = ui->enable4Button_2;
+    enableButton[Ports_Midi3][4] = ui->enable5Button_2;
+    enableButton[Ports_Midi3][5] = ui->enable6Button_2;
+    enableButton[Ports_Midi3][6] = ui->enable7Button_2;
+    enableButton[Ports_Midi3][7] = ui->enable8Button_2;
+    enableButton[Ports_Midi3][8] = ui->enable9Button_2;
+    enableButton[Ports_Midi3][9] = ui->enable10Button_2;
+    enableButton[Ports_Midi3][10] = ui->enable11Button_2;
+    enableButton[Ports_Midi3][11] = ui->enable12Button_2;
+    enableButton[Ports_Midi3][12] = ui->enable13Button_2;
+    enableButton[Ports_Midi3][13] = ui->enable14Button_2;
+    enableButton[Ports_Midi3][14] = ui->enable15Button_2;
+    enableButton[Ports_Midi3][15] = ui->enable16Button_2;
+
+    enableButton[Ports_Midi4][0] = ui->enable1Button_3;
+    enableButton[Ports_Midi4][1] = ui->enable2Button_3;
+    enableButton[Ports_Midi4][2] = ui->enable3Button_3;
+    enableButton[Ports_Midi4][3] = ui->enable4Button_3;
+    enableButton[Ports_Midi4][4] = ui->enable5Button_3;
+    enableButton[Ports_Midi4][5] = ui->enable6Button_3;
+    enableButton[Ports_Midi4][6] = ui->enable7Button_3;
+    enableButton[Ports_Midi4][7] = ui->enable8Button_3;
+    enableButton[Ports_Midi4][8] = ui->enable9Button_3;
+    enableButton[Ports_Midi4][9] = ui->enable10Button_3;
+    enableButton[Ports_Midi4][10] = ui->enable11Button_3;
+    enableButton[Ports_Midi4][11] = ui->enable12Button_3;
+    enableButton[Ports_Midi4][12] = ui->enable13Button_3;
+    enableButton[Ports_Midi4][13] = ui->enable14Button_3;
+    enableButton[Ports_Midi4][14] = ui->enable15Button_3;
+    enableButton[Ports_Midi4][15] = ui->enable16Button_3;
+
+    for (int _i = 0; _i < Ports_Num; _i++)
+    {
+        for (int _j = 0 ; _j < MAX_NBEAMS ; _j++)
+        {
+            if (enableButton[_i][_j])
+                connect(enableButton[_i][_j], &QPushButton::clicked, this, [this, _i, _j] () {this->enableButtonClicked(_i, _j);});
+        }
+    }
+
+    qDebug() << "Set MIDI Selection Combos";
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Notes][ValSelection_Channel] = ui->ChanNoteComboBox;
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Notes][ValSelection_CtrlNotes] = ui->NoteNoteComboBox;
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Notes][ValSelection_ValVel] = ui->VelNoteComboBox;
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Control1][ValSelection_Channel] = ui->ChanCC1ComboBox;
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Control1][ValSelection_CtrlNotes] = ui->ControlCC1ComboBox;
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Control1][ValSelection_ValVel] = ui->ValCC1ComboBox;
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Control2][ValSelection_Channel] = ui->ChanCC2ComboBox;
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Control2][ValSelection_CtrlNotes] = ui->ControlCC2ComboBox;
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Control2][ValSelection_ValVel] = ui->ValCC2ComboBox;
+
+    midiSelection_Combo[Ports_Midi3][ModeActiv_Notes][ValSelection_Channel] = ui->ChanNoteComboBox_2;
+    midiSelection_Combo[Ports_Midi3][ModeActiv_Notes][ValSelection_CtrlNotes] = ui->NoteNoteComboBox_2;
+    midiSelection_Combo[Ports_Midi3][ModeActiv_Notes][ValSelection_ValVel] = ui->VelNoteComboBox_2;
+    midiSelection_Combo[Ports_Midi3][ModeActiv_Control1][ValSelection_Channel] = ui->ChanCC1ComboBox_2;
+    midiSelection_Combo[Ports_Midi3][ModeActiv_Control1][ValSelection_CtrlNotes] = ui->ControlCC1ComboBox_2;
+    midiSelection_Combo[Ports_Midi3][ModeActiv_Control1][ValSelection_ValVel] = ui->ValCC1ComboBox_2;
+    midiSelection_Combo[Ports_Midi3][ModeActiv_Control2][ValSelection_Channel] = ui->ChanCC2ComboBox_2;
+    midiSelection_Combo[Ports_Midi3][ModeActiv_Control2][ValSelection_CtrlNotes] = ui->ControlCC2ComboBox_2;
+    midiSelection_Combo[Ports_Midi3][ModeActiv_Control2][ValSelection_ValVel] = ui->ValCC2ComboBox_2;
+
+    midiSelection_Combo[Ports_Midi4][ModeActiv_Notes][ValSelection_Channel] = ui->ChanNoteComboBox_3;
+    midiSelection_Combo[Ports_Midi4][ModeActiv_Notes][ValSelection_CtrlNotes] = ui->NoteNoteComboBox_3;
+    midiSelection_Combo[Ports_Midi4][ModeActiv_Notes][ValSelection_ValVel] = ui->VelNoteComboBox_3;
+    midiSelection_Combo[Ports_Midi4][ModeActiv_Control1][ValSelection_Channel] = ui->ChanCC1ComboBox_3;
+    midiSelection_Combo[Ports_Midi4][ModeActiv_Control1][ValSelection_CtrlNotes] = ui->ControlCC1ComboBox_3;
+    midiSelection_Combo[Ports_Midi4][ModeActiv_Control1][ValSelection_ValVel] = ui->ValCC1ComboBox_3;
+    midiSelection_Combo[Ports_Midi4][ModeActiv_Control2][ValSelection_Channel] = ui->ChanCC2ComboBox_3;
+    midiSelection_Combo[Ports_Midi4][ModeActiv_Control2][ValSelection_CtrlNotes] = ui->ControlCC2ComboBox_3;
+    midiSelection_Combo[Ports_Midi4][ModeActiv_Control2][ValSelection_ValVel] = ui->ValCC2ComboBox_3;
+
+    Z0_ComboBox[Ports_Midi1][0] = ui->X0Z0_ComboBox;
+    Z0_ComboBox[Ports_Midi1][1] = ui->X1Z0_ComboBox;
+    Z0_ComboBox[Ports_Midi1][2] = ui->X2Z0_ComboBox;
+    Z0_ComboBox[Ports_Midi1][3] = ui->X3Z0_ComboBox;
+    Z0_ComboBox[Ports_Midi1][4] = ui->X4Z0_ComboBox;
+    Z0_ComboBox[Ports_Midi1][5] = ui->X5Z0_ComboBox;
+    Z0_ComboBox[Ports_Midi1][6] = ui->X6Z0_ComboBox;
+    Z0_ComboBox[Ports_Midi1][7] = ui->X7Z0_ComboBox;
+    Z0_ComboBox[Ports_Midi1][8] = ui->X8Z0_ComboBox;
+    Z0_ComboBox[Ports_Midi1][9] = ui->X9Z0_ComboBox;
+    Z0_ComboBox[Ports_Midi1][10] = ui->X10Z0_ComboBox;
+    Z0_ComboBox[Ports_Midi1][11] = ui->X11Z0_ComboBox;
+    Z0_ComboBox[Ports_Midi1][12] = ui->X12Z0_ComboBox;
+    Z0_ComboBox[Ports_Midi1][13] = ui->X13Z0_ComboBox;
+    Z0_ComboBox[Ports_Midi1][14] = ui->X14Z0_ComboBox;
+    Z0_ComboBox[Ports_Midi1][15] = ui->X15Z0_ComboBox;
+
+    Z0_ComboBox[Ports_Midi3][0] = ui->X0Z0_ComboBox_2;
+    Z0_ComboBox[Ports_Midi3][1] = ui->X1Z0_ComboBox_2;
+    Z0_ComboBox[Ports_Midi3][2] = ui->X2Z0_ComboBox_2;
+    Z0_ComboBox[Ports_Midi3][3] = ui->X3Z0_ComboBox_2;
+    Z0_ComboBox[Ports_Midi3][4] = ui->X4Z0_ComboBox_2;
+    Z0_ComboBox[Ports_Midi3][5] = ui->X5Z0_ComboBox_2;
+    Z0_ComboBox[Ports_Midi3][6] = ui->X6Z0_ComboBox_2;
+    Z0_ComboBox[Ports_Midi3][7] = ui->X7Z0_ComboBox_2;
+    Z0_ComboBox[Ports_Midi3][8] = ui->X8Z0_ComboBox_2;
+    Z0_ComboBox[Ports_Midi3][9] = ui->X9Z0_ComboBox_2;
+    Z0_ComboBox[Ports_Midi3][10] = ui->X10Z0_ComboBox_2;
+    Z0_ComboBox[Ports_Midi3][11] = ui->X11Z0_ComboBox_2;
+    Z0_ComboBox[Ports_Midi3][12] = ui->X12Z0_ComboBox_2;
+    Z0_ComboBox[Ports_Midi3][13] = ui->X13Z0_ComboBox_2;
+    Z0_ComboBox[Ports_Midi3][14] = ui->X14Z0_ComboBox_2;
+    Z0_ComboBox[Ports_Midi3][15] = ui->X15Z0_ComboBox_2;
+
+    Z0_ComboBox[Ports_Midi4][0] = ui->X0Z0_ComboBox_3;
+    Z0_ComboBox[Ports_Midi4][1] = ui->X1Z0_ComboBox_3;
+    Z0_ComboBox[Ports_Midi4][2] = ui->X2Z0_ComboBox_3;
+    Z0_ComboBox[Ports_Midi4][3] = ui->X3Z0_ComboBox_3;
+    Z0_ComboBox[Ports_Midi4][4] = ui->X4Z0_ComboBox_3;
+    Z0_ComboBox[Ports_Midi4][5] = ui->X5Z0_ComboBox_3;
+    Z0_ComboBox[Ports_Midi4][6] = ui->X6Z0_ComboBox_3;
+    Z0_ComboBox[Ports_Midi4][7] = ui->X7Z0_ComboBox_3;
+    Z0_ComboBox[Ports_Midi4][8] = ui->X8Z0_ComboBox_3;
+    Z0_ComboBox[Ports_Midi4][9] = ui->X9Z0_ComboBox_3;
+    Z0_ComboBox[Ports_Midi4][10] = ui->X10Z0_ComboBox_3;
+    Z0_ComboBox[Ports_Midi4][11] = ui->X11Z0_ComboBox_3;
+    Z0_ComboBox[Ports_Midi4][12] = ui->X12Z0_ComboBox_3;
+    Z0_ComboBox[Ports_Midi4][13] = ui->X13Z0_ComboBox_3;
+    Z0_ComboBox[Ports_Midi4][14] = ui->X14Z0_ComboBox_3;
+    Z0_ComboBox[Ports_Midi4][15] = ui->X15Z0_ComboBox_3;
+
+    LabelZ0Combo[Ports_Midi1][0] = ui->X1_Label;
+    LabelZ0Combo[Ports_Midi1][1] = ui->X2_Label;
+    LabelZ0Combo[Ports_Midi1][2] = ui->X3_Label;
+    LabelZ0Combo[Ports_Midi1][3] = ui->X4_Label;
+    LabelZ0Combo[Ports_Midi1][4] = ui->X5_Label;
+    LabelZ0Combo[Ports_Midi1][5] = ui->X6_Label;
+    LabelZ0Combo[Ports_Midi1][6] = ui->X7_Label;
+    LabelZ0Combo[Ports_Midi1][7] = ui->X8_Label;
+    LabelZ0Combo[Ports_Midi1][8] = ui->X9_Label;
+    LabelZ0Combo[Ports_Midi1][9] = ui->X10_Label;
+    LabelZ0Combo[Ports_Midi1][10] = ui->X11_Label;
+    LabelZ0Combo[Ports_Midi1][11] = ui->X12_Label;
+    LabelZ0Combo[Ports_Midi1][12] = ui->X13_Label;
+    LabelZ0Combo[Ports_Midi1][13] = ui->X14_Label;
+    LabelZ0Combo[Ports_Midi1][14] = ui->X15_Label;
+    LabelZ0Combo[Ports_Midi1][15] = ui->X16_Label;
+
+    LabelZ0Combo[Ports_Midi3][0] = ui->X1_Label_2;
+    LabelZ0Combo[Ports_Midi3][1] = ui->X2_Label_2;
+    LabelZ0Combo[Ports_Midi3][2] = ui->X3_Label_2;
+    LabelZ0Combo[Ports_Midi3][3] = ui->X4_Label_2;
+    LabelZ0Combo[Ports_Midi3][4] = ui->X5_Label_2;
+    LabelZ0Combo[Ports_Midi3][5] = ui->X6_Label_2;
+    LabelZ0Combo[Ports_Midi3][6] = ui->X7_Label_2;
+    LabelZ0Combo[Ports_Midi3][7] = ui->X8_Label_2;
+    LabelZ0Combo[Ports_Midi3][8] = ui->X9_Label_2;
+    LabelZ0Combo[Ports_Midi3][9] = ui->X10_Label_2;
+    LabelZ0Combo[Ports_Midi3][10] = ui->X11_Label_2;
+    LabelZ0Combo[Ports_Midi3][11] = ui->X12_Label_2;
+    LabelZ0Combo[Ports_Midi3][12] = ui->X13_Label_2;
+    LabelZ0Combo[Ports_Midi3][13] = ui->X14_Label_2;
+    LabelZ0Combo[Ports_Midi3][14] = ui->X15_Label_2;
+    LabelZ0Combo[Ports_Midi3][15] = ui->X16_Label_2;
+
+    LabelZ0Combo[Ports_Midi4][0] = ui->X1_Label_3;
+    LabelZ0Combo[Ports_Midi4][1] = ui->X2_Label_3;
+    LabelZ0Combo[Ports_Midi4][2] = ui->X3_Label_3;
+    LabelZ0Combo[Ports_Midi4][3] = ui->X4_Label_3;
+    LabelZ0Combo[Ports_Midi4][4] = ui->X5_Label_3;
+    LabelZ0Combo[Ports_Midi4][5] = ui->X6_Label_3;
+    LabelZ0Combo[Ports_Midi4][6] = ui->X7_Label_3;
+    LabelZ0Combo[Ports_Midi4][7] = ui->X8_Label_3;
+    LabelZ0Combo[Ports_Midi4][8] = ui->X9_Label_3;
+    LabelZ0Combo[Ports_Midi4][9] = ui->X10_Label_3;
+    LabelZ0Combo[Ports_Midi4][10] = ui->X11_Label_3;
+    LabelZ0Combo[Ports_Midi4][11] = ui->X12_Label_3;
+    LabelZ0Combo[Ports_Midi4][12] = ui->X13_Label_3;
+    LabelZ0Combo[Ports_Midi4][13] = ui->X14_Label_3;
+    LabelZ0Combo[Ports_Midi4][14] = ui->X15_Label_3;
+    LabelZ0Combo[Ports_Midi4][15] = ui->X16_Label_3;
+
+    qDebug() << "Midi Selection Combo";
+    ///// Midi Selection ComboBox /////
+    initializeMidiCombos();
+
+    for (int _i = 0; _i < Ports_Num; _i++)
+    {
+        for (int _j = 0; _j < ModeActiv_NumModes; _j++)
+        {
+            for (int _k = 0; _k < ValSelection_NumCombo; _k++)
+            {
+                if (midiSelection_Combo[_i][_j][_k])
+                    connect(midiSelection_Combo[_i][_j][_k], qOverload<int>(&QComboBox::currentIndexChanged), \
+                            this, [this, _i, _j, _k] (int index) {this->sendMidiModeValues(_i, _j, _k, index);});
+            }
+        }
+    }
+
+    qDebug() << "Notes Sel Combo";
+    ///// Notes Selection ComboBox /////
+    initializeZ0Combos();
+
+    for (int _i = 0; _i < Ports_Num; _i++)
+    {
+        for (int _j = 0 ; _j < MAX_NBEAMS ; _j++)
+        {
+            if (Z0_ComboBox[_i][_j])
+                connect(Z0_ComboBox[_i][_j], qOverload<int>(&QComboBox::currentIndexChanged), this, [this, _i, _j] (int index) {this->comboNoteSelected(_i, _j, index);});
+        }
+    }
+
+    qDebug() << "Initialize Main Conf";
     ///// QSettings MAIN /////
     InitializeMainConfig();
 
+
+    qDebug() << "Initialize Mapping";
     ///// TAB 3 & QSettings Mapping /////
     InitializeMapping();
 
-    // Restore Window Properties
+    qDebug() << "Restore Settings and keyboard properties";
+    ///// Restore QSettings /////
     QSettings globQSettings(".kbsession", QSettings::IniFormat);
     if (globQSettings.childGroups().contains("Global Settings", Qt::CaseInsensitive))
     {
         globQSettings.beginGroup("Global Settings");
 
+        // Module Enabled
+        modeEnabled = globQSettings.value("ActiveModule", Mode_BasicHarp).toInt();
+
+        // Window Properties
         this->setGeometry(0,0,globQSettings.value("Width", 1150).toInt(),globQSettings.value("Height", 718).toInt());
         QSize screenSize = qApp->primaryScreen()->availableSize();
         this->move((screenSize.width() / 2) - (this->width() / 2), (screenSize.height() / 2) - (this->height() / 2));
@@ -337,12 +667,36 @@ MainWindow::MainWindow(QWidget *parent) :
         if (globQSettings.value("MaxWin", 0).toInt() == 1)
             this->showMaximized();
 
+        // Restore Keyboard properties
+        updateInProgress = true;
+        ui->nKeysSpinBox->setValue(globQSettings.value("NKeys", 60).toInt());
+        ui->startKeyComboBox->setCurrentIndex(globQSettings.value("StartKey", 48).toInt());
+        ui->sendOnClickCheckBox->setChecked(globQSettings.value("SendOnClick", true).toBool());
+
+        ui->nKeysSpinBox_2->setValue(globQSettings.value("NKeys_2", 60).toInt());
+        ui->startKeyComboBox_2->setCurrentIndex(globQSettings.value("StartKey_2", 0).toInt());
+        ui->sendOnClickCheckBox_2->setChecked(globQSettings.value("SendOnClick_2", true).toBool());
+
+        ui->nKeysSpinBox_3->setValue(globQSettings.value("NKeys_3", 60).toInt());
+        ui->startKeyComboBox_3->setCurrentIndex(globQSettings.value("StartKey_3", 0).toInt());
+        ui->sendOnClickCheckBox_3->setChecked(globQSettings.value("SendOnClick_3", true).toBool());
+        QApplication::processEvents();
+        updateInProgress = false;
+
         globQSettings.endGroup();
     }
     else
+    {
+        ui->nKeysSpinBox->setValue(60);
+        ui->startKeyComboBox->setCurrentIndex(48);
+        ui->nKeysSpinBox_2->setValue(60);
+        ui->startKeyComboBox_2->setCurrentIndex(48);
+        ui->nKeysSpinBox_3->setValue(60);
+        ui->startKeyComboBox_3->setCurrentIndex(48);
         this->showMaximized();
+    }
 
-    // Show last version informations
+    ///// Show last version informations /////
     globQSettings.beginGroup("Last_Version");
     if (globQSettings.value("Version", 0).toInt() != LAST_VERSION)
     {
@@ -353,18 +707,53 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     globQSettings.endGroup();
 
-    // Timer not used
-    modifTimer.setInterval(3000);
+    ///// Last MIDI Mode /////
+    globQSettings.beginGroup("MIDI Settings");
+    lastMidiMode[Ports_Midi1][0] = globQSettings.value("LastMidiMode_Port1_Eff1", Mode_PitchBend - Mode_PolyAftertouch).toInt();
+    lastMidiMode[Ports_Midi1][1] = globQSettings.value("LastMidiMode_Port1_Eff2", Mode_ControlChange - Mode_PolyAftertouch).toInt();
+    lastMidiMode[Ports_Midi3][0] = globQSettings.value("LastMidiMode_Port3_Eff1", Mode_PitchBend - Mode_PolyAftertouch).toInt();
+    lastMidiMode[Ports_Midi3][1] = globQSettings.value("LastMidiMode_Port3_Eff2", Mode_ControlChange - Mode_PolyAftertouch).toInt();
+    lastMidiMode[Ports_Midi4][0] = globQSettings.value("LastMidiMode_Port4_Eff1", Mode_PitchBend - Mode_PolyAftertouch).toInt();
+    lastMidiMode[Ports_Midi4][1] = globQSettings.value("LastMidiMode_Port4_Eff2", Mode_ControlChange - Mode_PolyAftertouch).toInt();
+    globQSettings.endGroup();
+
+    updateInProgress = true;
+    ui->DescCC1ComboBox->setCurrentIndex(lastMidiMode[Ports_Midi1][0]);
+    ui->DescCC2ComboBox->setCurrentIndex(lastMidiMode[Ports_Midi1][1]);
+    ui->DescCC1ComboBox_2->setCurrentIndex(lastMidiMode[Ports_Midi3][0]);
+    ui->DescCC2ComboBox_2->setCurrentIndex(lastMidiMode[Ports_Midi3][1]);
+    ui->DescCC1ComboBox_3->setCurrentIndex(lastMidiMode[Ports_Midi4][0]);
+    ui->DescCC2ComboBox_3->setCurrentIndex(lastMidiMode[Ports_Midi4][1]);
+    updateInProgress = false;
+
+    ///// Timer for display update - NOT USED /////
+    modifTimer.setInterval(100);
     modifTimer.setSingleShot(false);
     connect(&modifTimer, &QTimer::timeout, this, &MainWindow::checkModifications);
+    //modifTimer.start();
+
+    ///// Timer for software connection /////
+    softwareConnect.setInterval(1500);
+    softwareConnect.setSingleShot(true);
+    connect(&softwareConnect, &QTimer::timeout, this, [this] () { this->retryConnection(0); });
 
     configDone = 1;
-    SendLog("Initialization done");
+    SendLog("Init OK");
+    QTimer::singleShot(0, this, &MainWindow::firstLoad);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::firstLoad()
+{
+    connect(&kbDev, &ComHwKb2d::comFailed, this, &MainWindow::resetMidiPorts);
+    connect(&dfuDev, &ComHwDfu::comFailed, this, &MainWindow::resetMidiPorts);
+    connect(&harpIn, &MidiDevIn::harpInCalled, this, &MainWindow::harpInProc);
+    connect(&extIn, &MidiDevIn::extInCalled, this, &MainWindow::extInProc);
+    updateMidiPortsList();
 }
 
 /*
@@ -374,14 +763,32 @@ MainWindow::~MainWindow()
  */
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    qDebug() << "Request for exiting";
+    // Wait for all Feedback and reading actions to stop
+    while (kbDev.isConnected() && kbDev.isWaitingFb())
+        QApplication::processEvents();
+    while (dfuDev.isConnected() && dfuDev.isWaitingFb())
+        QApplication::processEvents();
+    qDebug() << "Ready to exit";
     modifTimer.stop();
+    softwareConnect.stop();
     disconnect(&modifTimer, &QTimer::timeout, this, &MainWindow::checkModifications);
     kbDev.setConnected(0);
     dfuDev.setConnected(0);
     harpOut.close();
+    harpIn.stop();
     harpIn.close();
+    extIn.stop();
     extIn.close();
     extOut.close();
+    throughIn.stop();
+    throughIn.close();
+    throughOut.close();
+
+    disconnect(&kbDev, &ComHwKb2d::comFailed, this, &MainWindow::resetMidiPorts);
+    disconnect(&dfuDev, &ComHwDfu::comFailed, this, &MainWindow::resetMidiPorts);
+    disconnect(&harpIn, &MidiDevIn::harpInCalled, this, &MainWindow::harpInProc);
+    disconnect(&extIn, &MidiDevIn::extInCalled, this, &MainWindow::extInProc);
 
     // Save global session settings
     WriteTempMapping();
@@ -397,15 +804,91 @@ void MainWindow::closeEvent(QCloseEvent *event)
         globQSettings.setValue("Width", this->width());
         globQSettings.setValue("Height", this->height());
     }
+
+    // Mode Enabled
+    globQSettings.setValue("ActiveModule", modeEnabled);
+
+    // External MIDI Controller
     globQSettings.setValue("Ext MIDI In", ui->extMidiInComboBox->currentText());
     globQSettings.setValue("Ext MIDI Out", ui->extMidiOutComboBox->currentText());
 
+    // Keyboard
+    globQSettings.setValue("StartKey", ui->startKeyComboBox->currentIndex());
+    globQSettings.setValue("NKeys", ui->nKeysSpinBox->value());
+    globQSettings.setValue("SendOnClick", ui->sendOnClickCheckBox->isChecked());
+
+    globQSettings.setValue("StartKey_2", ui->startKeyComboBox_2->currentIndex());
+    globQSettings.setValue("NKeys_2", ui->nKeysSpinBox_2->value());
+    globQSettings.setValue("SendOnClick_2", ui->sendOnClickCheckBox_2->isChecked());
+
+    globQSettings.setValue("StartKey_3", ui->startKeyComboBox_3->currentIndex());
+    globQSettings.setValue("NKeys_3", ui->nKeysSpinBox_3->value());
+    globQSettings.setValue("SendOnClick_3", ui->sendOnClickCheckBox_3->isChecked());
+
     globQSettings.endGroup();
 
-    SendLog("Program exited correctly");
+    ///// Last MIDI Mode /////
+    globQSettings.beginGroup("MIDI Settings");
+    globQSettings.setValue("LastMidiMode_Port1_Eff1", lastMidiMode[Ports_Midi1][0]);
+    globQSettings.setValue("LastMidiMode_Port1_Eff2", lastMidiMode[Ports_Midi1][1]);
+    globQSettings.setValue("LastMidiMode_Port3_Eff1", lastMidiMode[Ports_Midi3][0]);
+    globQSettings.setValue("LastMidiMode_Port3_Eff2", lastMidiMode[Ports_Midi3][1]);
+    globQSettings.setValue("LastMidiMode_Port4_Eff1", lastMidiMode[Ports_Midi4][0]);
+    globQSettings.setValue("LastMidiMode_Port4_Eff2", lastMidiMode[Ports_Midi4][1]);
+    globQSettings.endGroup();
+
     QApplication::processEvents();
+    SendLog("Exit Ok\n=====================");
 
     event->accept();
+}
+
+/*
+ * ==============================
+ * Retry connection to KB2D
+ * ==============================
+ */
+void MainWindow::retryConnection(int attempts)
+{
+    static int attCount = 1;
+    if (attempts != 0)
+        attCount = attempts;
+
+    if (attempts == 0)
+        attCount --;
+
+    if (attCount != 0)
+    {
+        updateMidiPortsList();  // Update ports so the KB2D or DFU reconnects
+        QApplication::processEvents();
+        // Retry is nothing is connected...
+        if ((dfuDev.isConnected() == 0) && (kbDev.isConnected() == 0))
+            softwareConnect.start();
+    }
+    else
+    {
+        updateMidiPortsList();  // Update ports so the KB2D or DFU reconnects
+        QApplication::processEvents();
+        // DFU is supposed to start now...
+        if ((dfuDev.isConnected() == 0) && (kbDev.isConnected() == 0))
+        {
+            SendError(this, tr("Cannot connect to the device\n\n"
+                                 "If this is the first time you start the Firmware Updater on this computer, it is normal. Do not panic.\n"
+                                 "Please wait for the driver to be installed (it should take less than 1 minute). Please do not disconnect your KB2D device.\n\n"
+                                 "Then press F5 to update the ports (after closing this warning) or restart this User interface. Your LD firmware Updater should now automatically connect "
+                                 "to your KB2D Laser Harp interface."), MenuFunc_LoadFW, tr("Cannot connect to LD Firmware Updater"));
+        }
+    }
+
+}
+
+/*
+ * ==============================
+ * Check some stuff
+ * ==============================
+ */
+void MainWindow::checkModifications()
+{
 }
 
 /*
@@ -419,17 +902,389 @@ void MainWindow::quitProg()
     close();
 }
 
-void MainWindow::setDetActionsVisibility(bool enab, bool vis)
+/*
+ * =================================
+ * Update display of Assign Buttons
+ * =================================
+ */
+void MainWindow::repaintAssignButtons()
 {
-    ui->actionDetection_Assistant->setEnabled(enab);
-    ui->actionAuto_Calibration->setEnabled(enab);
-    ui->actionLearn_One_Angle->setEnabled(enab);
-    ui->actionInvert_X_Notes->setEnabled(enab);
+    for (int _i = 0; _i < Ports_Num; _i++)
+    {
+        for (int _j = 0 ; _j < MAX_NBEAMS ; _j++)
+        {
+            if (assignButton[_i][_j])
+                assignButton[_i][_j]->setStyleSheet("");
+        }
+        if (keyboard[_i] && (keyboard[_i]->getNextAssign() >= 0))
+        {
+            assignButton[_i][keyboard[_i]->getNextAssign()]->setStyleSheet("background-color:#C22;");
+        }
+        if (assignAllButton[_i])
+        {
+            if (assignAllActivated[_i])
+                assignAllButton[_i]->setStyleSheet("background-color:#C22;");
+            else
+                assignAllButton[_i]->setStyleSheet("");
+        }
+    }
+}
 
-    ui->actionDetection_Assistant->setVisible(vis);
-    ui->actionAuto_Calibration->setVisible(vis);
-    ui->actionLearn_One_Angle->setVisible(vis);
-    ui->actionInvert_X_Notes->setVisible(vis);
+void MainWindow::updateEnabledMode()
+{
+    ui->harpEnabPushButton->setStyleSheet("QPushButton {background-color:#555555;} QPushButton:checked {background-color:#aaaa00;} QPushButton:hover {background-color:#bb8800;}");
+    ui->harpHeightEnabPushButton->setStyleSheet("QPushButton {background-color:#555555;} QPushButton:checked {background-color:#aaaa00;} QPushButton:hover {background-color:#bb8800;}");
+    ui->trackingEnabPushButton->setStyleSheet("QPushButton {background-color:#555555;} QPushButton:checked {background-color:#aaaa00;} QPushButton:hover {background-color:#bb8800;}");
+    ui->thereminEnabPushButton->setStyleSheet("QPushButton {background-color:#555555;} QPushButton:checked {background-color:#aaaa00;} QPushButton:hover {background-color:#bb8800;}");
+    ui->guruEnabPushButton->setStyleSheet("QPushButton {background-color:#555555;} QPushButton:checked {background-color:#aaaa00;} QPushButton:hover {background-color:#bb8800;}");
+
+    switch (modeEnabled)
+    {
+    case Mode_BasicHarp:
+        ui->harpEnabPushButton->click();
+        break;
+    case Mode_HarpHeight:
+        ui->harpHeightEnabPushButton->click();
+        break;
+    case Mode_Tracking:
+        ui->trackingEnabPushButton->click();
+        break;
+    case Mode_Theremin:
+        ui->thereminEnabPushButton->click();
+        break;
+    case Mode_Guru:
+        ui->guruEnabPushButton->click();
+        break;
+    default:
+        ui->harpEnabPushButton->click();
+        break;
+    }
+}
+
+void MainWindow::on_harpEnabPushButton_clicked()
+{
+    modeEnabled = Mode_BasicHarp;
+    // Show modules
+    groupList[Group_PosXParam]->hide();
+    groupList[Group_DetZParam]->hide();
+    if (!(enabState[Ports_Midi1] & Mode_NoteOn))
+        on_enableNotesOnOffButton_clicked();
+    if (((enabState[Ports_Midi1] >> 1) & 0x7) > Mode_NoteOn)
+        on_enableEffect1Button_clicked();
+    if (((enabState[Ports_Midi1] >> 4) & 0x7) > Mode_NoteOn)
+        on_enableEffect2Button_clicked();
+    groupList[Group_Effect0]->show();
+    groupList[Group_Effect1]->hide();
+    groupList[Group_Effect2]->hide();
+    // Set Midi values
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Notes][ValSelection_Channel]->setCurrentIndex(Channel_1);
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Notes][ValSelection_CtrlNotes]->setCurrentIndex(Val_Keyboard);
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Notes][ValSelection_ValVel]->setCurrentText("127");
+    // Set properties
+    ui->minTimeSlider->setValue(10);
+    ui->maxTimeSlider->setValue(15);
+    ui->DetSpeedLabel->hide();
+    ui->minTimeSpinBox->hide();
+    ui->minTimeSlider->hide();
+    ui->DetSelectivityLabel->hide();
+    ui->maxTimeSpinBox->hide();
+    ui->maxTimeSlider->hide();
+}
+
+void MainWindow::on_harpHeightEnabPushButton_clicked()
+{
+    modeEnabled = Mode_HarpHeight;
+    // Show modules
+    groupList[Group_PosXParam]->hide();
+    groupList[Group_DetZParam]->show();
+    if (!(enabState[Ports_Midi1] & Mode_NoteOn))
+        on_enableNotesOnOffButton_clicked();
+    if (!(((enabState[Ports_Midi1] >> 1) & 0x7) > Mode_NoteOn))
+        on_enableEffect1Button_clicked();
+    if (((enabState[Ports_Midi1] >> 4) & 0x7) > Mode_NoteOn)
+        on_enableEffect2Button_clicked();
+    groupList[Group_Effect0]->show();
+    groupList[Group_Effect1]->show();
+    groupList[Group_Effect2]->hide();
+    // Set Midi values
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Notes][ValSelection_Channel]->setCurrentIndex(Channel_1);
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Notes][ValSelection_CtrlNotes]->setCurrentIndex(Val_Keyboard);
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Notes][ValSelection_ValVel]->setCurrentText("127");
+
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Control1][ValSelection_Channel]->setCurrentIndex(Channel_1);
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Control1][ValSelection_CtrlNotes]->setCurrentText("0");
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Control1][ValSelection_ValVel]->setCurrentIndex(Val_HeightZ);
+
+    ui->DescCC1ComboBox->setCurrentIndex(Mode_PitchBend - Mode_PolyAftertouch);
+    // Set properties
+    ui->minTimeSlider->setValue(10);
+    ui->maxTimeSlider->setValue(15);
+    ui->DetSpeedLabel->hide();
+    ui->minTimeSpinBox->hide();
+    ui->minTimeSlider->hide();
+    ui->DetSelectivityLabel->hide();
+    ui->maxTimeSpinBox->hide();
+    ui->maxTimeSlider->hide();
+}
+
+void MainWindow::on_trackingEnabPushButton_clicked()
+{
+    modeEnabled = Mode_Tracking;
+    // Show modules
+    groupList[Group_PosXParam]->show();
+    groupList[Group_DetZParam]->hide();
+    if (enabState[Ports_Midi1] & Mode_NoteOn)
+        on_enableNotesOnOffButton_clicked();
+    if (((enabState[Ports_Midi1] >> 1) & 0x7) > Mode_NoteOn)
+        on_enableEffect1Button_clicked();
+    if (!(((enabState[Ports_Midi1] >> 4) & 0x7) > Mode_NoteOn))
+        on_enableEffect2Button_clicked();
+    groupList[Group_Effect0]->hide();
+    groupList[Group_Effect1]->hide();
+    groupList[Group_Effect2]->show();
+    // Set Midi values
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Control2][ValSelection_Channel]->setCurrentIndex(Channel_1);
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Control2][ValSelection_CtrlNotes]->setCurrentText("1");
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Control2][ValSelection_ValVel]->setCurrentIndex(Val_PosX);
+
+    ui->DescCC2ComboBox->setCurrentIndex(Mode_ControlChange - Mode_PolyAftertouch);
+    // Set properties
+    ui->minTimeSlider->setValue(1);
+    ui->maxTimeSlider->setValue(15);
+    ui->DetSpeedLabel->show();
+    ui->minTimeSpinBox->show();
+    ui->minTimeSlider->show();
+    ui->DetSelectivityLabel->show();
+    ui->maxTimeSpinBox->show();
+    ui->maxTimeSlider->show();
+
+    ui->minWidthXLabel->hide();
+    ui->minWidthXSpinBox->hide();
+    ui->maxWidthXLabel->hide();
+    ui->maxWidthXSpinBox->hide();
+    ui->minGlideXLabel->hide();
+    ui->minGlideXSpinBox->hide();
+    ui->maxGlideXLabel->hide();
+    ui->maxGlideXSpinBox->hide();
+    ui->invertWidthXCheckBox->hide();
+    ui->invertGlideXCheckBox->hide();
+}
+
+void MainWindow::on_thereminEnabPushButton_clicked()
+{
+    modeEnabled = Mode_Theremin;
+    // Show modules
+    groupList[Group_PosXParam]->show();
+    groupList[Group_DetZParam]->hide();
+
+    if (!(enabState[Ports_Midi1] & Mode_NoteOn))
+        on_enableNotesOnOffButton_clicked();
+    if (!(((enabState[Ports_Midi1] >> 1) & 0x7) > Mode_NoteOn))
+        on_enableEffect1Button_clicked();
+    if (!(((enabState[Ports_Midi1] >> 4) & 0x7) > Mode_NoteOn))
+        on_enableEffect2Button_clicked();
+    groupList[Group_Effect0]->show();
+    groupList[Group_Effect1]->show();
+    groupList[Group_Effect2]->show();
+    // Set Midi values
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Notes][ValSelection_Channel]->setCurrentIndex(Channel_1);
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Notes][ValSelection_CtrlNotes]->setCurrentText("63");
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Notes][ValSelection_ValVel]->setCurrentText("127");
+
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Control1][ValSelection_Channel]->setCurrentIndex(Channel_1);
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Control1][ValSelection_CtrlNotes]->setCurrentText("0");
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Control1][ValSelection_ValVel]->setCurrentIndex(Val_PosX);
+
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Control2][ValSelection_Channel]->setCurrentIndex(Channel_1);
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Control2][ValSelection_CtrlNotes]->setCurrentText("1");
+    midiSelection_Combo[Ports_Midi1][ModeActiv_Control2][ValSelection_ValVel]->setCurrentIndex(Val_WidthX);
+
+    ui->DescCC1ComboBox->setCurrentIndex(Mode_PitchBend - Mode_PolyAftertouch);
+    ui->DescCC2ComboBox->setCurrentIndex(Mode_ControlChange - Mode_PolyAftertouch);
+    // Set properties
+    ui->enableAngFilterCheckBox->setChecked(false);
+    ui->minTimeSlider->setValue(1);
+    ui->maxTimeSlider->setValue(15);
+    ui->DetSpeedLabel->show();
+    ui->minTimeSpinBox->show();
+    ui->minTimeSlider->show();
+    ui->DetSelectivityLabel->show();
+    ui->maxTimeSpinBox->show();
+    ui->maxTimeSlider->show();
+
+    ui->minWidthXLabel->show();
+    ui->minWidthXSpinBox->show();
+    ui->maxWidthXLabel->show();
+    ui->maxWidthXSpinBox->show();
+    ui->minGlideXLabel->show();
+    ui->minGlideXSpinBox->show();
+    ui->maxGlideXLabel->show();
+    ui->maxGlideXSpinBox->show();
+    ui->invertWidthXCheckBox->show();
+    ui->invertGlideXCheckBox->show();
+}
+
+void MainWindow::on_guruEnabPushButton_clicked()
+{
+    modeEnabled = Mode_Guru;
+    // Show modules
+    groupList[Group_PosXParam]->show();
+    groupList[Group_DetZParam]->show();
+
+    groupList[Group_Effect0]->show();
+    groupList[Group_Effect1]->show();
+    groupList[Group_Effect2]->show();
+    // Set properties
+    ui->DetSpeedLabel->show();
+    ui->minTimeSpinBox->show();
+    ui->minTimeSlider->show();
+    ui->DetSelectivityLabel->show();
+    ui->maxTimeSpinBox->show();
+    ui->maxTimeSlider->show();
+
+    ui->minWidthXLabel->show();
+    ui->minWidthXSpinBox->show();
+    ui->maxWidthXLabel->show();
+    ui->maxWidthXSpinBox->show();
+    ui->minGlideXLabel->show();
+    ui->minGlideXSpinBox->show();
+    ui->maxGlideXLabel->show();
+    ui->maxGlideXSpinBox->show();
+    ui->invertWidthXCheckBox->show();
+    ui->invertGlideXCheckBox->show();
+}
+
+/*
+ * ==============================
+ * Save params
+ * ==============================
+ */
+void MainWindow::saveInFlashFunc()
+{
+    if (kbDev.isConnected())
+    {
+        if (kbDev.checkFeedback(Check_SaveInFlash) == 0x7F)
+            ui->statusBar->showMessage(tr("Parameters saved in Flash memory"), 3000);
+    }
+}
+
+/*
+ * ==============================
+ * Start
+ * ==============================
+ */
+void MainWindow::startFunc()
+{
+    kbDev.sendCom(MIDI_START);
+    if (kbDev.checkFeedback(Check_PauseOn) == 0)
+    {
+        ui->actionStart->setEnabled(0);
+        ui->actionPause->setEnabled(1);
+        ui->actionStart->setVisible(0);
+        ui->actionPause->setVisible(1);
+    }
+}
+
+/*
+ * ==============================
+ * Pause - Stop Laser
+ * ==============================
+ */
+void MainWindow::pauseFunc()
+{
+    kbDev.sendCom(MIDI_PAUSE);
+    if (kbDev.checkFeedback(Check_PauseOn) == 1)
+    {
+
+        ui->actionStart->setEnabled(1);
+        ui->actionPause->setEnabled(0);
+        ui->actionStart->setVisible(1);
+        ui->actionPause->setVisible(0);
+    }
+}
+
+/*
+ * ==============================
+ * Restart
+ * ==============================
+ */
+void MainWindow::restartFunc()
+{
+    kbDev.sendCom(MIDI_RESTART);
+    ui->statusBar->showMessage(tr("Wait while restarting..."), 2000);
+    setStatus(tr("Wait while restarting..."));
+    QApplication::processEvents();
+    saveCurrentDisplayAndDisable();
+    //ui->tabWidget->removeTab(GetTabIndex(ui->tabWidget, listNameTabs[Tab_KB2DSettings]));
+    //ui->tabWidget->removeTab(GetTabIndex(ui->tabWidget, listNameTabs[Tab_ExternalMIDIMapping]));
+    qSleep(2000);
+    ui->statusBar->showMessage(tr("Ready"), 3000);
+    restoreDisplay();
+    //ui->tabWidget->addTab(ui->mainTab, listNameTabs[Tab_KB2DSettings]);
+    //ui->tabWidget->addTab(ui->mappingTab, listNameTabs[Tab_ExternalMIDIMapping]);
+    //ui->tabWidget->setCurrentIndex(0);
+    updateMidiPortsList();  // updateAll is automatically used when ports are updated.
+}
+
+void MainWindow::disableAllGroups(bool hideToo)
+{
+    for (int _i = 0 ; _i < Group_NumTotal ; _i++)
+    {
+        if (groupList[_i])
+        {
+            groupList[_i]->setDisabled(1);
+            if (hideToo)
+                groupList[_i]->hide();
+        }
+    }
+}
+
+void MainWindow::enableAllGroups()
+{
+    for (int _i = 0 ; _i < Group_NumTotal ; _i++)
+    {
+        if (groupList[_i])
+        {
+            groupList[_i]->show();
+            groupList[_i]->setEnabled(true);
+        }
+    }
+}
+
+void MainWindow::saveCurrentDisplay()
+{
+    for (int _i = 0 ; _i < Group_NumTotal ; _i++)
+    {
+        if (groupList[_i])
+        {
+            groupActivated[_i] = groupList[_i]->isEnabled();
+            groupHidden[_i] = groupList[_i]->isHidden();
+        }
+    }
+}
+
+void MainWindow::setEnableGroup(int indexGroup, bool state, bool hideToo)
+{
+    if (groupList[indexGroup])
+    {
+        if (groupList[indexGroup]->isHidden() && state)
+            groupList[indexGroup]->show();
+        groupList[indexGroup]->setEnabled(state);
+        if (!state && hideToo)
+            groupList[indexGroup]->setVisible(0);
+    }
+}
+
+void MainWindow::restoreDisplay()
+{
+    for (int _i = 0 ; _i < Group_NumTotal ; _i++)
+    {
+        if (groupList[_i])
+        {
+            groupList[_i]->setEnabled(groupActivated[_i]);
+            groupList[_i]->setHidden(groupHidden[_i]);
+        }
+    }
 }
 
 /*
@@ -482,24 +1337,6 @@ void MainWindow::on_flashProgButton_clicked()
 {
     flashProg();
 }
-//////////////////////////////////
-///////////// BUTTON /////////////
-//////////////////////////////////
-
-void MainWindow::on_SaveParamButton_clicked()
-{
-    saveInFlashFunc();
-}
-
-void MainWindow::on_startButton_clicked()
-{
-    startFunc();
-}
-
-void MainWindow::on_pauseButton_clicked()
-{
-    pauseFunc();
-}
 
 /*
  * =============================================
@@ -537,237 +1374,38 @@ void MainWindow::harpInProc()
  */
 void MidiDevIn::midiInCallback(HMIDIIN hMidiIn, DWORD_PTR dwInstance, unsigned char data1, unsigned char data2, unsigned char data3, DWORD_PTR mdTimestamp)
 {
+    (void)dwInstance;
     (void)mdTimestamp; // Does nothing. Just avoid to get a warning because that var is unused.
     if (hMidiIn == harpIn.getDev())
     {
         harpIn.setParam(0, data1);
         harpIn.setParam(1, data2);
         harpIn.setParam(2, data3);
-        reinterpret_cast<MainWindow*> (dwInstance)->harpInProc();
+        emit harpIn.harpInCalled();
+        //reinterpret_cast<MainWindow*> (dwInstance)->harpInProc();
     }
     else if (hMidiIn == extIn.getDev())
     {
-        if (((kbDev.isConnected() == 1) || (extMidiIndexToLearn >= 0)) && (kbDev.isWaitingFb() == 0))    // Check we are not already waiting for a signal from the KB2D (no saturation).
-            reinterpret_cast<MainWindow*> (dwInstance)->extInProc(data1, data2, data3);
+        if (((kbDev.isConnected() == 1) || (extMidiIndexToLearn >= 0)) && (kbDev.isWaitingFb() == 0))    // Check we are not already waiting for a signal from the KB2D
+            emit extIn.extInCalled(data1, data2, data3);
+            //reinterpret_cast<MainWindow*> (dwInstance)->extInProc(data1, data2, data3);
     }
-}
-
-
-
-// Functions
-
-/*
- * ==============================
- * Flash program
- * ==============================
- */
-void MainWindow::flashProg()
-{
-    int res = 0;
-    FILE *pData;
-    QString wText;
-
-    int  ver = 0, subVer = 0;
-
-    ver = dfuDev.checkDfuFeedback(Check_Dfu_Version);
-    subVer = dfuDev.checkDfuFeedback(Check_Dfu_SubVersion);
-
-    if ((ver == -2) && (subVer == -2))
+    // MIDI Through is directly sent here
+    else if ((hMidiIn == throughIn.getDev()) && (throughOut.getName() != ""))
     {
-        // Legacy Firmware detected
-        QMessageBox::information(this, tr("Legacy Bootloader Detected"), tr("Legacy Bootloader Version: 1.0"
-                             "\n\nTo obtain your firmware update (.kb2d file), please contact Lightdiction:"
-                             "\n\ncontact@lightdiction.com"));
-#ifndef GITX
-        wText = QFileDialog::getOpenFileName(this, tr("Bootloader Version: 1.0 | Enter firmware KB file .kb2d"), QDir::currentPath(), "*.kb2d");
-        if (wText != NULL)
-        {
-            pData = fopen(wText.toStdString().c_str(), "rb");					// Creates an empty file for Data
-            if (pData == NULL)
-                SendError(this, tr("Cannot open ") + wText, MainWindow_FlashProg_1_C);
-            else
-            {
-                ui->flashProgButton->setEnabled(0);
-                res = readLegacyFile(pData);
-                if (res != 0)
-                {
-                    SendError(this, tr("Flash Error Code: ") + QString::number(res), MainWindow_FlashProg_2_C);
-                }
-                else
-                {
-                    //ui->statusBar->showMessage("Firmware Upgrade complete", 0);
-                    setStatus(tr("Firmware Upgrade complete"));
-                    QMessageBox::information(this, tr("SUCCESS"), tr("Memory correctly Flashed"));
-                }
-                fclose(pData);
-                ui->flashProgButton->setEnabled(1);
-                setFlashText(tr("Load Firmware file"));
-            }
-        }
-#endif
-    }
-    else if (ver < 2)
-    {
-        // Legacy Firmware detected
-        QMessageBox::information(this, tr("Legacy Bootloader Detected"), tr("Bootloader Version: ") + QString::number(ver) + "." + QString::number(subVer) + \
-                                 tr("\n\nTo obtain your firmware update (.kb2d file), please contact Lightdiction:"
-                                 "\n\ncontact@lightdiction.com"));
-#ifndef GITX
-        wText = QFileDialog::getOpenFileName(this, tr("Bootloader Version: ") + QString::number(ver) + "." + QString::number(subVer) + \
-                                             tr(" | Enter firmware KB file .kb2d"), QDir::currentPath(), "*.kb2d");
-        if (wText != NULL)
-        {
-            pData = fopen(wText.toStdString().c_str(), "rb");					// Creates an empty file for Data
-            if (pData == NULL)
-                SendError(this, tr("Cannot open ") + wText, MainWindow_FlashProg_1_C);
-            else
-            {
-                ui->flashProgButton->setEnabled(0);
-                res = readLegacyFile(pData);
-                if (res != 0)
-                {
-                    SendError(this, tr("Flash Error Code: ") + QString::number(res), MainWindow_FlashProg_2_C);
-                }
-                else
-                {
-                    //ui->statusBar->showMessage("Firmware Upgrade complete", 0);
-                    setStatus(tr("Firmware Upgrade complete"));
-                    QMessageBox::information(this, tr("SUCCESS"), tr("Memory correctly Flashed"));
-                }
-                fclose(pData);
-                ui->flashProgButton->setEnabled(1);
-                setFlashText(tr("Load Firmware file"));
-            }
-        }
-#endif
-    }
-    else
-    {
-        //////////////
-        QString uniqueID = "";
-        int id[12] = {0};
-        for (int _i = 11; _i >= 0; _i--)
-        {
-            id[_i] = dfuDev.checkDfuFeedback(Check_Dfu_ID0 + 2 * _i);
-            id[_i] += dfuDev.checkDfuFeedback(Check_Dfu_ID0 + 1 + (2 * _i));
-            uniqueID += QString::number(id[_i], 16).toUpper();
-        }
-        //QMessageBox::information(this, "Unique ID", uniqueID);
-        //////////////
-
-        wText = QFileDialog::getOpenFileName(this, tr("Bootloader Version: ") + QString::number(ver) + "." + QString::number(subVer) + tr(" | Unique ID: ") + uniqueID + \
-                                             tr(" | Enter firmware KB file .kbf"), QDir::currentPath(), "*.kbf");
-        if (wText != NULL)
-        {
-            pData = fopen(wText.toStdString().c_str(), "rb");					// Creates an empty file for Data
-            if (pData == NULL)
-                SendError(this, tr("Cannot open ") + wText, MainWindow_FlashProg_1_C);
-            else
-            {
-                ui->flashProgButton->setEnabled(0);
-                res = readCyFile(pData);
-                if (res != 0)
-                {
-                    SendError(this, tr("Flash Error Code: ") + QString::number(res), MainWindow_FlashProg_2_C);
-                }
-                else
-                {
-                    //ui->statusBar->showMessage("Firmware Upgrade complete", 0);
-                    setStatus(tr("Firmware Upgrade complete"));
-                    QMessageBox::information(this, tr("SUCCESS"), tr("Memory correctly Flashed"));
-                }
-                fclose(pData);
-                ui->flashProgButton->setEnabled(1);
-                setFlashText(tr("Load Firmware file"));
-            }
-        }
+        if (throughOut.sendWord(data1, data2, data3) != MMSYSERR_NOERROR)
+            qDebug() << "Midi Out err";
     }
 }
 
 /*
- * ==============================
- * Save params
- * ==============================
+ * ==========================
+ * Exit the Firmware Updater
+ * ==========================
  */
-void MainWindow::saveInFlashFunc()
+void MainWindow::on_exitUpdaterButton_clicked()
 {
-    if (kbDev.isConnected())
-    {
-        if (kbDev.getID(VERSION) >= 7)
-        {
-            if (kbDev.checkFeedback(Check_SaveInFlash) == 0x7F)
-                ui->statusBar->showMessage(tr("Parameters saved in Flash memory"), 3000);
-        }
-        else
-        {
-            kbDev.sendCom(MIDI_SAVEALL);
-            ui->statusBar->showMessage(tr("Parameters saved in Flash memory"), 3000);
-        }
-    }
-}
-
-/*
- * ==============================
- * Start
- * ==============================
- */
-void MainWindow::startFunc()
-{
-    kbDev.sendCom(MIDI_START);
-    if (kbDev.checkFeedback(Check_PauseOn) == 0)
-    {
-#ifndef NO_MORE_BUTTONS
-        ui->startButton->setEnabled(0);
-        ui->pauseButton->setEnabled(1);
-        ui->startButton->setHidden(1);
-        ui->pauseButton->setHidden(0);
-#endif
-
-        ui->actionStart->setEnabled(0);
-        ui->actionPause->setEnabled(1);
-        ui->actionStart->setVisible(0);
-        ui->actionPause->setVisible(1);
-    }
-}
-
-/*
- * ==============================
- * Pause - Stop Laser
- * ==============================
- */
-void MainWindow::pauseFunc()
-{
-    kbDev.sendCom(MIDI_PAUSE);
-    if (kbDev.checkFeedback(Check_PauseOn) == 1)
-    {
-#ifndef NO_MORE_BUTTONS
-        ui->startButton->setEnabled(1);
-        ui->pauseButton->setEnabled(0);
-        ui->startButton->setHidden(0);
-        ui->pauseButton->setHidden(1);
-#endif
-
-        ui->actionStart->setEnabled(1);
-        ui->actionPause->setEnabled(0);
-        ui->actionStart->setVisible(1);
-        ui->actionPause->setVisible(0);
-    }
-}
-
-/*
- * ==============================
- * Restart
- * ==============================
- */
-void MainWindow::restartFunc()
-{
-    kbDev.sendCom(MIDI_RESTART);
-    ui->statusBar->showMessage(tr("Wait while restarting..."), 500);
-    setStatus(tr("Wait while restarting..."));
-    QApplication::processEvents();
-    qSleep(500);
-    ui->statusBar->showMessage(tr("Ready"), 3000);
-    updateAll(1);
+    exitFUpdater();
 }
 
 /*
@@ -775,63 +1413,167 @@ void MainWindow::restartFunc()
  * Update All Values
  * ==============================
  */
-void MainWindow::updateAll(bool optionWin)
+int MainWindow::updateAll(bool optionWin)
 {
     int retErr = 0;
-    int saveContX = 0;
     //kbDev.setID(VERSION, 0);
-    modifTimer.stop();
     QApplication::processEvents();
 
-    if ((kbDev.checkFeedback(Check_NoteToPlay0) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay1) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay2) >= 0) && \
-        (kbDev.checkFeedback(Check_NoteToPlay3) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay4) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay5) >= 0) && \
-        (kbDev.checkFeedback(Check_NoteToPlay6) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay7) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay8) >= 0) && \
-        (kbDev.checkFeedback(Check_NoteToPlay9) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay10) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay11) >= 0) && \
-        (kbDev.checkFeedback(Check_nBeamsX) >= 0) && (kbDev.checkFeedback(Check_DetLevel) >= 0) && (kbDev.checkFeedback(Check_MinPos) >= 0) && \
-        (kbDev.checkFeedback(Check_MultPos) >= 0) && (kbDev.checkFeedback(Check_FPS) >= 0) && (kbDev.checkFeedback(Check_HalfDelta) >= 0) && \
-        (kbDev.checkFeedback(Check_PauseOn) >= 0) && \
-        (kbDev.checkFeedback(Check_BeamAngleListX0) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListXH0) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListX1) >= 0) && \
-        (kbDev.checkFeedback(Check_BeamAngleListXH1) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListX2) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListXH2) >= 0) && \
-        (kbDev.checkFeedback(Check_BeamAngleListX3) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListXH3) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListX4) >= 0) && \
-        (kbDev.checkFeedback(Check_BeamAngleListXH4) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListX5) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListXH5) >= 0) && \
-        (kbDev.checkFeedback(Check_BeamAngleListX6) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListXH6) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListX7) >= 0) && \
-        (kbDev.checkFeedback(Check_BeamAngleListXH7) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListX8) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListXH8) >= 0) && \
-        (kbDev.checkFeedback(Check_BeamAngleListX9) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListXH9) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListX10) >= 0) && \
-        (kbDev.checkFeedback(Check_BeamAngleListXH10) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListX11) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListXH11) >= 0) && \
-        (kbDev.checkFeedback(Check_SN) >= 0) && (kbDev.checkFeedback(Check_SubSN) >= 0) && (kbDev.checkFeedback(Check_Version) >= 0) && (kbDev.checkFeedback(Check_SubVersion) >= 0))
+    ui->midiTabWidget->setCurrentIndex(0);
+    //ui->midiTabWidget->removeTab(2);
+    //ui->midiTabWidget->removeTab(1);
+    ui->midiTabWidget->setTabEnabled(1, false);
+    ui->midiTabWidget->setTabEnabled(2, false);
+
+    if (keyboard[Ports_Midi1])
     {
-        for (int _loci = 0; _loci < Group_NumTotal; _loci++)
-            groupList[_loci]->setHidden(0);
+        delete keyboard[Ports_Midi1];
+        keyboard[Ports_Midi1] = nullptr;
+    }
+    if (keyboard[Ports_Midi3])
+    {
+        delete keyboard[Ports_Midi3];
+        keyboard[Ports_Midi3] = nullptr;
+    }
+    if (keyboard[Ports_Midi4])
+    {
+        delete keyboard[Ports_Midi4];
+        keyboard[Ports_Midi4] = nullptr;
+    }
+
+    setEnableGroup(Group_KB2DPorts, false);
+
+    if ((kbDev.checkFeedback(Check_SN) >= 0) && (kbDev.checkFeedback(Check_SubSN) >= 0) && (kbDev.checkFeedback(Check_Version) >= 0) && (kbDev.checkFeedback(Check_SubVersion) >= 0))
+    {
+        kbDev.setID(VERSION, kbDev.checkFeedback(Check_Version));
+        kbDev.setID(SUBVERSION, kbDev.checkFeedback(Check_SubVersion));
+        kbDev.setID(SERIAL, (kbDev.checkFeedback(Check_SN) << 7) + kbDev.checkFeedback(Check_SubSN));
+
+        // This interface is not compatible with older version. It requires an update to version 8.00
+        if (kbDev.getID(VERSION) < 8)
+        {
+            kbDev.sendCom(MIDI_INAPPBOOT);  // Sends a message to KB2D / DFU so it disconnects and restarts in the other mode.
+            qSleep(1000);
+            return -1;
+        }
+    }
+    else
+        retErr = 1;
+
+    int nbPorts = kbDev.checkFeedback(Check_NbPorts);
+    if ((retErr == 0) && (nbPorts >= 0))
+    {
+        updateInProgress = true;
+        if (nbPorts == 3)
+        {
+            ui->nbPortsCombo->setCurrentIndex(1);
+            //ui->midiTabWidget->addTab(ui->midiPort3Tab, "MIDI Effects configuration [ KB2D_3 ]");
+            ui->midiTabWidget->setTabEnabled(1, true);
+        }
+        else if (nbPorts == 4)
+        {
+            ui->nbPortsCombo->setCurrentIndex(2);
+            //ui->midiTabWidget->addTab(ui->midiPort3Tab, "MIDI Effects configuration [ KB2D_3 ]");
+            //ui->midiTabWidget->addTab(ui->midiPort4Tab, "MIDI Effects configuration [ KB2D_4 ]");
+            ui->midiTabWidget->setTabEnabled(1, true);
+            ui->midiTabWidget->setTabEnabled(2, true);
+        }
+        else
+        {
+            ui->nbPortsCombo->setCurrentIndex(0);
+        }
+
+        ui->midiTabWidget->setCurrentIndex(0);
+        QApplication::processEvents();
+        updateInProgress = false;
+    }
+    else
+        retErr = 1;
+
+    qDebug() << "Reading Parameters...";
+    if ((retErr == 0) && (kbDev.checkFeedback(Check_nBeamsX) >= 0) && (kbDev.checkFeedback(Check_DetLevel) >= 0) && (kbDev.checkFeedback(Check_DetLevelH) >= 0) && \
+            (kbDev.checkFeedback(Check_FPS) >= 0) && (kbDev.checkFeedback(Check_MinPos) >= 0) && (kbDev.checkFeedback(Check_MultPos) >= 0) && \
+            (kbDev.checkFeedback(Check_HalfDelta) >= 0) && (kbDev.checkFeedback(Check_Gain) >= 0) && (kbDev.checkFeedback(Check_Release) >= 0) && \
+            (kbDev.checkFeedback(Check_RelativeH) >= 0) && (kbDev.checkFeedback(Check_InvertZ) >= 0) && (kbDev.checkFeedback(Check_StabZ) >= 0) && \
+            (kbDev.checkFeedback(Check_AmpZ) >= 0) && (kbDev.checkFeedback(Check_SmoothZ) >= 0) && (kbDev.checkFeedback(Check_FiltZ) >= 0) && \
+            (kbDev.checkFeedback(Check_MinZ) >= 0) && (kbDev.checkFeedback(Check_MaxZ) >= 0) && \
+            (kbDev.checkFeedback(Check_InvertVarsX) >= 0) && (kbDev.checkFeedback(Check_GlideStab) >= 0) && (kbDev.checkFeedback(Check_AngFilter) >= 0) && \
+            (kbDev.checkFeedback(Check_MinPosX) >= 0) && (kbDev.checkFeedback(Check_MaxPosX) >= 0) && (kbDev.checkFeedback(Check_MinWidthX) >= 0) && \
+            (kbDev.checkFeedback(Check_MaxWidthX) >= 0) && (kbDev.checkFeedback(Check_MinGlideX) >= 0) && (kbDev.checkFeedback(Check_MaxGlideX) >= 0) && \
+
+            (kbDev.checkFeedback(Check_BeamAngleListX0) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListXH0) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListX1) >= 0) && \
+            (kbDev.checkFeedback(Check_BeamAngleListXH1) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListX2) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListXH2) >= 0) && \
+            (kbDev.checkFeedback(Check_BeamAngleListX3) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListXH3) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListX4) >= 0) && \
+            (kbDev.checkFeedback(Check_BeamAngleListXH4) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListX5) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListXH5) >= 0) && \
+            (kbDev.checkFeedback(Check_BeamAngleListX6) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListXH6) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListX7) >= 0) && \
+            (kbDev.checkFeedback(Check_BeamAngleListXH7) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListX8) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListXH8) >= 0) && \
+            (kbDev.checkFeedback(Check_BeamAngleListX9) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListXH9) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListX10) >= 0) && \
+            (kbDev.checkFeedback(Check_BeamAngleListXH10) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListX11) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListXH11) >= 0) && \
+            (kbDev.checkFeedback(Check_BeamAngleListX12) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListXH12) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListX13) >= 0) && \
+            (kbDev.checkFeedback(Check_BeamAngleListXH13) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListX14) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListXH14) >= 0) && \
+            (kbDev.checkFeedback(Check_BeamAngleListX15) >= 0) && (kbDev.checkFeedback(Check_BeamAngleListXH15) >= 0) && (kbDev.checkFeedback(Check_NbPorts) >= 0) && \
+            // PORT 1
+            (kbDev.checkFeedback(Check_EnabMidiMode) >= 0) && (kbDev.checkFeedback(Check_CheckVarUse) >= 0) && \
+            (kbDev.checkFeedback(Check_NoteChan) >= 0) && (kbDev.checkFeedback(Check_NoteNote) >= 0) && (kbDev.checkFeedback(Check_NoteVel) >= 0) && \
+            (kbDev.checkFeedback(Check_CC1Chan) >= 0) && (kbDev.checkFeedback(Check_CC1Ctrl) >= 0) && (kbDev.checkFeedback(Check_CC1Val) >= 0) && \
+            (kbDev.checkFeedback(Check_CC2Chan) >= 0) && (kbDev.checkFeedback(Check_CC2Ctrl) >= 0) && (kbDev.checkFeedback(Check_CC2Val) >= 0) && \
+            (kbDev.checkFeedback(Check_Activate2PL) >= 0) && (kbDev.checkFeedback(Check_Activate2PM) >= 0) && (kbDev.checkFeedback(Check_Activate2PH) >= 0) && \
+
+            (kbDev.checkFeedback(Check_NoteToPlay0) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay1) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay2) >= 0) && \
+            (kbDev.checkFeedback(Check_NoteToPlay3) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay4) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay5) >= 0) && \
+            (kbDev.checkFeedback(Check_NoteToPlay6) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay7) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay8) >= 0) && \
+            (kbDev.checkFeedback(Check_NoteToPlay9) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay10) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay11) >= 0) && \
+            (kbDev.checkFeedback(Check_NoteToPlay12) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay13) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay14) >= 0) && \
+            (kbDev.checkFeedback(Check_NoteToPlay15) >= 0) && \
+            // PORT 3
+            (kbDev.checkFeedback(Check_EnabMidiMode_3P) >= 0) && (kbDev.checkFeedback(Check_CheckVarUse_3P) >= 0) && \
+            (kbDev.checkFeedback(Check_NoteChan_3P) >= 0) && (kbDev.checkFeedback(Check_NoteNote_3P) >= 0) && (kbDev.checkFeedback(Check_NoteVel_3P) >= 0) && \
+            (kbDev.checkFeedback(Check_CC1Chan_3P) >= 0) && (kbDev.checkFeedback(Check_CC1Ctrl_3P) >= 0) && (kbDev.checkFeedback(Check_CC1Val_3P) >= 0) && \
+            (kbDev.checkFeedback(Check_CC2Chan_3P) >= 0) && (kbDev.checkFeedback(Check_CC2Ctrl_3P) >= 0) && (kbDev.checkFeedback(Check_CC2Val_3P) >= 0) && \
+            (kbDev.checkFeedback(Check_Activate3PL) >= 0) && (kbDev.checkFeedback(Check_Activate3PM) >= 0) && (kbDev.checkFeedback(Check_Activate3PH) >= 0) && \
+
+            (kbDev.checkFeedback(Check_NoteToPlay0_3P) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay1_3P) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay2_3P) >= 0) && \
+            (kbDev.checkFeedback(Check_NoteToPlay3_3P) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay4_3P) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay5_3P) >= 0) && \
+            (kbDev.checkFeedback(Check_NoteToPlay6_3P) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay7_3P) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay8_3P) >= 0) && \
+            (kbDev.checkFeedback(Check_NoteToPlay9_3P) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay10_3P) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay11_3P) >= 0) && \
+            (kbDev.checkFeedback(Check_NoteToPlay12_3P) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay13_3P) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay14_3P) >= 0) && \
+            (kbDev.checkFeedback(Check_NoteToPlay15_3P) >= 0) && \
+            // PORT 4
+            (kbDev.checkFeedback(Check_EnabMidiMode_4P) >= 0) && (kbDev.checkFeedback(Check_CheckVarUse_4P) >= 0) && \
+            (kbDev.checkFeedback(Check_NoteChan_4P) >= 0) && (kbDev.checkFeedback(Check_NoteNote_4P) >= 0) && (kbDev.checkFeedback(Check_NoteVel_4P) >= 0) && \
+            (kbDev.checkFeedback(Check_CC1Chan_4P) >= 0) && (kbDev.checkFeedback(Check_CC1Ctrl_4P) >= 0) && (kbDev.checkFeedback(Check_CC1Val_4P) >= 0) && \
+            (kbDev.checkFeedback(Check_CC2Chan_4P) >= 0) && (kbDev.checkFeedback(Check_CC2Ctrl_4P) >= 0) && (kbDev.checkFeedback(Check_CC2Val_4P) >= 0) && \
+            (kbDev.checkFeedback(Check_Activate4PL) >= 0) && (kbDev.checkFeedback(Check_Activate4PM) >= 0) && (kbDev.checkFeedback(Check_Activate4PH) >= 0) && \
+
+            (kbDev.checkFeedback(Check_NoteToPlay0_4P) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay1_4P) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay2_4P) >= 0) && \
+            (kbDev.checkFeedback(Check_NoteToPlay3_4P) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay4_4P) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay5_4P) >= 0) && \
+            (kbDev.checkFeedback(Check_NoteToPlay6_4P) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay7_4P) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay8_4P) >= 0) && \
+            (kbDev.checkFeedback(Check_NoteToPlay9_4P) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay10_4P) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay11_4P) >= 0) && \
+            (kbDev.checkFeedback(Check_NoteToPlay12_4P) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay13_4P) >= 0) && (kbDev.checkFeedback(Check_NoteToPlay14_4P) >= 0) && \
+            (kbDev.checkFeedback(Check_NoteToPlay15_4P) >= 0))
+    {
+        qDebug() << "All parameters read";
+        enableAllGroups();
         setDetActionsVisibility(1);
-#ifndef TEST_MODE
-        groupList[Group_MidiParam]->setEnabled(0);
-        groupList[Group_DetZParam]->setEnabled(0);
-#endif
+
+        if (nbPorts < 3)    // If only 1 port is selected, "Enable beams" option is useless. Just enable all beams and hide this option.
+        {
+            setEnableGroup(Group_Enable, false, true);
+            beamsEnabled[Ports_Midi1] = 0xFFFF;
+            kbDev.sendCom(MIDI_ACTIVATE2PL + 0x7F);
+            kbDev.sendCom(MIDI_ACTIVATE2PM + 0x7F);
+            kbDev.sendCom(MIDI_ACTIVATE2PH + 0x3);
+        }
 
         ui->actionLoad_now->setEnabled(0);
         ui->actionLoad_now->setVisible(0);
-
         ui->actionLoad_Firmware_2_0->setEnabled(1);
-
         ui->menuCommands->setEnabled(1);
-        ui->menuMIDI->setEnabled(1);
-        //ui->menuSequence->setEnabled(1);
         ui->menuOutils->setEnabled(1);
-
-
-        ui->readButton->setHidden(0);
-#ifndef NO_MORE_BUTTONS
-        ui->SaveParamButton->setEnabled(1);
-#endif
         ui->actionSave_in_Memory->setEnabled(1);
+
         if (kbDev.checkFeedback(Check_PauseOn) == 0)
         {
-#ifndef NO_MORE_BUTTONS
-            ui->startButton->setEnabled(0);
-            ui->pauseButton->setEnabled(1);
-            ui->startButton->setHidden(1);
-            ui->pauseButton->setHidden(0);
-#endif
 
             ui->actionStart->setEnabled(0);
             ui->actionPause->setEnabled(1);
@@ -840,13 +1582,6 @@ void MainWindow::updateAll(bool optionWin)
         }
         else if (kbDev.checkFeedback(Check_PauseOn) == 1)
         {
-#ifndef NO_MORE_BUTTONS
-            ui->startButton->setEnabled(1);
-            ui->pauseButton->setEnabled(0);
-            ui->startButton->setHidden(0);
-            ui->pauseButton->setHidden(1);
-#endif
-
             ui->actionStart->setEnabled(1);
             ui->actionPause->setEnabled(0);
             ui->actionStart->setVisible(1);
@@ -854,13 +1589,6 @@ void MainWindow::updateAll(bool optionWin)
         }
         else
         {
-#ifndef NO_MORE_BUTTONS
-            ui->startButton->setEnabled(0);
-            ui->pauseButton->setEnabled(0);
-            ui->startButton->setHidden(0);
-            ui->pauseButton->setHidden(0);
-#endif
-
             ui->actionStart->setEnabled(0);
             ui->actionPause->setEnabled(0);
             ui->actionStart->setVisible(1);
@@ -869,254 +1597,167 @@ void MainWindow::updateAll(bool optionWin)
 
         //////////////////////////////
 
-        kbDev.setID(VERSION, kbDev.checkFeedback(Check_Version));
-        kbDev.setID(SUBVERSION, kbDev.checkFeedback(Check_SubVersion));
-        kbDev.setID(SERIAL, (kbDev.checkFeedback(Check_SN) << 7) + kbDev.checkFeedback(Check_SubSN));
+        int saveNBeamsX = kbDev.checkFeedback(Check_nBeamsX);
+        updateInProgress = true;
+        ui->nBeamsXComboBox->setCurrentIndex(saveNBeamsX - 1);
+        QApplication::processEvents();
+        updateInProgress = false;
+        updateAngleBoxVisibility();
 
-        for (int _ii = 0 ; _ii < MAX_NBEAMS ; _ii++)
-            Z0_ComboBox[_ii]->setCurrentIndex(kbDev.checkFeedback(Check_NoteToPlay0 + _ii));
+        int valueFb = (kbDev.checkFeedback(Check_DetLevelH) << 7) + kbDev.checkFeedback(Check_DetLevel);
+        if (valueFb <= 3000)
+            ui->detLevelSlider->setValue(valueFb);
+        else
+            ui->detLevelSlider->setValue(3000);
+        ui->FPSSlider->setValue(kbDev.checkFeedback(Check_FPS) + 50);
+        ui->minTimeSlider->setValue(kbDev.checkFeedback(Check_MinPos) + 1);
+        ui->maxTimeSlider->setValue(kbDev.checkFeedback(Check_MultPos) + 1);
+        ui->accuracySpinBox->setValue(kbDev.checkFeedback(Check_HalfDelta));
+        ui->hardAmpComboBox->setCurrentIndex(kbDev.checkFeedback(Check_Gain));
+        ui->releaseSlider->setValue(kbDev.checkFeedback(Check_Release));
 
-        if ((kbDev.getID(VERSION) > 6) || ((kbDev.getID(VERSION) == 6) && (kbDev.getID(SUBVERSION) >= 41)))
+        int tempInvert = kbDev.checkFeedback(Check_InvertVarsX);
+        ui->invertPosXCheckBox->setChecked(tempInvert & VarInvert_PosX);
+        ui->invertWidthXCheckBox->setChecked(tempInvert & VarInvert_WidthX);
+        ui->invertGlideXCheckBox->setChecked(tempInvert & VarInvert_GlideX);
+
+        ui->enableAngFilterCheckBox->setChecked(kbDev.checkFeedback(Check_AngFilter));
+        ui->accuracySpinBox->setEnabled(ui->enableAngFilterCheckBox->isChecked());
+        stabGlideSave = kbDev.checkFeedback(Check_GlideStab);
+        minPosXSave = kbDev.checkFeedback(Check_MinPosX);
+        maxPosXSave = kbDev.checkFeedback(Check_MaxPosX);
+        minWidthXSave = kbDev.checkFeedback(Check_MinWidthX);
+        maxWidthXSave = kbDev.checkFeedback(Check_MaxWidthX);
+        minGlideXSave = kbDev.checkFeedback(Check_MinGlideX);
+        maxGlideXSave = kbDev.checkFeedback(Check_MaxGlideX);
+        ui->stabGlideSlider->setValue(stabGlideSave);
+        ui->minPosXSpinBox->setValue(minPosXSave);
+        ui->maxPosXSpinBox->setValue(maxPosXSave);
+        ui->minWidthXSpinBox->setValue(minWidthXSave);
+        ui->maxWidthXSpinBox->setValue(maxWidthXSave);
+        ui->minGlideXSpinBox->setValue(minGlideXSave);
+        ui->maxGlideXSpinBox->setValue(maxGlideXSave);
+
+        if (kbDev.checkFeedback(Check_RelativeH) == 1)
         {
-            saveContX = kbDev.checkFeedback(Check_ContX);
+            updateInProgress = true;
+            ui->modulationZComboBox->setCurrentIndex(0);
+            ui->nbAbsoluteLabel->setVisible(0);
+            QApplication::processEvents();
+            updateInProgress = false;
         }
-        int saveNBeamsIndex = kbDev.checkFeedback(Check_nBeamsX) - 1;   // Because clear will reset the ComboBox and call the indexChanged function
-        ui->nBeamsXComboBox->clear();
-        for (int iii = 0 ; iii < MAX_NBEAMS ; iii++)
-            ui->nBeamsXComboBox->addItem(QString::number(iii + 1));
-        ui->nBeamsXComboBox->setCurrentIndex(saveNBeamsIndex);
-
-
-        if ((kbDev.getID(VERSION) > 7) || ((kbDev.getID(VERSION) == 7) && (kbDev.getID(SUBVERSION) >= 23))) {}
         else
         {
-            ui->detLevelSlider->setValue(kbDev.checkFeedback(Check_DetLevel) + 1);
+            updateInProgress = true;
+            ui->modulationZComboBox->setCurrentIndex(1);
+            ui->nbAbsoluteLabel->setVisible(1);
+            QApplication::processEvents();
+            updateInProgress = false;
         }
 
-        ui->detSpeedSlider->setValue(128 - kbDev.checkFeedback(Check_MinPos));
-        ui->detSelectivitySlider->setValue(128 - kbDev.checkFeedback(Check_MultPos));
-        ui->FPSSlider->setValue(kbDev.checkFeedback(Check_FPS) + 50);
-        ui->accuracySlider->setValue(kbDev.checkFeedback(Check_HalfDelta));
+        ui->ampZSpinBox->setMaximum(MAX_AMP);
+        ui->ampZSlider->setMaximum(MAX_AMP);
+
+        ui->invertZCheckBox->setChecked((kbDev.checkFeedback(Check_InvertZ) == 1));
+        ui->stabZSlider->setValue(kbDev.checkFeedback(Check_StabZ));
+        ui->ampZSlider->setValue(MAX_AMP - kbDev.checkFeedback(Check_AmpZ));
+        ui->smoothZSlider->setValue(MAX_SMOOTH - kbDev.checkFeedback(Check_SmoothZ));
+        ui->filterZSlider->setValue(kbDev.checkFeedback(Check_FiltZ));
+        minZSave = kbDev.checkFeedback(Check_MinZ);
+        maxZSave = kbDev.checkFeedback(Check_MaxZ);
+        ui->minHeightSpinBox->setValue(minZSave);
+        ui->maxHeightSpinBox->setValue(maxZSave);
+
+        updateMidiComboVisibility(Ports_Midi1);
+        updateMidiModeWidgets(Ports_Midi1);
+        updateEnableButtons(Ports_Midi1);
+        //// Keyboard 1 ////
+        keyboard[Ports_Midi1] = new Keyboard(ui->keyboardLayout, ui->startKeyComboBox->currentIndex(), ui->nKeysSpinBox->value(), this);
+        connect(keyboard[Ports_Midi1], &Keyboard::keyClicked, this, [this] (int _key) {this->assignNoteToKey(Ports_Midi1, _key);});
+        QVector <int> listN;
+        for (int _i = 0 ; _i < saveNBeamsX ; _i++)
+        {
+            int tempNote = kbDev.checkFeedback(Check_NoteToPlay0 + _i);
+            if (tempNote >= 0)
+                listN.append(tempNote);
+        }
+        keyboard[Ports_Midi1]->updateNotesOnKeyboard(listN);
+
+        if (nbPorts >= 3)
+        {
+            updateMidiComboVisibility(Ports_Midi3);
+            updateMidiModeWidgets(Ports_Midi3);
+            updateEnableButtons(Ports_Midi3);
+            //// Keyboard 2 ////
+            keyboard[Ports_Midi3] = new Keyboard(ui->keyboardLayout_2, ui->startKeyComboBox_2->currentIndex(), ui->nKeysSpinBox_2->value(), this);
+            connect(keyboard[Ports_Midi3], &Keyboard::keyClicked, this, [this] (int _key) {this->assignNoteToKey(Ports_Midi3, _key);});
+            QVector <int> listN3;
+            for (int _i = 0 ; _i < saveNBeamsX ; _i++)
+            {
+                int tempNote = kbDev.checkFeedback(Check_NoteToPlay0_3P + _i);
+                if (tempNote >= 0)
+                    listN3.append(tempNote);
+            }
+            keyboard[Ports_Midi3]->updateNotesOnKeyboard(listN3);
+        }
+
+        if (nbPorts >= 4)
+        {
+            updateMidiComboVisibility(Ports_Midi4);
+            updateMidiModeWidgets(Ports_Midi4);
+            updateEnableButtons(Ports_Midi4);
+            //// Keyboard 3 ////
+            keyboard[Ports_Midi4] = new Keyboard(ui->keyboardLayout_3, ui->startKeyComboBox_3->currentIndex(), ui->nKeysSpinBox_3->value(), this);
+            connect(keyboard[Ports_Midi4], &Keyboard::keyClicked, this, [this] (int _key) {this->assignNoteToKey(Ports_Midi4, _key);});
+            QVector <int> listN4;
+            for (int _i = 0 ; _i < saveNBeamsX ; _i++)
+            {
+                int tempNote = kbDev.checkFeedback(Check_NoteToPlay0_4P + _i);
+                if (tempNote >= 0)
+                    listN4.append(tempNote);
+            }
+            keyboard[Ports_Midi4]->updateNotesOnKeyboard(listN4);
+        }
+
+
+        updateEnabledMode();
+
+        updateInProgress = true;
+        for (int _i = 0; _i < Ports_Num; _i++)
+        {
+            for (int _ii = 0 ; _ii < MAX_NBEAMS ; _ii++)
+            {
+                if (Z0_ComboBox[_i][_ii])
+                    Z0_ComboBox[_i][_ii]->setCurrentIndex(kbDev.checkFeedback(Check_NoteToPlay0 + (16 * _i) + _ii));
+            }
+        }
 
         for (int _ii = 0 ; _ii < MAX_NBEAMS ; _ii++)
         {
             angleSaveValue[_ii] = (double)(kbDev.checkFeedback(Check_BeamAngleListX0 + _ii) + ((kbDev.checkFeedback(Check_BeamAngleListXH0 + _ii) - 63) * 128)) / 10;
             angleDoubleSpinBox[_ii]->setValue(angleSaveValue[_ii]);
         }
+        updateInProgress = false;
     }
     else
         retErr = 1;
 
-    ////////////////////////////
-    //////////// V6.37 /////////
-    ////////////////////////////
-
-    if ((kbDev.getID(VERSION) > 6) || ((kbDev.getID(VERSION) == 6) && (kbDev.getID(SUBVERSION) >= 37)))
-    {
-        if ((kbDev.checkFeedback(Check_EnabMidiMode) >= 0) && (kbDev.checkFeedback(Check_NoteChan) >= 0) && (kbDev.checkFeedback(Check_CC1Chan) >= 0) && \
-            (kbDev.checkFeedback(Check_CC2Chan) >= 0) && (kbDev.checkFeedback(Check_NoteNote) >= 0) && (kbDev.checkFeedback(Check_CC1Ctrl) >= 0) && \
-            (kbDev.checkFeedback(Check_CC2Ctrl) >= 0) && (kbDev.checkFeedback(Check_NoteVel) >= 0) && (kbDev.checkFeedback(Check_CC1Val) >= 0) && \
-            (kbDev.checkFeedback(Check_CC2Val) >= 0) && (kbDev.checkFeedback(Check_CheckVarUse) >= 0))
-        {
-            groupList[Group_MidiParam]->setEnabled(1);
-
-            kbDev.setMidiMode((unsigned int)kbDev.checkFeedback(Check_EnabMidiMode));
-            if ((kbDev.getMidiMode() & NOTES_ONOFF) == NOTES_ONOFF)
-                ui->DescNoteComboBox->setCurrentIndex(1);
-            else
-                ui->DescNoteComboBox->setCurrentIndex(0);
-
-            if ((kbDev.getMidiMode() & PITCH) == PITCH)
-                ui->DescCC1ComboBox->setCurrentIndex(1);
-            else
-                ui->DescCC1ComboBox->setCurrentIndex(0);
-
-            if ((kbDev.getMidiMode() & CONTROL_CHANGE) == CONTROL_CHANGE)
-                ui->DescCC2ComboBox->setCurrentIndex(1);
-            else
-                ui->DescCC2ComboBox->setCurrentIndex(0);
-
-            ui->ChanNoteComboBox->setCurrentIndex(kbDev.checkFeedback(Check_NoteChan));
-            ui->ChanCC1ComboBox->setCurrentIndex(kbDev.checkFeedback(Check_CC1Chan));
-            ui->ChanCC2ComboBox->setCurrentIndex(kbDev.checkFeedback(Check_CC2Chan));
-
-            if ((kbDev.checkFeedback(Check_CheckVarUse) & 0b1) != 0)
-                ui->NoteNoteComboBox->setCurrentIndex(kbDev.checkFeedback(Check_NoteNote));
-            else
-                ui->NoteNoteComboBox->setCurrentIndex(kbDev.checkFeedback(Check_NoteNote) + 2);
-
-            if ((kbDev.checkFeedback(Check_CheckVarUse) & 0b10) != 0)
-                ui->ControlCC1ComboBox->setCurrentIndex(kbDev.checkFeedback(Check_CC1Ctrl));
-            else
-                ui->ControlCC1ComboBox->setCurrentIndex(kbDev.checkFeedback(Check_CC1Ctrl) + 2);
-
-            if ((kbDev.checkFeedback(Check_CheckVarUse) & 0b100) != 0)
-                ui->ControlCC2ComboBox->setCurrentIndex(kbDev.checkFeedback(Check_CC2Ctrl));
-            else
-                ui->ControlCC2ComboBox->setCurrentIndex(kbDev.checkFeedback(Check_CC2Ctrl) + 2);
-
-            if ((kbDev.checkFeedback(Check_CheckVarUse) & 0b1000) != 0)
-                ui->VelNoteComboBox->setCurrentIndex(kbDev.checkFeedback(Check_NoteVel));
-            else
-                ui->VelNoteComboBox->setCurrentIndex(kbDev.checkFeedback(Check_NoteVel) + 2);
-
-            if ((kbDev.checkFeedback(Check_CheckVarUse) & 0b10000) != 0)
-                ui->ValCC1ComboBox->setCurrentIndex(kbDev.checkFeedback(Check_CC1Val));
-            else
-                ui->ValCC1ComboBox->setCurrentIndex(kbDev.checkFeedback(Check_CC1Val) + 2);
-
-            if ((kbDev.checkFeedback(Check_CheckVarUse) & 0b100000) != 0)
-                ui->ValCC2ComboBox->setCurrentIndex(kbDev.checkFeedback(Check_CC2Val));
-            else
-                ui->ValCC2ComboBox->setCurrentIndex(kbDev.checkFeedback(Check_CC2Val) + 2);
-        }
-        else
-            retErr = 1;
-    }
-
-    ////////////////////////////
-    //////////// V6.38 /////////
-    ////////////////////////////
-
-    if ((kbDev.getID(VERSION) > 6) || ((kbDev.getID(VERSION) == 6) && (kbDev.getID(SUBVERSION) >= 38)))
-    {
-        if ((kbDev.checkFeedback(Check_RelativeH) >= 0) && (kbDev.checkFeedback(Check_SmoothZ) >= 0))
-        {
-            groupList[Group_DetZParam]->setEnabled(1);
-
-            if (kbDev.checkFeedback(Check_RelativeH) == 1)
-            {
-                ui->modulationZComboBox->setCurrentIndex(0);
-                ui->nbAbsoluteLabel->setVisible(0);
-            }
-            else
-            {
-                ui->modulationZComboBox->setCurrentIndex(1);
-                ui->nbAbsoluteLabel->setVisible(1);
-            }
-
-            ui->smoothZSpinBox->setValue(127 - kbDev.checkFeedback(Check_SmoothZ));
-            ui->smoothZSlider->setValue(ui->smoothZSpinBox->value());
-        }
-        else
-            retErr = 1;
-    }
-
-    ////////////////////////////
-    //////////// V6.40 /////////
-    ////////////////////////////
-
-    if ((kbDev.getID(VERSION) > 6) || ((kbDev.getID(VERSION) == 6) && (kbDev.getID(SUBVERSION) >= 40)))
-    {
-        if ((kbDev.checkFeedback(Check_StabZ) >= 0) && (kbDev.checkFeedback(Check_AmpZ) >= 0) && (kbDev.checkFeedback(Check_FiltZ) >= 0) && (kbDev.checkFeedback(Check_InvertZ) >= 0))
-        {
-            ui->stabZSpinBox->setEnabled(1);
-            ui->ampZSpinBox->setEnabled(1);
-            ui->filterZSpinBox->setEnabled(1);
-            ui->invertZCheckBox->setEnabled(1);
-
-            ui->stabZSpinBox->setValue(kbDev.checkFeedback(Check_StabZ));
-            ui->stabZSlider->setValue(ui->stabZSpinBox->value());
-            ui->ampZSpinBox->setValue(128 - (kbDev.checkFeedback(Check_AmpZ)));
-            ui->ampZSlider->setValue(ui->ampZSpinBox->value());
-            ui->filterZSpinBox->setValue(kbDev.checkFeedback(Check_FiltZ));
-            ui->filterZSlider->setValue(ui->filterZSpinBox->value());
-            if (kbDev.checkFeedback(Check_InvertZ) == 1)
-                ui->invertZCheckBox->setChecked(1);
-            else
-                ui->invertZCheckBox->setChecked(0);
-        }
-        else
-            retErr = 1;
-    }
-
-    ////////////////////////////
-    //////////// V6.41 /////////
-    ////////////////////////////
-
-    updateAngleBoxVisibility();
-
-    if ((kbDev.getID(VERSION) > 6) || ((kbDev.getID(VERSION) == 6) && (kbDev.getID(SUBVERSION) >= 41)))
-    {
-        if (saveContX >= 0)
-        {
-            ui->nBeamsXComboBox->addItem(tr("Continuous (128)"));
-            if (saveContX == 1)
-                ui->nBeamsXComboBox->setCurrentIndex(MAX_NBEAMS);
-
-            angleSaveMin = (double)(kbDev.checkFeedback(Check_AngleMinX) + ((kbDev.checkFeedback(Check_AngleMinXH) - 63) * 128)) / 10;
-            angleSaveMax = (double)(kbDev.checkFeedback(Check_AngleMaxX) + ((kbDev.checkFeedback(Check_AngleMaxXH) - 63) * 128)) / 10;
-            ui->angleMinDoubleSpinBox->setValue(angleSaveMin);
-            ui->angleMaxDoubleSpinBox->setValue(angleSaveMax);
-        }
-        else
-            retErr = 1;
-    }
-
-    ////////////////////////////
-    //////////// V7.21 /////////
-    ////////////////////////////
 
     //updateAngleBoxVisibility();
-    ui->hardAmpComboBox->setDisabled(1);
 
-    if ((kbDev.getID(VERSION) > 7) || ((kbDev.getID(VERSION) == 7) && (kbDev.getID(SUBVERSION) >= 21)))
+    ////////////////////////////
+    //////////// V8.00 /////////
+    ////////////////////////////
+
+    if (kbDev.getID(VERSION) >= 8)
     {
-        if (kbDev.checkFeedback(Check_Gain) >= 0)
-        {
-            ui->hardAmpComboBox->setCurrentIndex(kbDev.checkFeedback(Check_Gain));
-        }
-        else
-            retErr = 1;
     }
 
-    ////////////////////////////
-    //////////// V7.22 /////////
-    ////////////////////////////
 
-    if ((kbDev.getID(VERSION) > 7) || ((kbDev.getID(VERSION) == 7) && (kbDev.getID(SUBVERSION) >= 22)))
-    {
-        if (kbDev.checkFeedback(Check_Gain) >= 0)
-        {
-            ui->hardAmpComboBox->setCurrentIndex(kbDev.checkFeedback(Check_Gain));
-            ui->hardAmpComboBox->setEnabled(1);
-        }
-        else
-            retErr = 1;
-    }
 
-    ////////////////////////////
-    //////////// V7.23 /////////
-    ////////////////////////////
-
-    ui->releaseSlider->hide();
-    ui->releaseSpinBox->hide();
-    ui->releaseLabel->hide();
-    if ((kbDev.getID(VERSION) > 7) || ((kbDev.getID(VERSION) == 7) && (kbDev.getID(SUBVERSION) >= 23)))
-    {
-        ui->releaseSlider->show();
-        ui->releaseSpinBox->show();
-        ui->releaseLabel->show();
-
-        if ((kbDev.checkFeedback(Check_Release) >= 0) && (kbDev.checkFeedback(Check_DetLevelH) >= 0))
-        {
-            ui->releaseSlider->setValue(kbDev.checkFeedback(Check_Release));
-
-            ui->detLevelspinBox->setMaximum(3000);
-            ui->detLevelspinBox->setMinimum(5);
-            ui->detLevelSlider->setMaximum(3000);
-            ui->detLevelSlider->setMinimum(5);
-            int valueFb = (kbDev.checkFeedback(Check_DetLevelH) << 7) + kbDev.checkFeedback(Check_DetLevel);
-            if (valueFb <= 3000)
-                ui->detLevelSlider->setValue(valueFb);
-            else
-                ui->detLevelSlider->setValue(3000);
-        }
-        else
-            retErr = 1;
-    }
+    ///////////////////////////////////////////////////
     else if ((retErr == 0) && (optionWin == 1)) //
-        SendError(this, tr("Please, update your firmware to the last version (7.23 or above) to get all functionnalities:"
+        SendError(this, tr("Please, update your firmware to the last version (8.00 or above) to get all functionnalities:"
                                                         "\n> The firmware can be downloaded here: https://lightdiction.com/Ressources"
                                                         "\n> Or contact us at contact@lightdiction.com"), MainWindow_UpdateAll_FWUP, tr("Firmware outdated"));
 
@@ -1124,9 +1765,9 @@ void MainWindow::updateAll(bool optionWin)
 
     if (retErr == 0)
     {
+        ui->midiInComboBox->setEnabled(0);
+        ui->midiOutComboBox->setEnabled(0);
         SendLog("KB2D Connected - SN: " + QString::number(kbDev.getID(SERIAL)));
-
-
         setStatus(tr("KB2D connected: Firmware version: ") + (QString::number(kbDev.getID(VERSION))) + "."+ (QString::number(kbDev.getID(SUBVERSION))) + \
                   " - S/N: " + (QString::number(kbDev.getID(SERIAL))));
 
@@ -1134,15 +1775,11 @@ void MainWindow::updateAll(bool optionWin)
             QMessageBox::information(this, tr("KB2D connected - Device information"), tr("Firmware version: ") + (QString::number(kbDev.getID(VERSION))) + \
                                      "."+ (QString::number(kbDev.getID(SUBVERSION))) + \
                                  "\nS/N: " + (QString::number(kbDev.getID(SERIAL))) + tr("\n\nFind the version notes and manual at:\nhttps://lightdiction.com/Ressources/"));
-
-#ifdef ENABLE_AUTOSAVE
-        loadPresetMain(0);  // Load live config (last session)
-        loadPresetMidi(0);  // Load live config (last session)
-        modifTimer.start();
-#endif
     }
     else
         SendError(this, tr("KB2D Parameters cannot be read."), MainWindow_UpdateAll_1_C);
+
+    return retErr;
 }
 
 /*
@@ -1153,3 +1790,4 @@ void MainWindow::on_openMapButton_clicked()
     angleMIDIDialog.exec();
 }
 */
+

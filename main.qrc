@@ -11,5 +11,8 @@
         <file>Icons/AngleCalibrationLogo.png</file>
         <file>Icons/LearnOneLogo.png</file>
         <file>Icons/InvertX.png</file>
+        <file>Icons/AngleLearnAllLogo.png</file>
+        <file>Icons/Save_Circle_2.png</file>
+        <file>Icons/Circle_Din.png</file>
     </qresource>
 </RCC>

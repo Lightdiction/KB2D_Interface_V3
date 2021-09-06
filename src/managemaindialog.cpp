@@ -1,5 +1,6 @@
 #include "../inc/managemaindialog.h"
 #include "ui_managemaindialog.h"
+#include "../inc/grpresets.h"
 
 #define MAX_CONFIG_MAIN 128
 
@@ -41,7 +42,7 @@ void ManageMainDialog::UpdateConfBoxes()
     for (int _i = 0; _i < MAX_CONFIG_MAIN; _i++)
     {
         QString tempName;
-        QSettings mainQSettings("_MainSettings.maicfg", QSettings::IniFormat);
+        QSettings mainQSettings(NAME_MAIN_PRESETS, QSettings::IniFormat);
 
         if (mainQSettings.childGroups().contains("CONFIG_" + QString::number(_i + 1), Qt::CaseInsensitive))
         {
@@ -67,7 +68,7 @@ void ManageMainDialog::UpdateConfBoxes()
 void ManageMainDialog::on_confAComboBox_currentIndexChanged(int index)
 {
 
-    QSettings mainQSettings("_MainSettings.maicfg", QSettings::IniFormat);
+    QSettings mainQSettings(NAME_MAIN_PRESETS, QSettings::IniFormat);
 
     if (mainQSettings.childGroups().contains("CONFIG_" + QString::number(index + 1), Qt::CaseInsensitive))
     {
@@ -86,7 +87,7 @@ void ManageMainDialog::on_confAComboBox_currentIndexChanged(int index)
 
 void ManageMainDialog::on_deletePushButton_clicked()
 {
-    QSettings mainQSettings("_MainSettings.maicfg", QSettings::IniFormat);
+    QSettings mainQSettings(NAME_MAIN_PRESETS, QSettings::IniFormat);
 
     if (mainQSettings.childGroups().contains("CONFIG_" + QString::number(ui->confAComboBox->currentIndex() + 1), Qt::CaseInsensitive))
     {
@@ -105,7 +106,7 @@ void ManageMainDialog::on_deletePushButton_clicked()
 
 void ManageMainDialog::on_renamePushButton_clicked()
 {
-    QSettings mainQSettings("_MainSettings.maicfg", QSettings::IniFormat);
+    QSettings mainQSettings(NAME_MAIN_PRESETS, QSettings::IniFormat);
 
     if (mainQSettings.childGroups().contains("CONFIG_" + QString::number(ui->confAComboBox->currentIndex() + 1), Qt::CaseInsensitive))
     {
@@ -120,7 +121,7 @@ void ManageMainDialog::on_renamePushButton_clicked()
 
 void ManageMainDialog::on_swapPushButton_clicked()
 {
-    QSettings mainQSettings("_MainSettings.maicfg", QSettings::IniFormat);
+    QSettings mainQSettings(NAME_MAIN_PRESETS, QSettings::IniFormat);
 
     if (mainQSettings.childGroups().contains("CONFIG_" + QString::number(ui->confAComboBox->currentIndex() + 1), Qt::CaseInsensitive))
     {
@@ -130,8 +131,8 @@ void ManageMainDialog::on_swapPushButton_clicked()
         QVariant qVar[nKeys];
         for (int _i = 0; _i < nKeys; _i++)
         {
-            qString[_i] = mainQSettings.allKeys()[_i];
-            qVar[_i] = mainQSettings.value(mainQSettings.allKeys()[_i]);
+            qString[_i] = mainQSettings.allKeys().at(_i);
+            qVar[_i] = mainQSettings.value(mainQSettings.allKeys().at(_i));
         }
         mainQSettings.endGroup();
 
@@ -143,8 +144,8 @@ void ManageMainDialog::on_swapPushButton_clicked()
             QVariant qVarB[nKeysB];
             for (int _i = 0; _i < nKeysB; _i++)
             {
-                qStringB[_i] = mainQSettings.allKeys()[_i];
-                qVarB[_i] = mainQSettings.value(mainQSettings.allKeys()[_i]);
+                qStringB[_i] = mainQSettings.allKeys().at(_i);
+                qVarB[_i] = mainQSettings.value(mainQSettings.allKeys().at(_i));
             }
             mainQSettings.endGroup();
 
@@ -171,7 +172,7 @@ void ManageMainDialog::on_swapPushButton_clicked()
 
 void ManageMainDialog::on_copyPushButton_clicked()
 {
-    QSettings mainQSettings("_MainSettings.maicfg", QSettings::IniFormat);
+    QSettings mainQSettings(NAME_MAIN_PRESETS, QSettings::IniFormat);
 
     if (mainQSettings.childGroups().contains("CONFIG_" + QString::number(ui->confAComboBox->currentIndex() + 1), Qt::CaseInsensitive))
     {
@@ -181,8 +182,8 @@ void ManageMainDialog::on_copyPushButton_clicked()
         QVariant qVar[nKeys];
         for (int _i = 0; _i < nKeys; _i++)
         {
-            qString[_i] = mainQSettings.allKeys()[_i];
-            qVar[_i] = mainQSettings.value(mainQSettings.allKeys()[_i]);
+            qString[_i] = mainQSettings.allKeys().at(_i);
+            qVar[_i] = mainQSettings.value(mainQSettings.allKeys().at(_i));
         }
         mainQSettings.endGroup();
 

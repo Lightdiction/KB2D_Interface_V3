@@ -20,7 +20,7 @@ public:
     ~SaveMainDialog();
 
 signals:
-    void saveConfigValidated(int numConfig, QString nameConfig);
+    void saveConfigValidated(int numConfig, QString nameConfig, bool incDet, bool incHeight, bool incAngles, bool incNotes);
 
 private slots:
     void on_savePushButton_clicked();

@@ -17,8 +17,6 @@ public:
     explicit ManageMainDialog(int actualConf, QWidget *parent = nullptr);
     ~ManageMainDialog();
 
-    void UpdateConfBoxes();
-
 signals:
     void updateNow();
 
@@ -32,8 +30,9 @@ private slots:
     void on_confAComboBox_currentIndexChanged(int index);
 
 private:
-    Ui::ManageMainDialog *ui;
+    void UpdateConfBoxes();
 
+    Ui::ManageMainDialog *ui;
     bool existingConfig;
 };
 

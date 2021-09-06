@@ -21,14 +21,102 @@
 
 
 
+
+void MainWindow::on_nbPortsCombo_currentIndexChanged(int index)
+{
+    if (!updateInProgress)
+    {
+        ui->statusBar->showMessage(tr("Wait while restarting..."), 500);
+        setStatus(tr("Wait while restarting..."));
+        QApplication::processEvents();
+        saveCurrentDisplayAndDisable();
+        //ui->tabWidget->removeTab(GetTabIndex(ui->tabWidget, listNameTabs[Tab_KB2DSettings]));
+        //ui->tabWidget->removeTab(GetTabIndex(ui->tabWidget, listNameTabs[Tab_ExternalMIDIMapping]));
+        switch (index)
+        {
+        case 0:
+            kbDev.sendCom(MIDI_2PORTS);
+            break;
+        case 1:
+            kbDev.sendCom(MIDI_3PORTS);
+            break;
+        case 2:
+            kbDev.sendCom(MIDI_4PORTS);
+            break;
+        }
+        qSleep(2000);
+        restoreDisplay();
+        //ui->tabWidget->addTab(ui->mainTab, listNameTabs[Tab_KB2DSettings]);
+        //ui->tabWidget->addTab(ui->mappingTab, listNameTabs[Tab_ExternalMIDIMapping]);
+        //ui->tabWidget->setCurrentIndex(0);
+
+        updateMidiPortsList();  // updateAll is automatically used when ports are updated.
+    }
+}
+
+/*
+ * ==================================
+ * Try connecting MIDI Through ports
+ * ==================================
+ */
+void MainWindow::connectThroughPorts(QString nameThroughIn, QString nameThroughOut)
+{
+    QSettings globQSettings(".kbsession", QSettings::IniFormat);
+    globQSettings.beginGroup("Global Settings");
+    if (nameThroughIn == "")
+        nameThroughIn = globQSettings.value("MIDI Through In", "").toString();
+    if (nameThroughOut == "")
+        nameThroughOut = globQSettings.value("MIDI Through Out", "").toString();
+
+    // Through In
+    if (throughIn.open(nameThroughIn, (DWORD_PTR)this) != MMSYSERR_NOERROR)
+    {
+        SendError(this, tr("Cannot connect to MIDI Through In device"), GrPorts_ConnectThroughIn);
+        ui->statusBar->showMessage(tr("MIDI Through In not connected"));
+    }
+    else
+    {
+        if (throughIn.getName() != "")
+        {
+            throughIn.start();
+            ui->statusBar->showMessage(tr("MIDI Through In connected"));
+            globQSettings.setValue("MIDI Through In", nameThroughIn);
+        }
+        if (nameThroughIn == tr("No device"))
+            globQSettings.setValue("MIDI Through In", nameThroughIn);
+    }
+
+    // Through Out
+    if (throughOut.open(nameThroughOut) != MMSYSERR_NOERROR)
+    {
+        SendError(this, tr("Cannot connect to MIDI Through Out device"), GrPorts_ConnectThroughOut);
+        ui->statusBar->showMessage(tr("MIDI Through Out not connected"), 0);
+    }
+    else
+    {
+        if (throughOut.getName() != "")
+        {
+            ui->statusBar->showMessage(tr("MIDI Through Out connected"), 0);
+            globQSettings.setValue("MIDI Through Out", nameThroughOut);
+        }
+        if (nameThroughOut == tr("No device"))
+            globQSettings.setValue("MIDI Through Out", nameThroughOut);
+    }
+    globQSettings.endGroup();
+}
+
 /*
  * ===================================================
  * This function is called once the window is created
  * ===================================================
  */
-void MainWindow::updateMidiPortsList()
+void MainWindow::updateMidiPortsList(bool forceDefault, QString nameKbIn, QString nameKbOut, QString nameExtIn, QString nameExtOut, QString nameThroughIn, QString nameThroughOut)
 {
-    uint i;
+    throughIn.stop();
+    throughIn.close();
+    throughOut.close();
+
+    connectionReq = false;
 
     ui->midiOutComboBox->clear();
     ui->midiInComboBox->clear();
@@ -39,40 +127,101 @@ void MainWindow::updateMidiPortsList()
     ui->extMidiInComboBox->insertItem(0, tr("No Device"));
     ui->extMidiOutComboBox->insertItem(0, tr("No Device"));
 
+    QCoreApplication::processEvents();
+
     QSettings globQSettings(".kbsession", QSettings::IniFormat);
-    QString nameExtIn, nameExtOut;
-    if (globQSettings.childGroups().contains("Global Settings", Qt::CaseInsensitive))
-    {
-        globQSettings.beginGroup("Global Settings");
-        nameExtIn = globQSettings.value("Ext MIDI In", "").toString();
-        nameExtOut = globQSettings.value("Ext MIDI Out", "").toString();
-        globQSettings.endGroup();
-    }
+    globQSettings.beginGroup("Global Settings");
 
-    for (i = 0 ; i < (midi::getNumDevOut()) ; i++)
+    // Fill and connect Dev Out
+    for (uint _i = 0 ; _i < (midi::getNumDevOut()) ; _i++)
     {
-        ui->midiOutComboBox->insertItem(i + 1, midi::getNameDevOut(i));
-        ui->extMidiOutComboBox->insertItem(i + 1, midi::getNameDevOut(i));
+        ui->midiOutComboBox->insertItem(_i + 1, midi::getNameDevOut(_i));
+        ui->extMidiOutComboBox->insertItem(_i + 1, midi::getNameDevOut(_i));
 
-        if (QString::compare(midi::getNameDevOut(i), (QString)"KB2D Interactive") == 0)
-            ui->midiOutComboBox->setCurrentIndex(i + 1);
-        else if (QString::compare(midi::getNameDevOut(i), (QString)"LD Firmware Updater") == 0)
-            ui->midiOutComboBox->setCurrentIndex(i + 1);
-        else if (QString::compare(midi::getNameDevOut(i), nameExtOut) == 0)
-                ui->extMidiOutComboBox->setCurrentIndex(i + 1);
+        // KB2D
+        if (midi::getNameDevOut(_i) == "LD Firmware Updater")
+            ui->midiOutComboBox->setCurrentIndex(_i + 1);
+        else if (nameKbOut == "")
+        {
+            if ((globQSettings.value("KB Out", "").toString() == "") || forceDefault)
+            {
+                if (midi::getNameDevOut(_i) == "KB2D Interactive")
+                    ui->midiOutComboBox->setCurrentIndex(_i + 1);
+            }
+            else if (midi::getNameDevOut(_i) == globQSettings.value("KB Out", "").toString())
+                ui->midiOutComboBox->setCurrentIndex(_i + 1);
+        }
+        else if (midi::getNameDevOut(_i) == nameKbOut)
+        {
+            globQSettings.setValue("KB Out", nameKbOut);
+            ui->midiOutComboBox->setCurrentIndex(_i + 1);
+        }
+
+        // External mapping
+        if (nameExtOut == "")
+        {
+            if (midi::getNameDevOut(_i) == globQSettings.value("Ext MIDI Out", "").toString())
+                ui->extMidiOutComboBox->setCurrentIndex(_i + 1);
+        }
+        else if (midi::getNameDevOut(_i) == nameExtOut)
+            ui->extMidiOutComboBox->setCurrentIndex(_i + 1);
     }
-    for (i = 0 ; i < (midi::getNumDevIn()) ; i++)
+    if (nameKbOut == tr("No device"))
+        ui->midiOutComboBox->setCurrentIndex(0);
+    if (nameExtOut == tr("No device"))
+        ui->extMidiOutComboBox->setCurrentIndex(0);
+
+    // Fill and connect Dev In
+    for (uint _i = 0 ; _i < (midi::getNumDevIn()) ; _i++)
     {
-        ui->midiInComboBox->insertItem(i + 1, midi::getNameDevIn(i));
-        ui->extMidiInComboBox->insertItem(i + 1, midi::getNameDevIn(i));
+        ui->midiInComboBox->insertItem(_i + 1, midi::getNameDevIn(_i));
+        ui->extMidiInComboBox->insertItem(_i + 1, midi::getNameDevIn(_i));
 
-        if (QString::compare(midi::getNameDevIn(i), (QString)"MIDIIN2 (KB2D Interactive)") == 0)
-            ui->midiInComboBox->setCurrentIndex(i + 1);
-        else if (QString::compare(midi::getNameDevIn(i), (QString)"LD Firmware Updater") == 0)
-            ui->midiInComboBox->setCurrentIndex(i + 1);
-        else if (QString::compare(midi::getNameDevIn(i), nameExtIn) == 0)
-                ui->extMidiInComboBox->setCurrentIndex(i + 1);
+        // KB2D
+        if (midi::getNameDevIn(_i) == "LD Firmware Updater")
+            ui->midiInComboBox->setCurrentIndex(_i + 1);
+        else if (nameKbIn == "")
+        {
+            if ((globQSettings.value("KB In", "").toString() == "") || forceDefault)
+            {
+                if (midi::getNameDevIn(_i) == "MIDIIN2 (KB2D Interactive)")
+                    ui->midiInComboBox->setCurrentIndex(_i + 1);
+            }
+            else if (midi::getNameDevIn(_i) == globQSettings.value("KB In", "").toString())
+                ui->midiInComboBox->setCurrentIndex(_i + 1);
+        }
+        else if (midi::getNameDevIn(_i) == nameKbIn)
+        {
+            globQSettings.setValue("KB In", nameKbIn);
+            ui->midiInComboBox->setCurrentIndex(_i + 1);
+        }
+
+        // External mapping
+        if (nameExtIn == "")
+        {
+            if (midi::getNameDevIn(_i) == globQSettings.value("Ext MIDI In", "").toString())
+                ui->extMidiInComboBox->setCurrentIndex(_i + 1);
+        }
+        else if (midi::getNameDevIn(_i) == nameExtIn)
+            ui->extMidiInComboBox->setCurrentIndex(_i + 1);
     }
+    if (nameKbIn == tr("No device"))
+        ui->midiInComboBox->setCurrentIndex(0);
+    if (nameExtIn == tr("No device"))
+        ui->extMidiInComboBox->setCurrentIndex(0);
+
+    globQSettings.endGroup();
+
+    // Connect MIDI Through
+    connectThroughPorts(nameThroughIn, nameThroughOut);
+
+    SendLog("KBIn= " + harpIn.getName() + " | KBOut= " + harpOut.getName() + \
+            " | ExtIn = " + extIn.getName() + " | ExtOut = " + extOut.getName() + \
+            " | ThIn = " + throughIn.getName() + " | ThOut = " + throughOut.getName());
+
+    // Test connections (MIDI Ports are already opened, now check communication)
+    connectionReq = true;
+    testConnectedDevices();
 }
 
 /*
@@ -82,6 +231,8 @@ void MainWindow::updateMidiPortsList()
  */
 void MainWindow::resetMidiPorts()
 {
+    ui->midiInComboBox->setEnabled(1);
+    ui->midiOutComboBox->setEnabled(1);
     kbDev.setConnected(0);
 #ifndef TEST_MODE
     if ((dfuDev.isConnected() == 0) && (saveIndexMidiIn > 0) && (saveIndexMidiOut > 0))
@@ -91,102 +242,54 @@ void MainWindow::resetMidiPorts()
     }
 #endif
 
-#ifndef NO_MORE_BUTTONS
-    ui->stopCalButton->setHidden(1);
-#endif
     ui->actionStopCal->setVisible(0);
     ui->menuOutils->setEnabled(1);
     ui->menuMenu->setEnabled(1);
 
 #ifndef TEST_MODE
-    groupList[Group_NotesParam]->setHidden(1);
-    groupList[Group_DetXParam]->setHidden(1);
-    groupList[Group_MidiPresets]->setHidden(1);
-    groupList[Group_AnglesParam]->setHidden(1);
-    groupList[Group_MidiParam]->setHidden(1);
-    groupList[Group_DetZParam]->setHidden(1);
-    groupList[Group_MainPresets]->setHidden(1);
-    //ui->midiButtonsGroupBox->setHidden(1);
+    disableAllGroups(true);
+    setEnableGroup(Group_KB2DPorts, true);
     setDetActionsVisibility(false, false);
 
     ui->SNButton->setHidden(1);
 
     ui->menuCommands->setEnabled(0);
-    ui->menuMIDI->setEnabled(0);
     //ui->menuOutils->setEnabled(0);
 
-    ui->readButton->setHidden(1);
-    ui->SaveParamButton->setEnabled(0);
-    ui->startButton->setEnabled(0);
-    ui->pauseButton->setEnabled(0);
     ui->thresholdButton->setEnabled(0);
-    //ui->extMapButton->setEnabled(0);
-    //ui->extMidiInComboBox->setEnabled(0);
     ui->actionLoad_Firmware->setVisible(0);
     ui->actionLoad_Firmware->setEnabled(0);
+    ui->actionLoad_now->setVisible(0);
+    ui->actionLoad_now->setEnabled(0);
+
+    ui->flashProgButton->setEnabled(0);
     ui->actionLoad_Firmware_2_0->setEnabled(0);
+    ui->exitUpdaterButton->setEnabled(0);
+
+    ui->menuExternal_mapping->setEnabled(0);
+
+    ui->actionStart->setEnabled(0);
+    ui->actionPause->setEnabled(0);
+    ui->actionStopCal->setEnabled(0);
+    ui->actionRestart->setEnabled(0);
+    ui->actionRestore_Defaults->setEnabled(0);
+    ui->actionSave_in_Memory->setEnabled(0);
+
+    ui->tabWidget->addTab(ui->mainTab, listNameTabs[Tab_KB2DSettings]);
+    ui->tabWidget->addTab(ui->mappingTab, listNameTabs[Tab_ExternalMIDIMapping]);
+    ui->tabWidget->setCurrentIndex(0);
+    ui->tabWidget->removeTab(GetTabIndex(ui->tabWidget, listNameTabs[Tab_FirmwareUpdater]));
 #endif
 #ifdef TEST_MODE
     ui->actionLoad_Firmware->setVisible(1);
     ui->actionLoad_Firmware->setEnabled(1);
-    ui->actionLoad_now->setVisible(1);
-    ui->actionLoad_now->setEnabled(1);
 #endif
 
-    if (dfuDev.isConnected() == 1)
-    {
-        ui->actionLoad_now->setVisible(1);
-        ui->actionLoad_now->setEnabled(1);
-        ui->actionLoad_Firmware_2_0->setEnabled(1);
-        ui->flashProgButton->setVisible(1);
-        ui->flashProgButton->setEnabled(1);
-        ui->actionUpdate_All->setEnabled(0);
-        ui->actionUpdate_All->setVisible(0);
-        ui->menuExternal_mapping->setEnabled(0);
-        ui->tabWidget->setCurrentIndex(0);
-        ui->notesTab->setEnabled(0);
-        ui->mappingTab->setEnabled(0);
-        ui->tabWidget->setTabEnabled(1, 0);
-        ui->tabWidget->setTabEnabled(2, 0);
-        ui->extMapButton->setEnabled(0);
-
-        ui->actionStart->setEnabled(0);
-        ui->actionPause->setEnabled(0);
-        ui->actionStopCal->setEnabled(0);
-        ui->actionRestart->setEnabled(0);
-        ui->actionRestore_Defaults->setEnabled(0);
-        ui->actionSave_in_Memory->setEnabled(0);
-    }
-    else
-    {
-        ui->actionLoad_now->setEnabled(0);
-        ui->actionLoad_now->setVisible(0);
-        ui->flashProgButton->setEnabled(0);
-        ui->flashProgButton->setVisible(0);
-        ui->actionUpdate_All->setVisible(1);
-        ui->actionUpdate_All->setEnabled(1);
-        ui->menuExternal_mapping->setEnabled(1);
-        ui->notesTab->setEnabled(1);
-        ui->mappingTab->setEnabled(1);
-        ui->tabWidget->setTabEnabled(1, 1);
-        ui->tabWidget->setTabEnabled(2, 1);
-        ui->extMapButton->setEnabled(1);
-
-        ui->actionStart->setEnabled(1);
-        ui->actionPause->setEnabled(1);
-        ui->actionStopCal->setEnabled(1);
-        ui->actionRestart->setEnabled(1);
-        ui->actionRestore_Defaults->setEnabled(1);
-        ui->actionSave_in_Memory->setEnabled(1);
-    }
+    ui->firmwareStatusValue->setText("Not connected");
 
     //ui->statusBar->showMessage("KB2D not connected", 0);
     setStatus(tr("KB2D not connected"));
     //ui->statusLabel->setText("KB2D not connected");
-#ifndef Z_DIMENSION
-    ui->nBeamsZLabelName->setHidden(1);
-    ui->nStepsZComboBox->setHidden(1);
-#endif
 }
 
 /*
@@ -200,17 +303,14 @@ void MainWindow::on_midiOutComboBox_currentIndexChanged(int index)
     harpOut.close();
     if (index > 0)
     {
-        //midiOutGetDevCapsA(index - 1, &descDev, sizeof(descDev));
         if (harpOut.open(index - 1) != MMSYSERR_NOERROR)
         {
             SendError(this, tr("Cannot connect to MIDI Out device"), GrPorts_MidiOutCB);
             ui->midiOutComboBox->setCurrentIndex(0);
-            //ui->statusBar->showMessage("KB2D not connected", 0);
             setStatus(tr("KB2D not connected"));
         }
         else
         {
-            //QMessageBox::information(this, "Device connected", "MIDI Out: " + (QString)qstrdup(descDev.szPname) + " connected");
             saveNameMidi = midi::getNameDevOut(index - 1);
         }
     }
@@ -222,25 +322,7 @@ void MainWindow::on_midiOutComboBox_currentIndexChanged(int index)
         setStatus(tr("KB2D not connected"));
     }
 
-    if ((saveIndexMidiOut > 0) && (saveIndexMidiIn > 0))        // If Midi In and Midi Out are selected, read all param and enable all commands
-    {
-        if ((QString::compare((QString)saveNameMidi, (QString)"LD Firmware Updater") == 0) && (QString::compare((QString)saveNameMidiIn, (QString)"LD Firmware Updater") == 0))
-        {
-            kbDev.setConnected(0);
-            dfuDev.setConnected(1);
-            resetMidiPorts();
-            //ui->statusBar->showMessage("DFU connected", 0);
-            setStatus(tr("DFU connected"));
-            ui->actionLoad_Firmware_2_0->setText(tr("Exit Firmware Updater"));
-        }
-        else
-        {
-            kbDev.setConnected(1);
-            dfuDev.setConnected(0);
-            updateAll(1);
-            ui->actionLoad_Firmware_2_0->setText(tr("Start Firmware Updater"));
-        }
-    }
+    testConnectedDevices();
 }
 
 /*
@@ -251,8 +333,8 @@ void MainWindow::on_midiOutComboBox_currentIndexChanged(int index)
 void MainWindow::on_midiInComboBox_currentIndexChanged(int index)
 {
     saveIndexMidiIn = index;
-    harpIn.close();
     harpIn.stop();
+    harpIn.close();
     //midiInClose(midiDeviceIn);
     //midiInStop(midiDeviceIn);
     if (index > 0)
@@ -275,25 +357,78 @@ void MainWindow::on_midiInComboBox_currentIndexChanged(int index)
         setStatus(tr("KB2D not connected"));
     }
 
-    if ((saveIndexMidiOut > 0) && (saveIndexMidiIn > 0))        // If Midi In and Midi Out are selected, read all param and enable all commands
+    testConnectedDevices();
+}
+
+void MainWindow::testConnectedDevices()
+{
+    int toUpdate = -1;
+
+    if (connectionReq)
     {
-        if ((QString::compare((QString)saveNameMidi, (QString)"LD Firmware Updater") == 0) && (QString::compare((QString)saveNameMidiIn, (QString)"LD Firmware Updater") == 0))
+        QSettings globQSettings(".kbsession", QSettings::IniFormat);
+        globQSettings.beginGroup("Global Settings");
+        if ((saveIndexMidiOut > 0) && (saveIndexMidiIn > 0))        // If Midi In and Midi Out are selected, read all param and enable all commands
         {
-            kbDev.setConnected(0);
-            dfuDev.setConnected(1);
-            resetMidiPorts();
-            //ui->statusBar->showMessage("DFU connected", 0);
-            setStatus(tr("DFU connected"));
-            ui->actionLoad_Firmware_2_0->setText(tr("Exit Firmware Updater"));
+            if ((saveNameMidi == "LD Firmware Updater") && (saveNameMidiIn == "LD Firmware Updater"))
+            {
+                kbDev.setConnected(0);
+                dfuDev.setConnected(1);
+                //resetMidiPorts();
+                ui->tabWidget->removeTab(GetTabIndex(ui->tabWidget, listNameTabs[Tab_KB2DSettings]));
+                ui->tabWidget->removeTab(GetTabIndex(ui->tabWidget, listNameTabs[Tab_ExternalMIDIMapping]));
+                ui->tabWidget->addTab(ui->firmwareTab, listNameTabs[Tab_FirmwareUpdater]);
+                ui->tabWidget->setCurrentIndex(0);
+
+                initializeFU();
+
+                setStatus(tr("DFU connected"));
+                ui->actionLoad_Firmware_2_0->setText(tr("Exit Firmware Updater"));
+            }
+            else
+            {
+                // Try to communicate with KB2D
+                kbDev.setConnected(1);
+                dfuDev.setConnected(0);
+                disconnect(&kbDev, &ComHwKb2d::comFailed, this, &MainWindow::resetMidiPorts);   // Avoid loops on updateAll fails
+                if (updateAll(1) == 0)  // KB2D Connected
+                {
+                    ui->tabWidget->setCurrentIndex(0);
+
+                    ui->menuExternal_mapping->setEnabled(1);
+
+                    ui->actionStart->setEnabled(1);
+                    ui->actionPause->setEnabled(1);
+                    ui->actionStopCal->setEnabled(1);
+                    ui->actionRestart->setEnabled(1);
+                    ui->actionRestore_Defaults->setEnabled(1);
+                    ui->actionSave_in_Memory->setEnabled(1);
+
+                    ui->actionLoad_Firmware_2_0->setText(tr("Start Firmware Updater"));
+                }
+                else
+                {
+                    if ((globQSettings.value("KB In", "").toString() != "") || (globQSettings.value("KB Out", "").toString() != ""))
+                    {
+                        globQSettings.setValue("KB In", "");
+                        globQSettings.setValue("KB Out", "");
+                        toUpdate = 0;
+                    }
+                }
+                connect(&kbDev, &ComHwKb2d::comFailed, this, &MainWindow::resetMidiPorts);
+            }
         }
-        else
+        else if (((globQSettings.value("KB In", "").toString() != "") && !ui->midiInComboBox->currentIndex()) || \
+                 ((globQSettings.value("KB Out", "").toString() != "") && !ui->midiOutComboBox->currentIndex()))
         {
-            kbDev.setConnected(1);
-            dfuDev.setConnected(0);
-            updateAll(1);
-            ui->actionLoad_Firmware_2_0->setText(tr("Start Firmware Updater"));
+            toUpdate = 1;
         }
+        globQSettings.endGroup();
     }
+    if (toUpdate == 1)
+        QTimer::singleShot(0, this, [this] () { this->updateMidiPortsList(true); });    // Force connection to default ports, since register ports are not available.
+    else if (toUpdate == 0)
+        QTimer::singleShot(0, this, [this] () { this->updateMidiPortsList(false); });
 }
 
 
@@ -304,8 +439,8 @@ void MainWindow::on_midiInComboBox_currentIndexChanged(int index)
  */
 void MainWindow::on_extMidiInComboBox_currentIndexChanged(int index)
 {
-    extIn.close();
     extIn.stop();
+    extIn.close();
 
     if (index > 0)
     {
@@ -319,6 +454,11 @@ void MainWindow::on_extMidiInComboBox_currentIndexChanged(int index)
         {
             extIn.start();
             ui->statusBar->showMessage(tr("External MIDI Device In connected!"), 0);
+            // QSettings
+            QSettings globQSettings(".kbsession", QSettings::IniFormat);
+            globQSettings.beginGroup("Global Settings");
+            globQSettings.setValue("Ext MIDI In", ui->extMidiInComboBox->currentText());
+            globQSettings.endGroup();
         }
     }
 }
@@ -342,13 +482,11 @@ void MainWindow::on_extMidiOutComboBox_currentIndexChanged(int index)
         else
         {
             ui->statusBar->showMessage(tr("External MIDI Device Out connected!"), 0);
+            // QSettings
+            QSettings globQSettings(".kbsession", QSettings::IniFormat);
+            globQSettings.beginGroup("Global Settings");
+            globQSettings.setValue("Ext MIDI Out", ui->extMidiOutComboBox->currentText());
+            globQSettings.endGroup();
         }
     }
-}
-
-
-
-void MainWindow::on_extMapButton_clicked()
-{
-    ui->tabWidget->setCurrentIndex(2);
 }

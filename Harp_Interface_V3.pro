@@ -9,7 +9,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = KB2D_Interface_V3
+TARGET = KB2D_Interface_V35
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -33,14 +33,20 @@ LIBS += $$_PRO_FILE_PWD_\libs\libwinmm.a \
 #        $$_PRO_FILE_PWD_\libs\libkblfw.a
 
 
+
 GIT_EXPORT {
 DEFINES += GITX
 } else {
 SOURCES += src/functionlegacy.cpp \
 }
 
+
 SOURCES += src/main.cpp\
+    src/mididevices.cpp \
+    src/managenotesdialog.cpp \
+    src/savenotesdialog.cpp \
     src/comhw.cpp \
+    src/fupdater.cpp \
     src/grangles.cpp \
     src/grdet.cpp \
     src/grextmapping.cpp \
@@ -49,15 +55,15 @@ SOURCES += src/main.cpp\
     src/grports.cpp \
     src/grpresets.cpp \
 #    src/kblfw.cpp \
+    src/grvarsx.cpp \
+    src/keyboard.cpp \
         src/mainwindow.cpp \
-    src/functions.cpp \
     src/aboutdialog.cpp \
     src/managemaindialog.cpp \
-    src/managemididialog.cpp \
     src/menufunc.cpp \
     src/midi.cpp \
     src/savemaindialog.cpp \
-    src/savemididialog.cpp \
+    src/utils.cpp \
     src/versiondialog.cpp
 
 HEADERS  += inc/mainwindow.h \
@@ -66,21 +72,28 @@ HEADERS  += inc/mainwindow.h \
     inc/comEnum.h \
     inc/comhw.h \
     inc/errorEnum.h \
+    inc/grextmapping.h \
+    inc/grnotes.h \
+    inc/grpresets.h \
     inc/managemaindialog.h \
-    inc/managemididialog.h \
     inc/midi.h \
 #    inc/kblfw.h \
     inc/savemaindialog.h \
-    inc/savemididialog.h \
-    inc/versiondialog.h
+    inc/utils.h \
+    inc/versiondialog.h \
+    inc/keyboard.h \
+    inc/managenotesdialog.h \
+    inc/savenotesdialog.h \
+    inc/mididevices.h
 
 FORMS    += mainwindow.ui \
     anglemididialog.ui \
     aboutdialog.ui \
     managemaindialog.ui \
-    managemididialog.ui \
+    managenotesdialog.ui \
+    mididevices.ui \
     savemaindialog.ui \
-    savemididialog.ui \
+    savenotesdialog.ui \
     versiondialog.ui
 
 TRANSLATIONS += kb2dinterface_fr.ts

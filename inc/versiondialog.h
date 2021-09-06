@@ -3,8 +3,6 @@
 
 #include "mainwindow.h"
 
-#define LAST_VERSION    313
-
 namespace Ui {
 class VersionDialog;
 }

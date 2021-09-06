@@ -26,18 +26,9 @@
    <string>About KB2D Laser Harp Interface</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMenuBar::item {background:#333333; color:#e0e0e0;}
-QMenuBar::item:selected {background:#505050;}
-QMenu::item:selected {background:#505050;}
-QMenu::item:!enabled {background:#333333;color:#808080;}
-QWidget {background-color:#303030; color:white;}
-QComboBox {background-color:#4A4A4A;}
-QComboBox:hover{background-color:#405080;}
-QComboBox:!enabled{background-color:#202020;color:#808080;}
+   <string notr="true">QWidget {background-color:#303030; color:white;}
 QPushButton{background-color:#404040;}
-QPushButton:hover{background-color:#405080;}
-QCheckBox:!enabled{color:#808080;}
-QCheckBox::indicator:!enabled{background-color:#808080;color:#808080;}</string>
+QPushButton:hover{background-color:#405080;}</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -123,9 +114,9 @@ QLabel {background-color: rgba(0, 0, 0, 0);}</string>
         </property>
         <property name="text">
          <string>KB2D Laser Harp Interface
-Version: 3.13
+Version: 3.50
 
-Date: 07 April 2021
+Date: 21st August 2021
 
 Company: Lightdiction SAS
 Author: Thomas Avisse

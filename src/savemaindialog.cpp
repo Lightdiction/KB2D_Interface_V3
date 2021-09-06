@@ -1,5 +1,6 @@
 #include "../inc/savemaindialog.h"
 #include "ui_savemaindialog.h"
+#include "../inc/grpresets.h"
 
 SaveMainDialog::SaveMainDialog(int actualConf, QWidget *parent) :
     QDialog(parent),
@@ -14,7 +15,7 @@ SaveMainDialog::SaveMainDialog(int actualConf, QWidget *parent) :
     for (int _i = 0; _i < MAX_CONFIG_MAIN; _i++)
     {
         QString tempName;
-        QSettings mainQSettings("_MainSettings.maicfg", QSettings::IniFormat);
+        QSettings mainQSettings(NAME_MAIN_PRESETS, QSettings::IniFormat);
 
         if (mainQSettings.childGroups().contains("CONFIG_" + QString::number(_i + 1), Qt::CaseInsensitive))
         {
@@ -48,13 +49,17 @@ void SaveMainDialog::on_savePushButton_clicked()
         if ((QMessageBox::information(this, tr("Configuration already exists"), tr("Configuration ") + QString::number(ui->saveListComboBox->currentIndex() + 1) + tr(" already exists."
                              "\nDo you want to overwrite it?"), QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Ok)) != QMessageBox::Cancel)
         {
-            emit saveConfigValidated(ui->saveListComboBox->currentIndex() + 1, ui->nameLineEdit->text());
+            emit saveConfigValidated(ui->saveListComboBox->currentIndex() + 1, ui->nameLineEdit->text(), \
+                                     ui->includeDetCheckBox->isChecked(), ui->includeHeightCheckBox->isChecked(), \
+                                     ui->includeAnglesCheckBox->isChecked(), ui->includeNotesCheckBox->isChecked());
             close();
         }
     }
     else
     {
-        emit saveConfigValidated(ui->saveListComboBox->currentIndex() + 1, ui->nameLineEdit->text());
+        emit saveConfigValidated(ui->saveListComboBox->currentIndex() + 1, ui->nameLineEdit->text(), \
+                                 ui->includeDetCheckBox->isChecked(), ui->includeHeightCheckBox->isChecked(), \
+                                 ui->includeAnglesCheckBox->isChecked(), ui->includeNotesCheckBox->isChecked());
         close();
     }
 }
@@ -66,14 +71,12 @@ void SaveMainDialog::on_cancelPushButton_clicked()
 
 void SaveMainDialog::on_saveListComboBox_currentIndexChanged(int index)
 {
-
-    QSettings mainQSettings("_MainSettings.maicfg", QSettings::IniFormat);
+    QSettings mainQSettings(NAME_MAIN_PRESETS, QSettings::IniFormat);
 
     if (mainQSettings.childGroups().contains("CONFIG_" + QString::number(index + 1), Qt::CaseInsensitive))
     {
         mainQSettings.beginGroup("CONFIG_" + QString::number(index + 1));
-        if (mainQSettings.allKeys().contains("NameConfig"))
-            ui->nameLineEdit->setText(mainQSettings.value("NameConfig").toString());
+        ui->nameLineEdit->setText(mainQSettings.value("NameConfig", "").toString());
         mainQSettings.endGroup();
 
         existingConfig = true;

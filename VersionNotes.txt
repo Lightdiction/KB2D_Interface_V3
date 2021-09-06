@@ -8,6 +8,71 @@
 
 
 ===========================================
+V3.50 - 06/09/2021 - MAJOR UPDATE
+This update requires to use firmware 8.0
+===========================================
+
+----- 	GENERAL DESIGN
+
+	- The whole design has been changed and is easier to use.
+	- The MIDI tab has been removed. MIDI and detection parameters are now in the main tab.
+	- Logs have been added, so it is easier to see what is happening in case of an error.
+	- A bug has been corrected on SpinBox. There were sometimes an error if we try to close the interface while a spinbox is selected.
+	- There was a bug that could cause the interface to crash if a warning window appears when the main window is not active. This is fixed.
+
+----- 	MIDI PORTS
+
+	- The number of ports of the KB2D can now be set. By default it is a 2 In / 2 Out device (like before), but we can now set it as a 3x3 or 4x4 device. This enables to link the KB2D to multiple software at the same time, to create audio + visual effects for instance, at the same time.
+	- A MIDI bridge is added, in order to link 2 MIDI ports together. This is useful for instance if we want to link the Output of the KB2D (notes) to a another MIDI port (linked to a MIDI expander).
+	- The KB2D ports are now locked if the device is correctly connected, to prevent wrong manipulations. It is still possible to force a modification by opening MIDI ports settings
+
+----- 	KEYBOARD
+
+	- A keyboard has been implemented, to ease the selection of notes.
+	- Buttons are created to assign easily all notes on the keyboard.
+	- We can send a test note just by clicking on a key
+	- The old ComboBox style is still available as a complement.
+
+----- 	PRESETS
+
+	- Presets files have been changed and are not compatible with previous versions. All settings are now saved in a unique file, but we can select what we want to save in it.
+	- A separate Notes Preset file is used for User and custom notes configurations.
+
+----- 	FIRMWARE UPDATER
+
+	- The design of the firmware updater has been improved.
+	- When we try to connect for the first time to the updater, the interface will try to connect a few times, while the driver is being installed.
+	- The last path used is now saved.
+
+----- 	CONTINUOUS MODE, MIDI MESSAGES AND VARIABLES
+	
+	- The MIDI modes have been simplified and improved. It is now easy to select any mode and any variable.
+	- The continuous mode does not existe anymore. We can now simply use the Position variable to have a continuous variation of the position.
+	- Glide and Width variables have been added.
+	- It is now possible de enables 3 MIDI effects per port, so up to 9 MIDI effects at the same time.
+
+----- 	DETECTION PARAMETERS
+
+	- Detection parameters are now easier to set. The range on expert settings (Min & Max time) has been changed.
+	- Height settings do not depend anymore on the power used. This way, the settings on height remains the same with a low power or a high power laser.
+	- The Detection Assisant is now faster and works better. In particular, min and max speed are now correctly set. There is no more fail when the power received is important.
+
+----- 	ANGLES CALIBRATION
+
+	- Calibration of angles is now easier. A button Learn All has been added to learn all beams one by one without entering the beam number.
+
+----- 	MODES
+
+	- Some modes have been added to ease settings for beginners. There is for instance a "Basic Harp mode" that enables only what you need to create a basic laser harp.
+	- The expert mode enables all the modules to create complex interactive scenes.
+
+< FIRMWARE V8.00 >
+
+	- All functions described above have been implemented.
+ 	- There are so many changes on this new version that we have to force default parameters when we start the new firmware for the first time.
+
+
+===========================================
 V3.13 - 07/04/2021
 ===========================================
 

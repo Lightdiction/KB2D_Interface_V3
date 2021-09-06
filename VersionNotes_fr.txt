@@ -8,6 +8,71 @@
 
 
 ===========================================
+V3.50 - 06/09/2021 - MISE A JOUR MAJEURE
+Cette mise à jour requiert le firmware 8.0
+===========================================
+
+----- 	ESTHETIQUE GENERALE
+
+	- L'esthétique globale a été modifiée.
+	- L'onglet MIDI a été supprimé. Les paramètres MIDI et de détection sont maintenant dans l'onglet principal.
+	- Des Logs son ajoutés. C'est désormais plus facile de voir ce qu'il se passe dans le cas où une erreur intervient.
+	- Un bug a été corrigé sur les SpinBox. Il y avait parfois une erreur si l'on essayait de fermer l'interface alors qu'une spinbox était sélectionnée.
+	- Un bug pouvait provoquer le plantage de l'interface si une fenêtre d'erreur apparaissait alors que la fenêtre principale de l'interface n'était pas active. Ce problème est résolu.
+
+----- 	PORTS MIDI
+
+	- Le nombre de ports du KB2D peut maintenant être réglé. Par défaut on a 2 In / 2 Out (comme avant), mais on peut maintenant le régler comme un contrôleur MIDI 3x3 ou 4x4. Cela permet de lier le KB2D à de nombreux logiciels à la fois. Pour créer des effets audio et lumineux / laser en même temps.
+	- Un pont MIDI est ajouté, pour connecter 2 ports MIDI entre eux. C'est utile par exemple si l'on veut connecter la sortie du KB2D (les notes) à un autre port MIDI (connecté à un expandeur MIDI).
+	- Les ports du KB2D sont maintenant verrouillés si le contrôleur est correctement connecté, pour empêcher de mauvaises manipulations. Il est toujours possible de forcer la modification en ouvrant les paramètres des ports MIDI.
+
+----- 	CLAVIER
+
+	- Un clavier a été implémenté, pour faciliter la sélection des notes.
+	- Des boutons sont créés pour assigner facilement les notes sur le clavier.
+	- On peut envoyer une note de test juste en cliquant sur la touche.
+	- L'ancien style avec les ComboBox est toujours disponible.
+
+----- 	PRESETS
+
+	- Les fichiers de presets ont été modifiés et ne sont plus compatibles avec les version précédentes. Tous les paramètres sont enregistrés dans le même fichier, mais on peut choisir ce que l'on veut mettre dans le fichier.
+	- Un fichier de preset de Notes séparé est utilisé pour les configurations de notes Utilisateur et Personnalisées.
+
+----- 	FIRMWARE UPDATER
+
+	- L'esthétique du programme de mise à jour a été améliorée.
+	- Lorsque l'on essaie de se connecter la première fois au programme de mise à jour, l'interface va essayer de se connecter à plusieurs reprises, pendant que le pilote s'installe.
+	- Le dernier chemin utilisé est maintenant enregistré.
+
+----- 	MODE CONTINU, MESSAGES MIDI ET VARIABLES
+	
+	- Les modes MIDI ont été améliorés et simplifiés. C'est maintenant très facile de sélectionner n'importe quel mode ou variable.
+	- Le mode continu n'existe plus. On peut maintenant simplement utilisé la variable de position pour avoir une variation continue de la position.
+	- Les variables de Glide et de Largeur ont été ajoutées.
+	- Il est maintenant possible d'activer 3 Effets MIDI par port, donc un total de 9 Effets MIDI maximum en même temps.
+
+----- 	PARAMETRES DE DETECTION
+
+	- Les paramètres de détection sont maintenant plus faciles à régler. L'étendue des paramètres experts a été changée.
+	- Les paramètres de hauteur ne dépendant plus de la puissance de laser utilisée. De cette façon, les paramètres restent les mêmes avec un laser de faible ou de forte puissance.
+	- L'Assistant de Détection est plus rapide et fonctionne mieux. En particulier, les Temps de détection Min et Max sont maintenant réglés correctement. Il n'y a plus d'échec avec les calibrations des faisceaux de forte puissance.
+
+----- 	CALIBRATION DES ANGLES
+
+	- La calibration des angles est facilitée. Un bouton Learn All a été ajouté pour permettre de calibrer tous les faisceaux un par un sans avoir à entrer les numéros de faisceau.
+
+----- 	MODES
+
+	- Des modes ont été ajoutés pour faciliter les paramètres pour les débutants. Il y a par exemple un mode "Harpe Basique" qui active uniquement ce dont on a besoin pour créer une Harpe Laser basique.
+	- Le mode expert active tous les modules et permet de créer des scènes interactives complexes.
+
+< FIRMWARE V8.00 >
+
+	- Toutes les fonctions décrites ci-dessus sont implémentées.
+	- Il y a tellement de modifications sur cette version que la mise à défaut des paramètres est forcée la première fois que ce firmware démarre.
+
+
+===========================================
 V3.13 - 07/04/2021
 ===========================================
 

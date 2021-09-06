@@ -17,6 +17,11 @@
 #include "../inc/mainwindow.h"
 //#include "comhw.h"
 
+extern int catchCommIndex;
+extern unsigned char catchPar1;
+extern unsigned char catchPar2;
+extern unsigned char catchPar3;
+
 /*
  * ==============================
  * General Hardware Class
@@ -24,8 +29,8 @@
  */
 ComHw::ComHw()
 {
-    connected = 0;
-    waitingFeedback = 0;
+    connected = false;
+    waitingFeedback = false;
 }
 
 bool ComHw::isConnected() const {
@@ -78,7 +83,7 @@ int ComHw::sendCom(unsigned char data1, unsigned char data2, unsigned char data3
                 {
                     SendError(0, QObject::tr("Message not sent<br/>") + (QString::number(data1)) + " " + (QString::number(data2)) + " " + (QString::number(data3)), ComHw_SendCom_1);
                     dfuDev.setConnected(0);
-                    qobject_cast<MainWindow*>(QApplication::activeWindow())->resetMidiPorts();
+                    emit comFailed();
                     return -1;
                 }
             }
@@ -86,7 +91,7 @@ int ComHw::sendCom(unsigned char data1, unsigned char data2, unsigned char data3
             {
                 SendError(0, QObject::tr("No device Out found"), ComHw_SendCom_2);
                 dfuDev.setConnected(0);
-                qobject_cast<MainWindow*>(QApplication::activeWindow())->resetMidiPorts();
+                emit comFailed();
                 return -1;
             }
         }
@@ -194,7 +199,13 @@ int ComHwKb2d::checkFeedback(unsigned char commIndex)
     {
         for (int tryN = 0; tryN < 3; tryN++)
         {
-            kbDev.sendCom(MIDI_READVAR + (char)commIndex);
+            if (commIndex < 128)
+                kbDev.sendCom(MIDI_READVAR + (char)commIndex);
+            else
+            {
+                commIndex -= 128;
+                kbDev.sendCom(MIDI_READVAR2 + (char)commIndex);
+            }
             while (kbDev.isWaitingFb())
             {
                 QCoreApplication::processEvents();
@@ -204,19 +215,26 @@ int ComHwKb2d::checkFeedback(unsigned char commIndex)
                     {
                         // Communication error...
                         SendError(0, QObject::tr("Timeout - No communication with Device"), ComHw_CheckFeedback_1);
-                        qobject_cast<MainWindow*>(QApplication::activeWindow())->resetMidiPorts();
+                        emit comFailed();
                         return -1;
                     }
-                    SendLog(QObject::tr("CheckFeedback fail: try no") + QString::number(tryN + 2));
+                    SendLog("CheckFeedback fail - CommIndex = " + QString::number(commIndex) + ": try no" + QString::number(tryN + 2));
                     break;
                 }
             }
-            if ((kbDev.isWaitingFb() == 0) && (harpIn.getParam(0) == READ_COMM) && (harpIn.getParam(1) == commIndex) && (harpIn.getParam(2) < 0x80))
+            catchCommIndex = commIndex;
+            catchPar1 = harpIn.getParam(0);
+            catchPar2 = harpIn.getParam(1);
+            catchPar3 = harpIn.getParam(2);
+            if ((kbDev.isWaitingFb() == 0) && (harpIn.getParam(0) == _DEPLOY_READVAR[0]) && (harpIn.getParam(1) == commIndex) && (harpIn.getParam(2) < 0x80))
                 return (int)harpIn.getParam(2);
         }
 
-        SendError(0, QObject::tr("Incorrect Communication with Device") + (QString::number(harpIn.getParam(0)))+" "+(QString::number(harpIn.getParam(1)))+" "+(QString::number(harpIn.getParam(2))), \
-                             ComHw_CheckFeedback_2);
+        catchCommIndex = commIndex;
+        catchPar1 = harpIn.getParam(0);
+        catchPar2 = harpIn.getParam(1);
+        catchPar3 = harpIn.getParam(2);
+        SendError(0, QObject::tr("Incorrect Communication with Device"), ComHw_CheckFeedback_2);
     }
 
     return -1;
@@ -265,7 +283,7 @@ int ComHwDfu::sendAndCheck(unsigned char data1, unsigned char data2, unsigned ch
                     return -10;
                 }
             }
-            qDebug() << "Feedback: " << harpIn.getParam(0) << " " << harpIn.getParam(1) << " " << harpIn.getParam(2);
+            //qDebug() << "Feedback: " << harpIn.getParam(0) << " " << harpIn.getParam(1) << " " << harpIn.getParam(2);
 
             switch (data1)
             {
@@ -308,6 +326,7 @@ int ComHwDfu::checkDfuFeedback(unsigned char commIndex)
     QElapsedTimer timer;
     timer.start();
 
+    QCoreApplication::processEvents();
     waitForFeedback(1);
     if (isConnected() == 1)
     {
@@ -316,15 +335,19 @@ int ComHwDfu::checkDfuFeedback(unsigned char commIndex)
             sendCom(MIDI_READVAR + (char)commIndex);
             while (isWaitingFb())
             {
+                QCoreApplication::processEvents();
                 if (timer.elapsed() > 500)
                 {
                     // Communication error...
                     if (tryN == 2)
+                    {
+                        qDebug() << "Dfu Fail comm";
                         return -2;
+                    }
                     break;
                 }
             }
-            if ((isWaitingFb() == 0) && (harpIn.getParam(0) == READ_COMM) && (harpIn.getParam(1) == commIndex) && (harpIn.getParam(2) < 0x80))
+            if ((isWaitingFb() == 0) && (harpIn.getParam(0) == _DEPLOY_READVAR[0]) && (harpIn.getParam(1) == commIndex) && (harpIn.getParam(2) < 0x80))
                 return (int)harpIn.getParam(2);
         }
 

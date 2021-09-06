@@ -1,8 +1,10 @@
 #ifndef COMHW_H
 #define COMHW_H
 
-//#include "mainwindow.h"
-//#include "kblfw.h"
+#include <QObject>
+
+
+#define _ENUM_(name, base) enum name : base
 
 enum IdType
 {
@@ -11,15 +13,11 @@ enum IdType
     SERIAL
 };
 
-enum MidiMode : unsigned int
+_ENUM_(MidiMode, unsigned int)
 {
     NOTES_ONOFF = 0x01,
     PITCH = 0x02,
     CONTROL_CHANGE = 0x04
-};
-
-enum CheckId : unsigned int
-{
 };
 
 
@@ -27,8 +25,10 @@ enum CheckId : unsigned int
 /// \brief Class:
 /// General Communication class for devices
 ///
-class ComHw
+class ComHw : public QObject
 {
+    Q_OBJECT
+
 public:
     ComHw();
     int sendCom(unsigned char data1, unsigned char data2, unsigned char data3);
@@ -39,6 +39,9 @@ public:
 
     unsigned int getID(IdType idType) const;
     void setID(IdType idType, unsigned int value);
+
+signals:
+    void comFailed();
 
 private:
 
@@ -58,6 +61,8 @@ protected:
 ///
 class ComHwKb2d : public ComHw
 {
+    Q_OBJECT
+
 public:
     ComHwKb2d();
 
@@ -67,6 +72,8 @@ public:
     void setMidiMode(unsigned int midiMode);
     int checkFeedback(unsigned char commIndex);
 
+signals:
+    void comFailed();
 
 private:
     unsigned int enabMidiMode;
@@ -79,11 +86,16 @@ private:
 ///
 class ComHwDfu : public ComHw
 {
+    Q_OBJECT
+
 public:
     ComHwDfu();
 
     int sendAndCheck(unsigned char data1, unsigned char data2, unsigned char data3);
     int checkDfuFeedback(unsigned char commIndex);
+
+signals:
+    void comFailed();
 
 private:
 };

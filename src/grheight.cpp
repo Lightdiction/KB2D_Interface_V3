@@ -24,23 +24,63 @@
 ///////////////////////////
 
 
+void MainWindow::on_minHeightSpinBox_editingFinished()
+{
+    if (!kbDev.isConnected())
+        return;
+    if (ui->minHeightSpinBox->value() != minZSave)
+    {
+        minZSave = ui->minHeightSpinBox->value();
+        kbDev.sendCom(MIDI_MINZ + (char)(ui->minHeightSpinBox->value()));
+        int result = kbDev.checkFeedback(Check_MinZ);
+        if (result < 0)
+            SendError(this, tr("No Feedback / Error on Feedback received."), GrHeight_MinZSpinBox);
+        else
+            ui->minHeightSpinBox->setValue(result);
+    }
+}
+
+void MainWindow::on_maxHeightSpinBox_editingFinished()
+{
+    if (!kbDev.isConnected())
+        return;
+    if (ui->maxHeightSpinBox->value() != maxZSave)
+    {
+        maxZSave = ui->maxHeightSpinBox->value();
+        kbDev.sendCom(MIDI_MAXZ + (char)(ui->maxHeightSpinBox->value()));
+        int result = kbDev.checkFeedback(Check_MaxZ);
+        if (result < 0)
+            SendError(this, tr("No Feedback / Error on Feedback received."), GrHeight_MaxZSpinBox);
+        else
+            ui->maxHeightSpinBox->setValue(result);
+    }
+}
+
 void MainWindow::on_smoothZSpinBox_editingFinished()
 {
+    if (!kbDev.isConnected())
+        return;
     ui->smoothZSlider->setValue(ui->smoothZSpinBox->value());
 }
 
 void MainWindow::on_filterZSpinBox_editingFinished()
 {
+    if (!kbDev.isConnected())
+        return;
     ui->filterZSlider->setValue(ui->filterZSpinBox->value());
 }
 
 void MainWindow::on_ampZSpinBox_editingFinished()
 {
+    if (!kbDev.isConnected())
+        return;
     ui->ampZSlider->setValue(ui->ampZSpinBox->value());
 }
 
 void MainWindow::on_stabZSpinBox_editingFinished()
 {
+    if (!kbDev.isConnected())
+        return;
     ui->stabZSlider->setValue(ui->stabZSpinBox->value());
 }
 
@@ -52,14 +92,14 @@ void MainWindow::on_stabZSpinBox_editingFinished()
 
 void MainWindow::on_smoothZSlider_valueChanged(int value)
 {
-    kbDev.sendCom(MIDI_SMOOTHZ + (char)(127 - value));
+    kbDev.sendCom(MIDI_SMOOTHZ + (char)(MAX_SMOOTH - value));
     int result = kbDev.checkFeedback(Check_SmoothZ);
     if (result < 0)
-        SendError(this, tr("No Feedback received / Select MIDI Input."), GrHeight_SmoothZSlider_C);
+        SendError(this, tr("No Feedback received / Select MIDI Input."), GrHeight_SmoothZSlider);
     else
     {
-        ui->smoothZSpinBox->setValue(127 - result);
-        ui->smoothZSlider->setValue(127 - result);
+        ui->smoothZSpinBox->setValue(MAX_SMOOTH - result);
+        ui->smoothZSlider->setValue(MAX_SMOOTH - result);
     }
 }
 
@@ -68,7 +108,7 @@ void MainWindow::on_filterZSlider_valueChanged(int value)
     kbDev.sendCom(MIDI_FILTZ + (char)(value));
     int result = kbDev.checkFeedback(Check_FiltZ);
     if (result < 0)
-        SendError(this, tr("No Feedback received / Select MIDI Input."), GrHeight_FilterZSlider_C);
+        SendError(this, tr("No Feedback received / Select MIDI Input."), GrHeight_FilterZSlider);
     else
     {
         ui->filterZSpinBox->setValue(result);
@@ -78,14 +118,14 @@ void MainWindow::on_filterZSlider_valueChanged(int value)
 
 void MainWindow::on_ampZSlider_valueChanged(int value)
 {
-    kbDev.sendCom(MIDI_AMPZ + (char)(128 - value));
+    kbDev.sendCom(MIDI_AMPZ + (char)(MAX_AMP - value));
     int result = kbDev.checkFeedback(Check_AmpZ);
     if (result < 0)
-        SendError(this, tr("No Feedback received / Select MIDI Input."), GrHeight_AmpZSlider_C);
+        SendError(this, tr("No Feedback received / Select MIDI Input."), GrHeight_AmpZSlider);
     else
     {
-        ui->ampZSpinBox->setValue(128 - result);
-        ui->ampZSlider->setValue(128 - result);
+        ui->ampZSpinBox->setValue(MAX_AMP - result);
+        ui->ampZSlider->setValue(MAX_AMP - result);
     }
 }
 
@@ -94,7 +134,7 @@ void MainWindow::on_stabZSlider_valueChanged(int value)
     kbDev.sendCom(MIDI_STABZ + (char)(value));
     int result = kbDev.checkFeedback(Check_StabZ);
     if (result < 0)
-        SendError(this, tr("No Feedback received / Select MIDI Input."), GrHeight_StabZSlider_C);
+        SendError(this, tr("No Feedback received / Select MIDI Input."), GrHeight_StabZSlider);
     else
     {
         ui->stabZSpinBox->setValue(result);
@@ -118,7 +158,7 @@ void MainWindow::on_modulationZComboBox_currentIndexChanged(int index)
     {
         kbDev.sendCom(MIDI_RELATIVEH + (char)1);
         if (kbDev.checkFeedback(Check_RelativeH) != 1)
-            SendError(this, tr("No Feedback received / Select MIDI Input."), GrHeight_ModulationZ_1_C);
+            SendError(this, tr("No Feedback received / Select MIDI Input."), GrHeight_ModulationZ_1);
 
         ui->nbAbsoluteLabel->setVisible(0);
     }
@@ -126,15 +166,10 @@ void MainWindow::on_modulationZComboBox_currentIndexChanged(int index)
     {
         kbDev.sendCom(MIDI_RELATIVEH + (char)0);
         if (kbDev.checkFeedback(Check_RelativeH) != 0)
-            SendError(this, tr("No Feedback received / Select MIDI Input."), GrHeight_ModulationZ_2_C);
+            SendError(this, tr("No Feedback received / Select MIDI Input."), GrHeight_ModulationZ_2);
 
         ui->nbAbsoluteLabel->setVisible(1);
     }
-}
-
-void MainWindow::on_nStepsZComboBox_currentIndexChanged(int index)
-{
-    kbDev.sendCom(MIDI_NBEAMSZ + (char)(index + 1));
 }
 
 
@@ -148,13 +183,13 @@ void MainWindow::on_invertZCheckBox_toggled(bool checked)
     {
         kbDev.sendCom(MIDI_INVERTZ + (char)1);
         if (kbDev.checkFeedback(Check_InvertZ) != 1)
-            SendError(this, tr("No Feedback received / Select MIDI Input."), GrHeight_InvertZ_1_C);
+            SendError(this, tr("No Feedback received / Select MIDI Input."), GrHeight_InvertZ_1);
     }
     else
     {
         kbDev.sendCom(MIDI_INVERTZ + (char)0);
         if (kbDev.checkFeedback(Check_InvertZ) != 0)
-            SendError(this, tr("No Feedback received / Select MIDI Input."), GrHeight_InvertZ_2_C);
+            SendError(this, tr("No Feedback received / Select MIDI Input."), GrHeight_InvertZ_2);
     }
 }
 

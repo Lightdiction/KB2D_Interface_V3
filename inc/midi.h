@@ -5,9 +5,12 @@
 #include <mmsystem.h>  /* multimedia functions (such as MIDI) for Windows */
 
 #include <QString>
+#include <QObject>
 
-class midi
+class midi : public QObject
 {
+    Q_OBJECT
+
 public:
     midi();
     static unsigned int getNumDevOut(void);  // static: this function can be used without midi instance
@@ -23,6 +26,8 @@ public:
  */
 class MidiDevIn : public midi
 {
+    Q_OBJECT
+
 public:
     MidiDevIn();
 
@@ -35,9 +40,14 @@ public:
     int close();
     int stop();
     int open(int ind, DWORD_PTR dwInstance);
+    int open(QString nam, DWORD_PTR dwInstance);
     int start();
 
     static void midiInCallback(HMIDIIN hMidiIn, DWORD_PTR dwInstance, unsigned char data1, unsigned char data2, unsigned char data3, DWORD_PTR mdTimestamp);
+
+signals:
+    void harpInCalled();
+    void extInCalled(unsigned char data1, unsigned char data2, unsigned char data3);
 
 private:
     static void CALLBACK MidiInProc(HMIDIIN hMidiIn, UINT wMsg, DWORD_PTR dwInstance, DWORD_PTR dwParam1, DWORD_PTR dwParam2);
@@ -56,6 +66,8 @@ protected:
  */
 class MidiDevOut : public midi
 {
+    Q_OBJECT
+
 public:
     MidiDevOut();
 
@@ -65,6 +77,7 @@ public:
     QString getName() const;
     int close();
     int open(int ind);
+    int open(QString nam);
     int sendWord(char data1, char data2, char data3);
 
 protected:

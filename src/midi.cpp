@@ -80,7 +80,7 @@ int MidiDevIn::getIndex() const {
     return index; }
 
 QString MidiDevIn::getName() const {
-    return (midi::getNameDevIn(index)); }
+    return name; }
 
 unsigned char MidiDevIn::getParam(unsigned int ind) const {
     return (ind < 3) ? paramIn[ind] : paramIn[2]; }
@@ -107,8 +107,30 @@ int MidiDevIn::open(int ind, DWORD_PTR dwInstance)
     //stop();
     res = midiInOpen(&devIn, ind, (DWORD_PTR)(MidiDevIn::MidiInProc), (DWORD_PTR)dwInstance, CALLBACK_FUNCTION);
     if (res == 0)
+    {
         index = ind;
+        name = midi::getNameDevIn(index);
+    }
     return res;
+}
+
+int MidiDevIn::open(QString nam, DWORD_PTR dwInstance)
+{
+    int res = 0;
+    for (uint _i = 0 ; _i < midi::getNumDevIn() ; _i++)
+    {
+        if (getNameDevIn(_i) == nam)
+        {
+            res = midiInOpen(&devIn, _i, (DWORD_PTR)(MidiDevIn::MidiInProc), (DWORD_PTR)dwInstance, CALLBACK_FUNCTION);
+            if (res == 0)
+            {
+                index = _i;
+                name = midi::getNameDevIn(index);
+            }
+            return res;
+        }
+    }
+    return res;     // return 0 (if the device does not exist
 }
 
 int MidiDevIn::start()
@@ -181,7 +203,7 @@ int MidiDevOut::getIndex() const {
     return index; }
 
 QString MidiDevOut::getName() const {
-    return (midi::getNameDevOut(index)); }
+    return name; }
 
 int MidiDevOut::close()
 {
@@ -196,8 +218,30 @@ int MidiDevOut::open(int ind)
     //close();
     res = midiOutOpen(&devOut, ind, 0, 0, CALLBACK_NULL);
     if (res == 0)
+    {
         index = ind;
+        name = midi::getNameDevOut(index);
+    }
     return res;
+}
+
+int MidiDevOut::open(QString nam)
+{
+    int res = 0;
+    for (uint _i = 0 ; _i < midi::getNumDevOut() ; _i++)
+    {
+        if (getNameDevOut(_i) == nam)
+        {
+            res = midiOutOpen(&devOut, _i, 0, 0, CALLBACK_NULL);
+            if (res == 0)
+            {
+                index = _i;
+                name = midi::getNameDevOut(index);
+            }
+            return res;
+        }
+    }
+    return res;     // return 0 (if the device does not exist
 }
 
 int MidiDevOut::sendWord(char data1, char data2, char data3)

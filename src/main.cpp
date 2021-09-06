@@ -27,6 +27,8 @@ MidiDevIn harpIn;
 MidiDevOut harpOut;
 MidiDevIn extIn;
 MidiDevOut extOut;
+MidiDevIn throughIn;
+MidiDevOut throughOut;
 
 ComHwKb2d kbDev;
 ComHwDfu dfuDev;
@@ -45,27 +47,27 @@ int main(int argc, char *argv[])
     //qputenv("QT_SCREEN_SCALE_FACTORS", "1.5");
     //qputenv("QT_SCALE_FACTOR", "1.5");
 
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // Needs QT version updated
+    //QApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // Needs QT version updated
 
 
     int appReturn = 1;
+    QApplication a(argc, argv);
     do
     {
         changeLanguage = false;
-        QApplication a(argc, argv);
 
         QSettings globQSettings(".kbsession", QSettings::IniFormat);
         QString langTr = globQSettings.value("lang", (QLocale::system().name().section('_', 0, 0))).toString();
         QTranslator translator;
-        translator.load(QString("kb2dinterface_") + langTr);
+        (void)translator.load(QString("kb2dinterface_") + langTr);
         a.installTranslator(&translator);
 
         MainWindow w;
 
         w.show();
-        w.updateMidiPortsList();
 
         appReturn = a.exec();
+        a.exit(appReturn);
     } while((appReturn == 0) && changeLanguage);
 
     return appReturn;
