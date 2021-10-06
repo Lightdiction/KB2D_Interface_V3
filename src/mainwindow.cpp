@@ -108,7 +108,9 @@ MainWindow::MainWindow(QWidget *parent) :
     //qDebug() << QStyleFactory::keys();
     QApplication::setStyle("windowsvista");
 
-    SendLog("\n===================== Starting...");
+    //qDebug() << QSysInfo::kernelType() << QSysInfo::kernelVersion();
+
+    SendLog("\n===================== Starting... " + QSysInfo::kernelType() + " " + QSysInfo::kernelVersion());
 
     /////// Filter for Wheel Events ///////
     QList <QSpinBox *> listSpin = this->findChildren<QSpinBox *>();
@@ -690,9 +692,9 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->nKeysSpinBox->setValue(60);
         ui->startKeyComboBox->setCurrentIndex(48);
         ui->nKeysSpinBox_2->setValue(60);
-        ui->startKeyComboBox_2->setCurrentIndex(48);
+        ui->startKeyComboBox_2->setCurrentIndex(0);
         ui->nKeysSpinBox_3->setValue(60);
-        ui->startKeyComboBox_3->setCurrentIndex(48);
+        ui->startKeyComboBox_3->setCurrentIndex(0);
         this->showMaximized();
     }
 
@@ -753,7 +755,11 @@ void MainWindow::firstLoad()
     connect(&dfuDev, &ComHwDfu::comFailed, this, &MainWindow::resetMidiPorts);
     connect(&harpIn, &MidiDevIn::harpInCalled, this, &MainWindow::harpInProc);
     connect(&extIn, &MidiDevIn::extInCalled, this, &MainWindow::extInProc);
-    updateMidiPortsList();
+
+    if (checkNewVersions())
+        close();
+    else
+        updateMidiPortsList();
 }
 
 /*
@@ -764,6 +770,8 @@ void MainWindow::firstLoad()
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     qDebug() << "Request for exiting";
+    if (ui->actionStopCal->isVisible())
+        on_actionStopCal_triggered();
     // Wait for all Feedback and reading actions to stop
     while (kbDev.isConnected() && kbDev.isWaitingFb())
         QApplication::processEvents();
@@ -981,7 +989,7 @@ void MainWindow::on_harpEnabPushButton_clicked()
     midiSelection_Combo[Ports_Midi1][ModeActiv_Notes][ValSelection_CtrlNotes]->setCurrentIndex(Val_Keyboard);
     midiSelection_Combo[Ports_Midi1][ModeActiv_Notes][ValSelection_ValVel]->setCurrentText("127");
     // Set properties
-    ui->minTimeSlider->setValue(10);
+    ui->minTimeSlider->setValue(5);
     ui->maxTimeSlider->setValue(15);
     ui->DetSpeedLabel->hide();
     ui->minTimeSpinBox->hide();
@@ -1017,7 +1025,7 @@ void MainWindow::on_harpHeightEnabPushButton_clicked()
 
     ui->DescCC1ComboBox->setCurrentIndex(Mode_PitchBend - Mode_PolyAftertouch);
     // Set properties
-    ui->minTimeSlider->setValue(10);
+    ui->minTimeSlider->setValue(5);
     ui->maxTimeSlider->setValue(15);
     ui->DetSpeedLabel->hide();
     ui->minTimeSpinBox->hide();
@@ -1449,6 +1457,20 @@ int MainWindow::updateAll(bool optionWin)
         kbDev.setID(SUBVERSION, kbDev.checkFeedback(Check_SubVersion));
         kbDev.setID(SERIAL, (kbDev.checkFeedback(Check_SN) << 7) + kbDev.checkFeedback(Check_SubSN));
 
+        if (lastParsedFirmware > (int)kbDev.getID(VERSION) * 100 + (int)kbDev.getID(SUBVERSION))
+        {
+            if (QMessageBox::question(this, tr("Firmware outdated"), \
+                                     tr("The new firmware version ") + QString::number(float(lastParsedFirmware) / 100, 'f', 2) + \
+                                     tr(" is available.\n\nYour KB2D will be updated automatically, do you want to continue?\n\n"
+                                        "(Firmware updates may be necessary to keep using the last software version)")) == QMessageBox::Yes)
+            {
+                kbDev.sendCom(MIDI_INAPPBOOT);  // Sends a message to KB2D / DFU so it disconnects and restarts in the other mode.
+                qSleep(1000);
+                fuUpdateRequested = true;
+                return -1;
+            }
+        }
+
         // This interface is not compatible with older version. It requires an update to version 8.00
         if (kbDev.getID(VERSION) < 8)
         {
@@ -1749,15 +1771,15 @@ int MainWindow::updateAll(bool optionWin)
     //////////// V8.00 /////////
     ////////////////////////////
 
-    if (kbDev.getID(VERSION) >= 8)
+    if ((kbDev.getID(VERSION) > 8) || ((kbDev.getID(VERSION) == 8) && (kbDev.getID(SUBVERSION) >= 1)))
     {
     }
 
 
 
     ///////////////////////////////////////////////////
-    else if ((retErr == 0) && (optionWin == 1)) //
-        SendError(this, tr("Please, update your firmware to the last version (8.00 or above) to get all functionnalities:"
+    else if ((retErr == 0) && (optionWin == 1) && (lastParsedFirmware == -1)) //
+        SendError(this, tr("Please, update your firmware to the last version (") + "8.01 " + tr("or above) to get all functionnalities:"
                                                         "\n> The firmware can be downloaded here: https://lightdiction.com/Ressources"
                                                         "\n> Or contact us at contact@lightdiction.com"), MainWindow_UpdateAll_FWUP, tr("Firmware outdated"));
 
@@ -1767,14 +1789,15 @@ int MainWindow::updateAll(bool optionWin)
     {
         ui->midiInComboBox->setEnabled(0);
         ui->midiOutComboBox->setEnabled(0);
-        SendLog("KB2D Connected - SN: " + QString::number(kbDev.getID(SERIAL)));
-        setStatus(tr("KB2D connected: Firmware version: ") + (QString::number(kbDev.getID(VERSION))) + "."+ (QString::number(kbDev.getID(SUBVERSION))) + \
-                  " - S/N: " + (QString::number(kbDev.getID(SERIAL))));
+        SendLog("KB2D Connected - SN: " + QString::number(kbDev.getID(SERIAL)).rightJustified(4, QChar('0')));
+        setStatus(tr("KB2D connected: Firmware version: ") + QString::number(kbDev.getID(VERSION)) + "."+ QString::number(kbDev.getID(SUBVERSION)).rightJustified(2, QChar('0')) + \
+                  " - S/N: " + (QString::number(kbDev.getID(SERIAL)).rightJustified(4, QChar('0'))));
 
         if (optionWin == 1)
-            QMessageBox::information(this, tr("KB2D connected - Device information"), tr("Firmware version: ") + (QString::number(kbDev.getID(VERSION))) + \
-                                     "."+ (QString::number(kbDev.getID(SUBVERSION))) + \
-                                 "\nS/N: " + (QString::number(kbDev.getID(SERIAL))) + tr("\n\nFind the version notes and manual at:\nhttps://lightdiction.com/Ressources/"));
+            QMessageBox::information(this, tr("KB2D connected - Device information"), "KB2D - S/N: " + QString::number(kbDev.getID(SERIAL)).rightJustified(4, QChar('0')) + \
+                                     tr("\n\nFirmware version: ") + QString::number(kbDev.getID(VERSION)) + \
+                                     "."+ QString::number(kbDev.getID(SUBVERSION)).rightJustified(2, QChar('0')) + \
+                                     tr("\n\nFind the version notes and manual at:\nhttps://lightdiction.com/Ressources/"));
     }
     else
         SendError(this, tr("KB2D Parameters cannot be read."), MainWindow_UpdateAll_1_C);

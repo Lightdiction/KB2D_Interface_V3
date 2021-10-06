@@ -3,10 +3,147 @@
 #include "ui_mainwindow.h"
 #include "../inc/comhw.h"
 
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+
+#include <QProcess>
+
 #define SIZE_CY_FILE_BYTEMAX    100000
 #define BYTE_SHIFT              11
 #define PAGEDATA_MULTIPLE       (1 << BYTE_SHIFT)
 
+#define DIST_RESSOURCES         "http://lightdiction.com/Ressources/"
+
+
+/*
+ * ======================================
+ * Connect to Lightdiction Website
+ * Detects if a new version is available
+ * ======================================
+ */
+bool MainWindow::checkNewVersions()
+{
+    QEventLoop loop;
+    QNetworkAccessManager nam;
+    QNetworkRequest req((QUrl)(DIST_RESSOURCES + tr("VersionNotes.txt")));
+    QNetworkReply *reply = nam.get(req);
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec();
+    QByteArray buffer = reply->readAll();
+
+    // Localize Version number
+    int ind = buffer.indexOf("===========================================");
+    if (ind == -1)
+    {
+        SendLog("Cannot connect to Website");
+        return false;
+    }
+    int indEnd = buffer.indexOf("===========================================", ind + 1);
+    int indFirm = buffer.indexOf("< FIRMWARE V") + QString("< FIRMWARE V").length();
+    QString parsedFirmInt = "";
+    QString parsedFirmDec = "";
+    while ((buffer.at(indFirm) != '.') && (ind < buffer.length()))
+    {
+        parsedFirmInt.append(buffer.at(indFirm));
+        indFirm++;
+    }
+    indFirm++;
+    while ((buffer.at(indFirm) != ' ') && (ind < buffer.length()))
+    {
+        parsedFirmDec.append(buffer.at(indFirm));
+        indFirm++;
+    }
+    lastParsedFirmware = parsedFirmInt.toInt() * 100 + parsedFirmDec.toInt();
+    qDebug() << lastParsedFirmware;
+
+    // Check parsing errors
+    if (indEnd <= ind)
+    {
+        SendLog("Cannot parse Version file");
+        return false;
+    }
+
+    // Find last version
+    while (((buffer.at(ind) == '\n') || (buffer.at(ind) == '\r') || (buffer.at(ind) == 'V') || (buffer.at(ind) == '=')) && (ind < buffer.length()))
+        ind++;
+    QString resVersion = "";
+    while ((buffer.at(ind) != ' ') && (ind < buffer.length()))
+    {
+        resVersion.append(buffer.at(ind));
+        ind++;
+    }
+
+    // Check parsing errors
+    if (ind >= indEnd)
+    {
+        SendLog("Cannot parse Version file");
+        return false;
+    }
+
+    // Compare Versions
+    if (qRound(resVersion.toFloat() * 100) == LAST_VERSION)
+    {
+        qDebug() << "Software up to date";
+        return false;
+    }
+    else if (qRound(resVersion.toFloat() * 100) < LAST_VERSION)
+    {
+        SendLog("Living in the future?");
+        return false;
+    }
+    else if (qRound(resVersion.toFloat() * 100) > LAST_VERSION)
+    {
+        // Find description
+        while ((buffer.at(ind) != '\n') && (buffer.at(ind) != '\r') && (ind < buffer.length()))
+            ind++;
+        while (((buffer.at(ind) == '\n') || (buffer.at(ind) == '\r')) && (ind < buffer.length()))
+            ind++;
+        while ((buffer.at(ind) != '=') && (ind < buffer.length()))
+        {
+            newVersionDesc.append(buffer.at(ind));
+            ind++;
+        }
+        SendLog("Update Requested - Actual Version = " + QString::number(LAST_VERSION));
+
+        if (QMessageBox::question(this, tr("New version available"), tr("Version ") + resVersion + tr(" is available.\n\nDo you want to update and restart now?\n\n"
+                                                                                                      "Content of this new version:\n") + newVersionDesc) == QMessageBox::Yes)
+        {
+            QEventLoop loopExe;
+            QNetworkAccessManager namExe;
+            QNetworkRequest reqExe((QUrl)(DIST_RESSOURCES "KB2D_v" + resVersion + "_setup.exe"));
+            QNetworkReply *replyExe = namExe.get(reqExe);
+            connect(replyExe, &QNetworkReply::finished, &loopExe, &QEventLoop::quit);
+            loopExe.exec();
+
+            QByteArray exeContent = replyExe->readAll();
+            if (exeContent.length() > 0)
+            {
+                // Check and create setups directory
+                QDir dir("sw_fw");
+                if (!dir.exists())
+                    dir.mkpath(".");
+                QFile output("sw_fw/KB2D_v" + resVersion + "_setup.exe");
+                if (!output.open(QIODevice::WriteOnly))
+                {
+                    qDebug() << "Cannot write file";
+                    return false;
+                }
+                output.write(exeContent);
+                output.close();
+
+                if (!QProcess::startDetached(QDir::currentPath() + "/sw_fw/KB2D_v" + resVersion + "_setup.exe"))
+                {
+                    SendError(this, tr("Setup program cannot be executed at following path: ") + QDir::currentPath() + "/sw_fw/KB2D_v" + resVersion + "_setup.exe", \
+                              FUpdater_CheckNewVersion, tr("Setup program cannot be executed"));
+                    return false;
+                }
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
 /*
  * ======================================
@@ -150,11 +287,11 @@ int MainWindow::readCyFile(FILE *cyFile)
  * Flash program
  * ==============================
  */
-void MainWindow::flashProg()
+bool MainWindow::flashProg(QString fileName)
 {
-    int res = 0;
+    int res = -1;
     FILE *pData;
-    QString wText;
+    QString wText = fileName;
 
     int  ver = 0, subVer = 0;
 
@@ -177,7 +314,8 @@ void MainWindow::flashProg()
                              "\n\nTo obtain your firmware update (.kb2d file), please contact Lightdiction:"
                              "\n\ncontact@lightdiction.com"));
 #ifndef GITX
-        wText = QFileDialog::getOpenFileName(this, tr("Bootloader Version: 1.0 | Enter firmware KB file .kb2d"), savedPath, "*.kb2d");
+        if (wText == "")
+            wText = QFileDialog::getOpenFileName(this, tr("Bootloader Version: 1.0 | Enter firmware KB file .kb2d"), savedPath, "*.kb2d");
         if (wText != QString())
         {
             // Save the actual path for future loadings
@@ -223,7 +361,8 @@ void MainWindow::flashProg()
                                  tr("\n\nTo obtain your firmware update (.kb2d file), please contact Lightdiction:"
                                  "\n\ncontact@lightdiction.com"));
 #ifndef GITX
-        wText = QFileDialog::getOpenFileName(this, tr("Bootloader Version: ") + QString::number(ver) + "." + QString::number(subVer) + \
+        if (wText == "")
+            wText = QFileDialog::getOpenFileName(this, tr("Bootloader Version: ") + QString::number(ver) + "." + QString::number(subVer) + \
                                              tr(" | Enter firmware KB file .kb2d"), savedPath, "*.kb2d");
         if (wText != QString())
         {
@@ -277,7 +416,8 @@ void MainWindow::flashProg()
         //QMessageBox::information(this, "Unique ID", uniqueID);
         //////////////
 
-        wText = QFileDialog::getOpenFileName(this, tr("Bootloader Version: ") + QString::number(ver) + "." + QString::number(subVer) + " | Unique ID: " + uniqueID + \
+        if (wText == "")
+            wText = QFileDialog::getOpenFileName(this, tr("Bootloader Version: ") + QString::number(ver) + "." + QString::number(subVer) + " | Unique ID: " + uniqueID + \
                                              tr(" | Enter firmware KB file .kbf"), savedPath, "*.kbf");
         if (wText != QString())
         {
@@ -316,6 +456,9 @@ void MainWindow::flashProg()
             }
         }
     }
+    if (res != 0)
+        return false;
+    return true;
 }
 
 /*
@@ -359,7 +502,7 @@ void MainWindow::exitFUpdater()
  * Initialize the Firmware Updater
  * =================================
  */
-void MainWindow::initializeFU()
+bool MainWindow::initializeFU()
 {
     setFlashText(tr("Load Firmware file"));
     ui->flashProgressBar->setValue(0);
@@ -403,13 +546,67 @@ void MainWindow::initializeFU()
             ui->firmwareVersionValue->setText(QString::number(ver) + "." + QString::number(subVer));
             ui->uniqueIDValue->setText(uniqueID);
             SendLog("DFU Connected - Version: " + QString::number(ver) + "." + QString::number(subVer) + " | Unique ID: " + uniqueID);
+
+            if (fuUpdateRequested)
+            {
+                if (autoStartFUAndParse())
+                {
+                    // Update Successful
+                    return true;
+                }
+                else
+                {
+                    QMessageBox::warning(this, tr("Error on automatic update"), tr("The firmware cannot be updated automatically"
+                                         "\n\nPlease retry later or download the last firmware update on https://lightdiction.com/Ressources"
+                                         "\n\nOr contact us at:\ncontact@lightdiction.com"));
+                }
+            }
+        }
+        if (ver < 2)
+        {
+            QMessageBox::warning(this, tr("Legacy Bootloader Detected"), tr("Legacy Bootloader Version: 1.0"
+                                 "\n\nA firmware update has been requested. To obtain your firmware update (.kb2d file), please contact Lightdiction:"
+                                 "\n\ncontact@lightdiction.com"));
         }
         QCoreApplication::processEvents();
 
-        QMessageBox::information(this, tr("Device connected"), tr("LD Firmware Updater connected\n\nClick on 'Load Firmware file' to update\n"
+        if (!fuUpdateRequested)
+            QMessageBox::information(this, tr("Device connected"), tr("LD Firmware Updater connected\n\nClick on 'Load Firmware file' to update\n"
                                  "Or click on 'Exit Firmware Updater' to Exit and return to the KB2D Interface"));
     }
     QCoreApplication::processEvents();
+    return false;
+}
+
+bool MainWindow::autoStartFUAndParse()
+{
+    QEventLoop loop;
+    QNetworkAccessManager nam;
+    QNetworkRequest req((QUrl)(DIST_RESSOURCES "FWKB_V" + QString::number(lastParsedFirmware) + ".kbf"));
+    QNetworkReply *reply = nam.get(req);
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec();
+    QByteArray buffer = reply->readAll();
+
+    if (buffer.length() > 0)
+    {
+        // Check and create setups directory
+        QDir dir("sw_fw");
+        if (!dir.exists())
+            dir.mkpath(".");
+        QFile output("sw_fw/FWKB_V" + QString::number(lastParsedFirmware) + ".kbf");
+        if (!output.open(QIODevice::WriteOnly))
+        {
+            qDebug() << "Cannot write file";
+            return false;
+        }
+        output.write(buffer);
+        output.close();
+        if (flashProg("sw_fw/FWKB_V" + QString::number(lastParsedFirmware) + ".kbf"))
+            return true;
+    }
+
+    return false;
 }
 
 void MainWindow::updateProgressBar(int currentValue, int valMax)

@@ -8,6 +8,23 @@
 
 
 ===========================================
+V3.51 - 05/10/2021
+Software and firmware updates are now indicated directly from the interface.
+Some bug fixes.
+===========================================
+
+----- 	GENERAL DESIGN
+
+	- The interface is now directly parsing Lightdiction's website. Software updates are now automatically detected and installed as soon as they are available.
+	- Same for the firmware: new versions are automatically detected and can be automatically downloaded and installed directly from the interface when they are available.
+
+< FIRMWARE V8.01 >
+
+	- A bug has been fixed on the detection threshold: an incorrect value could be sent to the KB2D when a specific value was sent.
+	- A short delay has been added for the firmware to answer calibration functions, to avoid data collisions. This could eventually cause some bugs in function of the interactions of the user.
+
+
+===========================================
 V3.50 - 06/09/2021 - MAJOR UPDATE
 This update requires to use firmware 8.0
 ===========================================

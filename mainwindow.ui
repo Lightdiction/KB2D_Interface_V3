@@ -43,7 +43,7 @@
    <enum>Qt::DefaultContextMenu</enum>
   </property>
   <property name="windowTitle">
-   <string>Lightdiction - KB2D Laser Harp Interface - v3.5</string>
+   <string>Lightdiction - KB2D Laser Harp Interface - v3.51</string>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>

@@ -175,8 +175,10 @@ public:
 #endif
 
     void exitFUpdater();
-    void initializeFU();
+    bool initializeFU();
     void updateProgressBar(int currentValue, int valMax = -1);
+    bool checkNewVersions();
+    bool autoStartFUAndParse();
 
     // General Display & Interface controls
     void setStatus(QString const& status);
@@ -206,7 +208,7 @@ public:
     void testConnectedDevices();
 
     // General Device Control
-    void flashProg();
+    bool flashProg(QString fileName = "");
     void saveInFlashFunc();
     void startFunc();
     void pauseFunc();
@@ -499,6 +501,8 @@ private:
     // States
     QTimer modifTimer;
     QTimer softwareConnect;
+    int lastParsedFirmware = -1;
+    QString newVersionDesc = "";
 
     bool updateInProgress = false;
     bool groupActivated[Group_NumTotal] = {true};
@@ -507,6 +511,7 @@ private:
     int enabState[Ports_Num] = {0};
     int lastMidiMode[Ports_Num][2] = {{0}};
     bool connectionReq = true;
+    bool fuUpdateRequested = false;
 
     // Tabs
     QString listNameTabs[Tab_NumTabs];

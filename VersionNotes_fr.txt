@@ -8,6 +8,23 @@
 
 
 ===========================================
+V3.51 - 05/10/2021
+Les mises à jour logiciel et firmware sont maintenant indiquées directement depuis l'interface.
+Quelques corrections de bug.
+===========================================
+
+----- 	ESTHETIQUE GENERALE
+
+	- L'interface est maintenant connectée au site de Lightdiction. Les mises à jour du logiciel sont automatiquement détectées et installées dès qu'elles sont disponibles.
+	- De même pour le firmware : les nouvelles versions sont automatiquement détectées et peuvent être téléchargées et installées directement depuis l'interface lorsqu'elles sont disponibles.
+
+< FIRMWARE V8.01 >
+
+	- Un bug a été résolu sur le seuil de détection : une valeur incorrect pouvait être envoyée au KB2D quand une valeur spécifique était envoyée.
+	- Un court temps de pause a été ajouté sur le temps de réponse du KB2D aux fonctions de calibration pour éviter les collisions de données. Cela pouvait éventuellement causer de petits bugs en fonctions des interactions de l'utilisateur.
+
+
+===========================================
 V3.50 - 06/09/2021 - MISE A JOUR MAJEURE
 Cette mise à jour requiert le firmware 8.0
 ===========================================

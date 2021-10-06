@@ -11,9 +11,9 @@
     <message>
         <location filename="aboutdialog.ui" line="116"/>
         <source>KB2D Laser Harp Interface
-Version: 3.50
+Version: 3.51
 
-Date: 21st August 2021
+Date: 05th October 2021
 
 Company: Lightdiction SAS
 Author: Thomas Avisse
@@ -22,16 +22,16 @@ https://lightdiction.com</source>
         <oldsource>KB2D Laser Harp Interface
 Version: 3.50
 
-Date: 05 May 2021
+Date: 21st August 2021
 
 Company: Lightdiction SAS
 Author: Thomas Avisse
 
 https://lightdiction.com</oldsource>
         <translation>Interface de Harpe Laser KB2D
-Version : 3.50
+Version : 3.51
 
-Date : 21 Août 2021
+Date : 05 Octobre 2021
 
 Entreprise : Lightdiction SAS
 Auteur : Thomas Avisse
@@ -3775,9 +3775,9 @@ https://lightdiction.com</translation>
     <name>MainWindow</name>
     <message>
         <location filename="mainwindow.ui" line="46"/>
-        <source>Lightdiction - KB2D Laser Harp Interface - v3.5</source>
-        <oldsource>Lightdiction - KB2D Laser Harp Interface - v3.12</oldsource>
-        <translation>Lightdiction - Interface de Harpe Laser KB2D - v3.5</translation>
+        <source>Lightdiction - KB2D Laser Harp Interface - v3.51</source>
+        <oldsource>Lightdiction - KB2D Laser Harp Interface - v3.5</oldsource>
+        <translation>Lightdiction - Interface de Harpe Laser KB2D - v3.51</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="150"/>
@@ -4236,11 +4236,11 @@ Tous les messages reçu sur le MIDI In (mapping) sont transférés vers ce MIDI 
     <message>
         <location filename="mainwindow.ui" line="16390"/>
         <location filename="mainwindow.ui" line="16985"/>
-        <location filename="src/fupdater.cpp" line="214"/>
-        <location filename="src/fupdater.cpp" line="261"/>
-        <location filename="src/fupdater.cpp" line="315"/>
-        <location filename="src/fupdater.cpp" line="342"/>
-        <location filename="src/fupdater.cpp" line="364"/>
+        <location filename="src/fupdater.cpp" line="352"/>
+        <location filename="src/fupdater.cpp" line="400"/>
+        <location filename="src/fupdater.cpp" line="455"/>
+        <location filename="src/fupdater.cpp" line="485"/>
+        <location filename="src/fupdater.cpp" line="507"/>
         <source>Load Firmware file</source>
         <translation>Charger le fichier Firmware</translation>
     </message>
@@ -4734,6 +4734,7 @@ Seuil de détection / Vitesse de détection / Sélectivity de la détection</tra
     <message>
         <location filename="mainwindow.ui" line="16354"/>
         <location filename="src/grports.cpp" line="386"/>
+        <location filename="src/grports.cpp" line="394"/>
         <source>Exit Firmware Updater</source>
         <oldsource>Exit firmware Updater</oldsource>
         <translation>Sortir du Programme de mise à jour</translation>
@@ -5105,7 +5106,7 @@ Une valeur autour de 25 - 30 est recommandée pour la détection polyphonique.</
     </message>
     <message>
         <location filename="mainwindow.ui" line="16977"/>
-        <location filename="src/grports.cpp" line="407"/>
+        <location filename="src/grports.cpp" line="417"/>
         <source>Start Firmware Updater</source>
         <translation>Démarrer le Firmware Updater</translation>
     </message>
@@ -5193,13 +5194,13 @@ Une valeur autour de 25 - 30 est recommandée pour la détection polyphonique.</
         <translation>Notes de Versions</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="421"/>
+        <location filename="src/fupdater.cpp" line="618"/>
         <source>KB</source>
         <translation> Ko</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="421"/>
-        <location filename="src/fupdater.cpp" line="422"/>
+        <location filename="src/fupdater.cpp" line="618"/>
+        <location filename="src/fupdater.cpp" line="619"/>
         <source>Upgrading Firmware... </source>
         <translation>Mise à jour du Firmware... </translation>
     </message>
@@ -5904,6 +5905,7 @@ Essayer d&apos;utiliser un fond plus sombre ou d&apos;avoir une distance plus im
     </message>
     <message>
         <location filename="src/grports.cpp" line="385"/>
+        <location filename="src/grports.cpp" line="393"/>
         <source>DFU connected</source>
         <translation>DFU connecté</translation>
     </message>
@@ -5953,32 +5955,32 @@ Essayer d&apos;utiliser un fond plus sombre ou d&apos;avoir une distance plus im
         <translation>MIDI Through Out connecté</translation>
     </message>
     <message>
-        <location filename="src/grports.cpp" line="449"/>
+        <location filename="src/grports.cpp" line="463"/>
         <source>Cannot connect to external MIDI In device.</source>
         <translation>Impossible de se connecter au contrôleur MIDI In externe.</translation>
     </message>
     <message>
-        <location filename="src/grports.cpp" line="451"/>
+        <location filename="src/grports.cpp" line="465"/>
         <source>External MIDI Device In not connected</source>
         <translation>Contrôleur MIDI In Externe non connecté</translation>
     </message>
     <message>
-        <location filename="src/grports.cpp" line="456"/>
+        <location filename="src/grports.cpp" line="470"/>
         <source>External MIDI Device In connected!</source>
         <translation>Contrôleur MIDI In Externe connecté !</translation>
     </message>
     <message>
-        <location filename="src/grports.cpp" line="478"/>
+        <location filename="src/grports.cpp" line="492"/>
         <source>Cannot connect to external MIDI Out device.</source>
         <translation>Impossible de se connecter au contrôleur MIDI Out externe.</translation>
     </message>
     <message>
-        <location filename="src/grports.cpp" line="480"/>
+        <location filename="src/grports.cpp" line="494"/>
         <source>External MIDI Device Out not connected</source>
         <translation>Contrôleur MIDI Out Externe non connecté</translation>
     </message>
     <message>
-        <location filename="src/grports.cpp" line="484"/>
+        <location filename="src/grports.cpp" line="498"/>
         <source>External MIDI Device Out connected!</source>
         <translation>Contrôleur MIDI Out Externe connecté !</translation>
     </message>
@@ -6011,13 +6013,54 @@ Essayer d&apos;utiliser un fond plus sombre ou d&apos;avoir une distance plus im
         <translation> enregistrée =====</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="176"/>
-        <location filename="src/fupdater.cpp" line="222"/>
+        <location filename="src/fupdater.cpp" line="109"/>
+        <source>New version available</source>
+        <translation>Nouvelle version disponible</translation>
+    </message>
+    <message>
+        <location filename="src/fupdater.cpp" line="109"/>
+        <source>Version </source>
+        <translation>La version </translation>
+    </message>
+    <message>
+        <location filename="src/fupdater.cpp" line="29"/>
+        <source>VersionNotes.txt</source>
+        <translation>VersionNotes_fr.txt</translation>
+    </message>
+    <message>
+        <location filename="src/fupdater.cpp" line="109"/>
+        <source> is available.
+
+Do you want to update and restart now?
+
+Content of this new version:
+</source>
+        <translation> est disponible.
+
+Voulez-vous mettre à jour et redémarrer maintenant ?
+
+Contenu de cette nouvelle version :
+</translation>
+    </message>
+    <message>
+        <location filename="src/fupdater.cpp" line="137"/>
+        <source>Setup program cannot be executed at following path: </source>
+        <translation>Le programme d&apos;installation ne peut être exécuté au chemin suivant : </translation>
+    </message>
+    <message>
+        <location filename="src/fupdater.cpp" line="138"/>
+        <source>Setup program cannot be executed</source>
+        <translation>Le programme d&apos;installation ne peut être exécuté</translation>
+    </message>
+    <message>
+        <location filename="src/fupdater.cpp" line="313"/>
+        <location filename="src/fupdater.cpp" line="360"/>
+        <location filename="src/fupdater.cpp" line="567"/>
         <source>Legacy Bootloader Detected</source>
         <translation>Ancien Bootloader Détecté</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="176"/>
+        <location filename="src/fupdater.cpp" line="313"/>
         <source>Legacy Bootloader Version: 1.0
 
 To obtain your firmware update (.kb2d file), please contact Lightdiction:
@@ -6030,55 +6073,55 @@ Pour obtenir la mise à jour du firmware (fichier .kb2d), veuillez contacter Lig
 contact@lightdiction.com</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="180"/>
+        <location filename="src/fupdater.cpp" line="318"/>
         <source>Bootloader Version: 1.0 | Enter firmware KB file .kb2d</source>
         <translation>Ancienne Version: 1.0 | Entrez le fichier firmware .kb2d</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="191"/>
-        <location filename="src/fupdater.cpp" line="238"/>
-        <location filename="src/fupdater.cpp" line="292"/>
+        <location filename="src/fupdater.cpp" line="329"/>
+        <location filename="src/fupdater.cpp" line="377"/>
+        <location filename="src/fupdater.cpp" line="432"/>
         <location filename="src/grnotes.cpp" line="1283"/>
         <source>Cannot open </source>
         <translation>Impossible d&apos;ouvrir </translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="201"/>
-        <location filename="src/fupdater.cpp" line="248"/>
-        <location filename="src/fupdater.cpp" line="302"/>
+        <location filename="src/fupdater.cpp" line="339"/>
+        <location filename="src/fupdater.cpp" line="387"/>
+        <location filename="src/fupdater.cpp" line="442"/>
         <source>Flash Error Code: </source>
         <translation>Code d&apos;Erreur Flash : </translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="206"/>
-        <location filename="src/fupdater.cpp" line="253"/>
-        <location filename="src/fupdater.cpp" line="307"/>
+        <location filename="src/fupdater.cpp" line="344"/>
+        <location filename="src/fupdater.cpp" line="392"/>
+        <location filename="src/fupdater.cpp" line="447"/>
         <source>Firmware Upgrade complete</source>
         <translation>Mise à jour du Firmware terminée</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="207"/>
-        <location filename="src/fupdater.cpp" line="254"/>
-        <location filename="src/fupdater.cpp" line="308"/>
+        <location filename="src/fupdater.cpp" line="345"/>
+        <location filename="src/fupdater.cpp" line="393"/>
+        <location filename="src/fupdater.cpp" line="448"/>
         <source>SUCCESS</source>
         <translation>SUCCÈS</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="207"/>
-        <location filename="src/fupdater.cpp" line="254"/>
-        <location filename="src/fupdater.cpp" line="308"/>
+        <location filename="src/fupdater.cpp" line="345"/>
+        <location filename="src/fupdater.cpp" line="393"/>
+        <location filename="src/fupdater.cpp" line="448"/>
         <source>Memory correctly Flashed</source>
         <translation>Mémoire correctement flashée</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="222"/>
-        <location filename="src/fupdater.cpp" line="226"/>
-        <location filename="src/fupdater.cpp" line="280"/>
+        <location filename="src/fupdater.cpp" line="360"/>
+        <location filename="src/fupdater.cpp" line="365"/>
+        <location filename="src/fupdater.cpp" line="420"/>
         <source>Bootloader Version: </source>
         <translation>Version du Bootloader : </translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="223"/>
+        <location filename="src/fupdater.cpp" line="361"/>
         <source>
 
 To obtain your firmware update (.kb2d file), please contact Lightdiction:
@@ -6091,12 +6134,12 @@ Pour obtenir votre mise à jour du firmware (fichier .kb2d), veuillez contacter 
 contact@lightdiction.com</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="227"/>
+        <location filename="src/fupdater.cpp" line="366"/>
         <source> | Enter firmware KB file .kb2d</source>
         <translation> | Entrez le fichier firmware .kb2d</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="348"/>
+        <location filename="src/fupdater.cpp" line="491"/>
         <source>Cannot connect to KB2D, please select the ports manually.
 
 Please ensure KB2D Ports are available.
@@ -6115,13 +6158,46 @@ Veuillez vérifier que les ports du KB2D sont disponibles.
 - Chargez le firmware de nouveau.</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="378"/>
-        <location filename="src/fupdater.cpp" line="379"/>
+        <location filename="src/fupdater.cpp" line="521"/>
+        <location filename="src/fupdater.cpp" line="522"/>
         <source>DFU Connected</source>
         <translation>DFU Connecté</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="409"/>
+        <location filename="src/fupdater.cpp" line="559"/>
+        <source>Error on automatic update</source>
+        <translation>Erreur sur la mise à jour automatique</translation>
+    </message>
+    <message>
+        <location filename="src/fupdater.cpp" line="559"/>
+        <source>The firmware cannot be updated automatically
+
+Please retry later or download the last firmware update on https://lightdiction.com/Ressources
+
+Or contact us at:
+contact@lightdiction.com</source>
+        <translation>Le firmware ne peut être mis à jour automatiquement
+
+Veuillez réessayer plus tard ou télécharger la dernière mise à jour sur https://lightdiction.com/Ressources
+
+Ou contactez-nous à :
+contact@lightdiction.com</translation>
+    </message>
+    <message>
+        <location filename="src/fupdater.cpp" line="567"/>
+        <source>Legacy Bootloader Version: 1.0
+
+A firmware update has been requested. To obtain your firmware update (.kb2d file), please contact Lightdiction:
+
+contact@lightdiction.com</source>
+        <translation>Ancienne Version du Bootloader : 1.0
+
+Une mise à jour du firmware a été demandée. Pour obtenir cette mise à jour (fichier .kb2d), veuillez contacter Lightdiction :
+
+contact@lightdiction.com</translation>
+    </message>
+    <message>
+        <location filename="src/fupdater.cpp" line="574"/>
         <source>LD Firmware Updater connected
 
 Click on &apos;Load Firmware file&apos; to update
@@ -6132,30 +6208,30 @@ Cliquez sur &apos;Charger le fichier firmware&apos; pour mettre à jour
 Ou cliquez sur &apos;Quitter le programme de mise à jour&apos; pour Quitter et revenir à l&apos;interface du KB2D</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="281"/>
+        <location filename="src/fupdater.cpp" line="421"/>
         <source> | Enter firmware KB file .kbf</source>
         <translation> | Entrez le fichier firmware .kbf</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1167"/>
+        <location filename="src/mainwindow.cpp" line="1175"/>
         <source>Parameters saved in Flash memory</source>
         <translation>Paramètres enregistrés dans la mémoire Flash</translation>
     </message>
     <message>
         <location filename="src/grports.cpp" line="29"/>
         <location filename="src/grports.cpp" line="30"/>
-        <location filename="src/mainwindow.cpp" line="1214"/>
-        <location filename="src/mainwindow.cpp" line="1215"/>
+        <location filename="src/mainwindow.cpp" line="1222"/>
+        <location filename="src/mainwindow.cpp" line="1223"/>
         <source>Wait while restarting...</source>
         <translation>Veuillez patienter pendant le redémarrage...</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1221"/>
+        <location filename="src/mainwindow.cpp" line="1229"/>
         <source>Ready</source>
         <translation>Prêt</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="875"/>
+        <location filename="src/mainwindow.cpp" line="883"/>
         <source>Cannot connect to the device
 
 If this is the first time you start the Firmware Updater on this computer, it is normal. Do not panic.
@@ -6170,36 +6246,64 @@ Veuillez attendre que le pilote s&apos;installe (cela devrait prendre moins d&ap
 Puis appuyez sur F5 pour mettre à jour les ports (après avoir fermé cette fenêtre) ou redémarrer ce logiciel. Votre programme de mise à jour devrait maintenant se connecter automatiquement à votre Interface de Harpe Laser KB2D.</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1760"/>
-        <source>Please, update your firmware to the last version (8.00 or above) to get all functionnalities:
-&gt; The firmware can be downloaded here: https://lightdiction.com/Ressources
-&gt; Or contact us at contact@lightdiction.com</source>
-        <translation>Veuillez mettre à jour votre firmware vers la dernière version (8.00 ou supérieur) pour obtenir toutes les fonctionnalités :
-&gt; Le firmware peut être téléchargé ici : https://lightdiction.com/Ressources
-&gt; Ou contactez-nous à contact@lightdiction.com</translation>
-    </message>
-    <message>
-        <location filename="src/mainwindow.cpp" line="1762"/>
+        <location filename="src/mainwindow.cpp" line="1462"/>
+        <location filename="src/mainwindow.cpp" line="1784"/>
         <source>Firmware outdated</source>
         <translation>Firmware obsolète</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1771"/>
+        <location filename="src/mainwindow.cpp" line="1463"/>
+        <source>The new firmware version </source>
+        <translation>La nouvelle version du firmware </translation>
+    </message>
+    <message>
+        <location filename="src/mainwindow.cpp" line="1464"/>
+        <source> is available.
+
+Your KB2D will be updated automatically, do you want to continue?
+
+(Firmware updates may be necessary to keep using the last software version)</source>
+        <translation> est disponible.
+
+Votre KB2D va être mis à jour automatiquement, vouslez-vous continuer ?
+
+(Les mise à jour du firmware peuvent être nécessaires pour utiliser la dernière version du logiciel)</translation>
+    </message>
+    <message>
+        <location filename="src/mainwindow.cpp" line="1782"/>
+        <source>Please, update your firmware to the last version (</source>
+        <translation>Veuillez mettre à jour votre firmware vers la dernière version (</translation>
+    </message>
+    <message>
+        <location filename="src/mainwindow.cpp" line="1782"/>
+        <source>or above) to get all functionnalities:
+&gt; The firmware can be downloaded here: https://lightdiction.com/Ressources
+&gt; Or contact us at contact@lightdiction.com</source>
+        <translation>ou supérieur) pour obtenir toutes les fonctionnalités :
+&gt; Le firmware peut être téléchargé ici : https://lightdiction.com/Ressources
+&gt; Ou contactez-nous à contact@lightdiction.com</translation>
+    </message>
+    <message>
+        <location filename="src/mainwindow.cpp" line="1793"/>
         <source>KB2D connected: Firmware version: </source>
         <translation>KB2D connecté : Version du firmware : </translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1775"/>
+        <location filename="src/mainwindow.cpp" line="1797"/>
         <source>KB2D connected - Device information</source>
         <translation>KB2D connecté - Informations du contrôleur</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1775"/>
-        <source>Firmware version: </source>
-        <translation>Version du firmware : </translation>
+        <location filename="src/mainwindow.cpp" line="1798"/>
+        <source>
+
+Firmware version: </source>
+        <translation>
+
+Version du firmware : </translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1777"/>
+        <location filename="src/mainwindow.cpp" line="1800"/>
         <source>
 
 Find the version notes and manual at:
@@ -6210,28 +6314,28 @@ Trouvez les notes de version et le manuel sur :
 http://lightdiction.com/Ressources/</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1780"/>
+        <location filename="src/mainwindow.cpp" line="1803"/>
         <source>KB2D Parameters cannot be read.</source>
         <translation>Les Paramètres du KB2D ne peuvent pas être lus.</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="331"/>
+        <location filename="src/fupdater.cpp" line="474"/>
         <source>Wait a few seconds for initialization...</source>
         <translation>Attendez quelques secondes pendant l&apos;initialisation...</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="339"/>
+        <location filename="src/fupdater.cpp" line="482"/>
         <source>Please wait...</source>
         <translation>Veuillez patienter...</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="409"/>
+        <location filename="src/fupdater.cpp" line="574"/>
         <source>Device connected</source>
         <translation>Contrôleur connecté</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="353"/>
-        <location filename="src/mainwindow.cpp" line="879"/>
+        <location filename="src/fupdater.cpp" line="496"/>
+        <location filename="src/mainwindow.cpp" line="887"/>
         <source>Cannot connect to LD Firmware Updater</source>
         <translation>Impossible de se connecter au LD Firmware Updater</translation>
     </message>

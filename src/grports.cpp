@@ -143,7 +143,7 @@ void MainWindow::updateMidiPortsList(bool forceDefault, QString nameKbIn, QStrin
             ui->midiOutComboBox->setCurrentIndex(_i + 1);
         else if (nameKbOut == "")
         {
-            if ((globQSettings.value("KB Out", "").toString() == "") || forceDefault)
+            if ((globQSettings.value("KB Out", "").toString() == "") || (forceDefault == 1))
             {
                 if (midi::getNameDevOut(_i) == "KB2D Interactive")
                     ui->midiOutComboBox->setCurrentIndex(_i + 1);
@@ -182,7 +182,7 @@ void MainWindow::updateMidiPortsList(bool forceDefault, QString nameKbIn, QStrin
             ui->midiInComboBox->setCurrentIndex(_i + 1);
         else if (nameKbIn == "")
         {
-            if ((globQSettings.value("KB In", "").toString() == "") || forceDefault)
+            if ((globQSettings.value("KB In", "").toString() == "") || (forceDefault == 1))
             {
                 if (midi::getNameDevIn(_i) == "MIDIIN2 (KB2D Interactive)")
                     ui->midiInComboBox->setCurrentIndex(_i + 1);
@@ -380,10 +380,19 @@ void MainWindow::testConnectedDevices()
                 ui->tabWidget->addTab(ui->firmwareTab, listNameTabs[Tab_FirmwareUpdater]);
                 ui->tabWidget->setCurrentIndex(0);
 
-                initializeFU();
+                if (initializeFU())         // If true: firmware has been automatically updated
+                {
+                    setStatus(tr("DFU connected"));
+                    ui->actionLoad_Firmware_2_0->setText(tr("Exit Firmware Updater"));
+                    fuUpdateRequested = false;
+                    globQSettings.endGroup();
+                    QTimer::singleShot(0, this, &MainWindow::exitFUpdater);
+                    return;
+                }
 
                 setStatus(tr("DFU connected"));
                 ui->actionLoad_Firmware_2_0->setText(tr("Exit Firmware Updater"));
+                fuUpdateRequested = false;
             }
             else
             {
@@ -391,7 +400,8 @@ void MainWindow::testConnectedDevices()
                 kbDev.setConnected(1);
                 dfuDev.setConnected(0);
                 disconnect(&kbDev, &ComHwKb2d::comFailed, this, &MainWindow::resetMidiPorts);   // Avoid loops on updateAll fails
-                if (updateAll(1) == 0)  // KB2D Connected
+                int tmpResUp = updateAll(1);
+                if (tmpResUp == 0)  // KB2D Connected
                 {
                     ui->tabWidget->setCurrentIndex(0);
 
@@ -406,6 +416,10 @@ void MainWindow::testConnectedDevices()
 
                     ui->actionLoad_Firmware_2_0->setText(tr("Start Firmware Updater"));
                 }
+                else if (tmpResUp == -1)    // Force DFU if firmware is obsolete
+                {
+                    toUpdate = 0;
+                }
                 else
                 {
                     if ((globQSettings.value("KB In", "").toString() != "") || (globQSettings.value("KB Out", "").toString() != ""))
@@ -418,17 +432,17 @@ void MainWindow::testConnectedDevices()
                 connect(&kbDev, &ComHwKb2d::comFailed, this, &MainWindow::resetMidiPorts);
             }
         }
-        else if (((globQSettings.value("KB In", "").toString() != "") && !ui->midiInComboBox->currentIndex()) || \
-                 ((globQSettings.value("KB Out", "").toString() != "") && !ui->midiOutComboBox->currentIndex()))
+        else if (((globQSettings.value("KB In", "").toString() != "") && (globQSettings.value("KB In", "").toString() != "MIDIIN2 (KB2D Interactive)") && \
+                  !ui->midiInComboBox->currentIndex()) || \
+                 ((globQSettings.value("KB Out", "").toString() != "") && (globQSettings.value("KB Out", "").toString() != "KB2D Interactive") && \
+                  !ui->midiOutComboBox->currentIndex()))
         {
             toUpdate = 1;
         }
         globQSettings.endGroup();
     }
-    if (toUpdate == 1)
-        QTimer::singleShot(0, this, [this] () { this->updateMidiPortsList(true); });    // Force connection to default ports, since register ports are not available.
-    else if (toUpdate == 0)
-        QTimer::singleShot(0, this, [this] () { this->updateMidiPortsList(false); });
+    if (toUpdate >= 0)
+        QTimer::singleShot(0, this, [this, toUpdate] () { this->updateMidiPortsList(toUpdate); });
 }
 
 

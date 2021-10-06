@@ -58,6 +58,7 @@ _ENUM_(ErrorList, int)
     VersionDialog_VersionDialog = 800,
 
     FUpdater_Exit = 900,
+            FUpdater_CheckNewVersion,
 
     GrNotes_UpdateMidiNoteValues = 1000,
     GrNotes_UpdateMidiNoteValues_1,

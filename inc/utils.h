@@ -17,7 +17,7 @@
 
 #define _ENUM_(name, base) enum name : base
 
-#define LAST_VERSION    350
+#define LAST_VERSION    351
 
 #define NUM_CONFIGS     128
 #define MAX_NBEAMS      16
