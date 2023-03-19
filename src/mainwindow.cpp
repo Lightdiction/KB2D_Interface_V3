@@ -43,6 +43,10 @@ int saveIndexMidiIn = 0;
 
 int extMidiIndexToLearn;
 
+#ifdef MAC_PLATFORM
+int macOSVersion = 0;
+#endif
+
 
 /*
  * ========================
@@ -112,6 +116,10 @@ MainWindow::MainWindow(QWidget *parent) :
     //qDebug() << QSysInfo::kernelType() << QSysInfo::kernelVersion();
 
     SendLog("\n===================== Starting... " + QSysInfo::kernelType() + " " + QSysInfo::kernelVersion());
+#ifdef MAC_PLATFORM
+    macOSVersion = QSysInfo::kernelVersion().split(".").at(0).toInt() - 9;
+    qDebug() << "Mac OS Version found: " << macOSVersion;
+#endif
 
     /////// Filter for Wheel Events ///////
     QList <QSpinBox *> listSpin = this->findChildren<QSpinBox *>();
@@ -752,8 +760,8 @@ void MainWindow::firstLoad()
 {
     connect(&kbDev, &ComHwKb2d::comFailed, this, &MainWindow::resetMidiPorts);
     connect(&dfuDev, &ComHwDfu::comFailed, this, &MainWindow::resetMidiPorts);
-    connect(&harpIn, &MidiDevIn::harpInCalled, this, &MainWindow::harpInProc);
-    connect(&extIn, &MidiDevIn::extInCalled, this, &MainWindow::extInProc);
+    connect(&harpIn, &MidiDevIn::harpInCalled, this, &MainWindow::harpInProc, Qt::QueuedConnection);
+    connect(&extIn, &MidiDevIn::extInCalled, this, &MainWindow::extInProc, Qt::QueuedConnection);
 
     if (checkNewVersions())
         close();
@@ -1463,18 +1471,49 @@ void MidiDevIn::midiInThread()
 }
 #endif
 #ifdef MAC_PLATFORM
-//void MidiDevIn::midiInProc(MIDIEventList *listEventsIn, void *refCon)
-void MidiDevIn::midiInProc(const MIDIPacketList *listEventsIn, void *readProcRef, void *refCon)
+void MidiDevIn::midiInProcMac11(const MIDIEventList *listEventsIn, void *refCon)
 {
-    qDebug() << "Message Received";
+    MIDIEndpointRef hMidiIn = *((MIDIEndpointRef*)refCon);
+    MIDIEventPacket* packet = (MIDIEventPacket*)listEventsIn->packet;
+    for (unsigned int _i = 0 ; _i < listEventsIn->numPackets ; _i++)
+    {
+        unsigned char data1 = (unsigned char)((packet->words[0] >> 16) & 0xFF);
+        unsigned char data2 = (unsigned char)((packet->words[0] >> 8) & 0xFF);
+        unsigned char data3 = (unsigned char)((packet->words[0] >> 0) & 0xFF);
+
+        if (hMidiIn == harpIn.getDev())
+        {
+            harpIn.setParam(0, data1);
+            harpIn.setParam(1, data2);
+            harpIn.setParam(2, data3);
+            emit harpIn.harpInCalled();
+        }
+        else if (hMidiIn == extIn.getDev())
+        {
+            if (((kbDev.isConnected() == 1) || (extMidiIndexToLearn >= 0)) && (kbDev.isWaitingFb() == 0))    // Check we are not already waiting for a signal from the KB2D
+                emit extIn.extInCalled(data1, data2, data3);
+        }
+        // MIDI Through is directly sent here
+        else if ((hMidiIn == throughIn.getDev()) && (throughOut.getName() != ""))
+        {
+            if (throughOut.sendWord(data1, data2, data3) != MMSYSERR_NOERROR)
+                qDebug() << "Midi Out err";
+        }
+        packet = MIDIEventPacketNext(packet);
+    }
+}
+
+void MidiDevIn::midiInProc(const MIDIPacketList *listPacketsIn, void *readProcRef, void *refCon)
+{
     (void)readProcRef;
     MIDIEndpointRef hMidiIn = *((MIDIEndpointRef*)refCon);
-    MIDIPacket* packet = (MIDIPacket*)listEventsIn->packet;
-    for (unsigned int _i = 0 ; _i < listEventsIn->numPackets ; _i++)
+    MIDIPacket* packet = (MIDIPacket*)listPacketsIn->packet;
+    for (unsigned int _i = 0 ; _i < listPacketsIn->numPackets ; _i++)
     {
         unsigned char data1 = (unsigned char)packet->data[0];
         unsigned char data2 = (unsigned char)packet->data[1];
         unsigned char data3 = (unsigned char)packet->data[2];
+
         if (hMidiIn == harpIn.getDev())
         {
             harpIn.setParam(0, data1);
@@ -1567,9 +1606,11 @@ int MainWindow::updateAll(bool optionWin)
         }
 
         // This interface is not compatible with older version. It requires an update to version 8.00
-        if (kbDev.getID(VERSION) < 8)
+        if (!((kbDev.getID(VERSION) > 8) || ((kbDev.getID(VERSION) == 8) && (kbDev.getID(SUBVERSION) >= 3))))
         {
-            QMessageBox::warning(this, "Update Required", "Firmware outdated: you must update your firmware to use this new version of the software");
+            QMessageBox::warning(this, tr("Update Required"), tr("Firmware outdated: you must update your firmware (v8.03 or higher) to use this version of the software.\n"
+                                                          "Current firmware version: ") + QString::number(kbDev.getID(VERSION)) + \
+                                                            "."+ QString::number(kbDev.getID(SUBVERSION)).rightJustified(2, QChar('0')));
             //kbDev.sendCom(MIDI_INAPPBOOT);  // Sends a message to KB2D / DFU so it disconnects and restarts in the other mode.
             //qSleep(1000);
             return -1;
@@ -1915,7 +1956,7 @@ int MainWindow::updateAll(bool optionWin)
 
     ///////////////////////////////////////////////////
     else if ((retErr == 0) && (optionWin == 1) && (lastParsedFirmware == -1)) //
-        SendError(this, tr("Please, update your firmware to the last version (") + "8.02 " + tr("or above) to get all functionnalities:"
+        SendError(this, tr("Please, update your firmware to the last version (") + "8.03 " + tr("or above) to get all functionnalities:"
                                                         "\n> The firmware can be downloaded here: https://lightdiction.com/Ressources"
                                                         "\n> Or contact us at contact@lightdiction.com"), MainWindow_UpdateAll_FWUP, tr("Firmware outdated"));
 

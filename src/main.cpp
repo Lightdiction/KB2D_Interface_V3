@@ -20,6 +20,7 @@
 #include "../inc/mainwindow.h"
 #include <QApplication>
 #include <QTranslator>
+#include <QStandardPaths>
 
 #include "../inc/comhw.h"
 
@@ -52,6 +53,14 @@ int main(int argc, char *argv[])
 
     int appReturn = 1;
     QApplication a(argc, argv);
+#ifdef MAC_PLATFORM
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
+    if (!dir.exists())
+        dir.mkpath(".");
+    QDir::setCurrent(dir.absolutePath());
+#else
+    QDir::setCurrent(qApp->applicationDirPath());
+#endif
     do
     {
         changeLanguage = false;
@@ -59,7 +68,7 @@ int main(int argc, char *argv[])
         QSettings globQSettings(".kbsession", QSettings::IniFormat);
         QString langTr = globQSettings.value("lang", (QLocale::system().name().section('_', 0, 0))).toString();
         QTranslator translator;
-        (void)translator.load(QString("kb2dinterface_") + langTr);
+        (void)translator.load(qApp->applicationDirPath() + "/" + QString("kb2dinterface_") + langTr);
         a.installTranslator(&translator);
 
         MainWindow w;

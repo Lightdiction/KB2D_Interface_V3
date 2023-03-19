@@ -1,6 +1,8 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#define MAC11PLUS
+
 
 #include <QApplication>
 #include <QFileDialog>
@@ -17,7 +19,7 @@
 
 #define _ENUM_(name, base) enum name : base
 
-#define LAST_VERSION    353
+#define LAST_VERSION    354
 
 #define NUM_CONFIGS     128
 #define MAX_NBEAMS      16

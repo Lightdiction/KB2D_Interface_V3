@@ -263,6 +263,10 @@ void MainWindow::loadPresetMain(int indPre)
                 updateInProgress = saveInP;
             }
 
+            QVector <int> listN;
+            int _MidiSetNote[3] = {MIDI_SETMIDINOTE0};
+            int nPort;
+
             // List all Main Parameters
             if (mainQSettings.allKeys().contains(mainSettingsNames[Main_HWGain]))
                 ui->hardAmpComboBox->setCurrentIndex(mainQSettings.value(mainSettingsNames[Main_HWGain]).toInt());
@@ -447,12 +451,41 @@ void MainWindow::loadPresetMain(int indPre)
                 ui->ValCC2ComboBox->setCurrentIndex(mainQSettings.value(mainSettingsNames[Midi_Eff2Val]).toInt());
             QApplication::processEvents();
 
-            for (int _i = 0 ; _i < MAX_NBEAMS ; _i++)
+            /*for (int _i = 0 ; _i < MAX_NBEAMS ; _i++)
             {
                 if (mainQSettings.allKeys().contains(mainSettingsNames[Midi_Note0 + _i]))
                     Z0_ComboBox[Ports_Midi1][_i]->setCurrentIndex(mainQSettings.value(mainSettingsNames[Midi_Note0 + _i]).toInt());
                 QApplication::processEvents();
+            }*/
+
+            nPort = Ports_Midi1;
+            for (int _i = 0 ; _i < MAX_NBEAMS ; _i++)
+            {
+                if (mainQSettings.allKeys().contains(mainSettingsNames[Midi_Note0 + _i]))
+                {
+                    int tempNote = mainQSettings.value(mainSettingsNames[Midi_Note0 + _i]).toInt();
+                    // Update Combobox and Send shifted notes to the KB2D
+                    kbDev.sendCom(_MidiSetNote[0], _MidiSetNote[1] + (0x10 * nPort) + _i, _MidiSetNote[2] + (char)tempNote);
+                    bool saveInP = updateInProgress;
+                    updateInProgress = true;
+                    Z0_ComboBox[nPort][_i]->setCurrentIndex(tempNote);
+                    QApplication::processEvents();
+                    updateInProgress= saveInP;
+                    if (kbDev.checkFeedback(Check_NoteToPlay0 + (16 * nPort) + _i) != tempNote)
+                        SendError(this, tr("No Feedback / Error on Feedback received."), GrNotes_LoadNotesPreset);
+
+                    // Save the list of the new notes for the display on the keyboard
+                    if (_i < ui->nBeamsXComboBox->currentIndex() + 1)
+                        listN.append(tempNote);
+                }
             }
+
+            // Update Keyboard
+            if (!updateInProgress && keyboard[nPort])
+            {
+                keyboard[nPort]->updateNotesOnKeyboard(listN);
+            }
+            listN.clear();
 
             // Port 3
             if (mainQSettings.allKeys().contains(mainSettingsNames[Midi_BeamEnabled_3P]))
@@ -472,13 +505,13 @@ void MainWindow::loadPresetMain(int indPre)
 
             if (mainQSettings.allKeys().contains(mainSettingsNames[Midi_EnableNotes_3P]))
                 if ((enabState[Ports_Midi3] & Mode_NoteOn) != mainQSettings.value(mainSettingsNames[Midi_EnableNotes_3P]).toBool())
-                    on_enableNotesOnOffButton_clicked();
+                    on_enableNotesOnOffButton_2_clicked();
             if (mainQSettings.allKeys().contains(mainSettingsNames[Midi_EnableEffect1_3P]))
                 if ((((enabState[Ports_Midi3] >> 1) & 0x7) > Mode_NoteOn) != mainQSettings.value(mainSettingsNames[Midi_EnableEffect1_3P]).toBool())
-                    on_enableEffect1Button_clicked();
+                    on_enableEffect1Button_2_clicked();
             if (mainQSettings.allKeys().contains(mainSettingsNames[Midi_EnableEffect2_3P]))
                 if ((((enabState[Ports_Midi3] >> 4) & 0x7) > Mode_NoteOn) != mainQSettings.value(mainSettingsNames[Midi_EnableEffect2_3P]).toBool())
-                    on_enableEffect2Button_clicked();
+                    on_enableEffect2Button_2_clicked();
             if (mainQSettings.allKeys().contains(mainSettingsNames[Midi_DescEffect1_3P]))
                 ui->DescCC1ComboBox_2->setCurrentIndex(mainQSettings.value(mainSettingsNames[Midi_DescEffect1_3P]).toInt());
             QApplication::processEvents();
@@ -513,12 +546,41 @@ void MainWindow::loadPresetMain(int indPre)
                 ui->ValCC2ComboBox_2->setCurrentIndex(mainQSettings.value(mainSettingsNames[Midi_Eff2Val_3P]).toInt());
             QApplication::processEvents();
 
-            for (int _i = 0 ; _i < MAX_NBEAMS ; _i++)
+            /*for (int _i = 0 ; _i < MAX_NBEAMS ; _i++)
             {
                 if (mainQSettings.allKeys().contains(mainSettingsNames[Midi_Note0_3P + _i]))
                     Z0_ComboBox[Ports_Midi3][_i]->setCurrentIndex(mainQSettings.value(mainSettingsNames[Midi_Note0_3P + _i]).toInt());
                 QApplication::processEvents();
+            }*/
+
+            nPort = Ports_Midi3;
+            for (int _i = 0 ; _i < MAX_NBEAMS ; _i++)
+            {
+                if (mainQSettings.allKeys().contains(mainSettingsNames[Midi_Note0 + _i]))
+                {
+                    int tempNote = mainQSettings.value(mainSettingsNames[Midi_Note0 + _i]).toInt();
+                    // Update Combobox and Send shifted notes to the KB2D
+                    kbDev.sendCom(_MidiSetNote[0], _MidiSetNote[1] + (0x10 * nPort) + _i, _MidiSetNote[2] + (char)tempNote);
+                    bool saveInP = updateInProgress;
+                    updateInProgress = true;
+                    Z0_ComboBox[nPort][_i]->setCurrentIndex(tempNote);
+                    QApplication::processEvents();
+                    updateInProgress= saveInP;
+                    if (kbDev.checkFeedback(Check_NoteToPlay0 + (16 * nPort) + _i) != tempNote)
+                        SendError(this, tr("No Feedback / Error on Feedback received."), GrNotes_LoadNotesPreset);
+
+                    // Save the list of the new notes for the display on the keyboard
+                    if (_i < ui->nBeamsXComboBox->currentIndex() + 1)
+                        listN.append(tempNote);
+                }
             }
+
+            // Update Keyboard
+            if (!updateInProgress && keyboard[nPort])
+            {
+                keyboard[nPort]->updateNotesOnKeyboard(listN);
+            }
+            listN.clear();
 
             // Port 4
             if (mainQSettings.allKeys().contains(mainSettingsNames[Midi_BeamEnabled_4P]))
@@ -538,13 +600,13 @@ void MainWindow::loadPresetMain(int indPre)
 
             if (mainQSettings.allKeys().contains(mainSettingsNames[Midi_EnableNotes_4P]))
                 if ((enabState[Ports_Midi4] & Mode_NoteOn) != mainQSettings.value(mainSettingsNames[Midi_EnableNotes_4P]).toBool())
-                    on_enableNotesOnOffButton_clicked();
+                    on_enableNotesOnOffButton_3_clicked();
             if (mainQSettings.allKeys().contains(mainSettingsNames[Midi_EnableEffect1_4P]))
                 if ((((enabState[Ports_Midi4] >> 1) & 0x7) > Mode_NoteOn) != mainQSettings.value(mainSettingsNames[Midi_EnableEffect1_4P]).toBool())
-                    on_enableEffect1Button_clicked();
+                    on_enableEffect1Button_3_clicked();
             if (mainQSettings.allKeys().contains(mainSettingsNames[Midi_EnableEffect2_4P]))
                 if ((((enabState[Ports_Midi4] >> 4) & 0x7) > Mode_NoteOn) != mainQSettings.value(mainSettingsNames[Midi_EnableEffect2_4P]).toBool())
-                    on_enableEffect2Button_clicked();
+                    on_enableEffect2Button_3_clicked();
             if (mainQSettings.allKeys().contains(mainSettingsNames[Midi_DescEffect1_4P]))
                 ui->DescCC1ComboBox_3->setCurrentIndex(mainQSettings.value(mainSettingsNames[Midi_DescEffect1_4P]).toInt());
             QApplication::processEvents();
@@ -579,12 +641,41 @@ void MainWindow::loadPresetMain(int indPre)
                 ui->ValCC2ComboBox_3->setCurrentIndex(mainQSettings.value(mainSettingsNames[Midi_Eff2Val_4P]).toInt());
             QApplication::processEvents();
 
-            for (int _i = 0 ; _i < MAX_NBEAMS ; _i++)
+            /*for (int _i = 0 ; _i < MAX_NBEAMS ; _i++)
             {
                 if (mainQSettings.allKeys().contains(mainSettingsNames[Midi_Note0_4P + _i]))
                     Z0_ComboBox[Ports_Midi4][_i]->setCurrentIndex(mainQSettings.value(mainSettingsNames[Midi_Note0_4P + _i]).toInt());
                 QApplication::processEvents();
+            }*/
+
+            nPort = Ports_Midi4;
+            for (int _i = 0 ; _i < MAX_NBEAMS ; _i++)
+            {
+                if (mainQSettings.allKeys().contains(mainSettingsNames[Midi_Note0 + _i]))
+                {
+                    int tempNote = mainQSettings.value(mainSettingsNames[Midi_Note0 + _i]).toInt();
+                    // Update Combobox and Send shifted notes to the KB2D
+                    kbDev.sendCom(_MidiSetNote[0], _MidiSetNote[1] + (0x10 * nPort) + _i, _MidiSetNote[2] + (char)tempNote);
+                    bool saveInP = updateInProgress;
+                    updateInProgress = true;
+                    Z0_ComboBox[nPort][_i]->setCurrentIndex(tempNote);
+                    QApplication::processEvents();
+                    updateInProgress= saveInP;
+                    if (kbDev.checkFeedback(Check_NoteToPlay0 + (16 * nPort) + _i) != tempNote)
+                        SendError(this, tr("No Feedback / Error on Feedback received."), GrNotes_LoadNotesPreset);
+
+                    // Save the list of the new notes for the display on the keyboard
+                    if (_i < ui->nBeamsXComboBox->currentIndex() + 1)
+                        listN.append(tempNote);
+                }
             }
+
+            // Update Keyboard
+            if (!updateInProgress && keyboard[nPort])
+            {
+                keyboard[nPort]->updateNotesOnKeyboard(listN);
+            }
+            listN.clear();
 
             // Update the beams at the end because it also updates the visibility
             if (mainQSettings.allKeys().contains(mainSettingsNames[Main_NBeamsX]))
@@ -707,50 +798,56 @@ void MainWindow::savePresetMain(int indPre, QString nameConfig, bool incDet, boo
             mainQSettings.setValue(mainSettingsNames[Midi_Note0 + _i], Z0_ComboBox[Ports_Midi1][_i]->currentIndex());
 
         /// PORT 3 ///
-        mainQSettings.setValue(mainSettingsNames[Midi_BeamEnabled_3P], beamsEnabled[Ports_Midi3]);
-        mainQSettings.setValue(mainSettingsNames[Midi_SendOnClick_3P], ui->sendOnClickCheckBox_2->isChecked());
-        mainQSettings.setValue(mainSettingsNames[Midi_FirstKey_3P], ui->startKeyComboBox_2->currentIndex());
-        mainQSettings.setValue(mainSettingsNames[Midi_NbKey_3P], ui->nKeysSpinBox_2->value());
-        mainQSettings.setValue(mainSettingsNames[Midi_EnableNotes_3P], (bool)(enabState[Ports_Midi3] & Mode_NoteOn));
-        mainQSettings.setValue(mainSettingsNames[Midi_EnableEffect1_3P], (bool)(((enabState[Ports_Midi3] >> 1) & 0x7) > Mode_NoteOn));
-        mainQSettings.setValue(mainSettingsNames[Midi_EnableEffect2_3P], (bool)(((enabState[Ports_Midi3] >> 4) & 0x7) > Mode_NoteOn));
-        mainQSettings.setValue(mainSettingsNames[Midi_DescEffect1_3P], ui->DescCC1ComboBox_2->currentIndex());
-        mainQSettings.setValue(mainSettingsNames[Midi_DescEffect2_3P], ui->DescCC2ComboBox_2->currentIndex());
-        mainQSettings.setValue(mainSettingsNames[Midi_NoteChan_3P], ui->ChanNoteComboBox_2->currentIndex());
-        mainQSettings.setValue(mainSettingsNames[Midi_NoteNote_3P], ui->NoteNoteComboBox_2->currentIndex());
-        mainQSettings.setValue(mainSettingsNames[Midi_NoteVel_3P], ui->VelNoteComboBox_2->currentIndex());
-        mainQSettings.setValue(mainSettingsNames[Midi_Eff1Chan_3P], ui->ChanCC1ComboBox_2->currentIndex());
-        mainQSettings.setValue(mainSettingsNames[Midi_Eff1Ctrl_3P], ui->ControlCC1ComboBox_2->currentIndex());
-        mainQSettings.setValue(mainSettingsNames[Midi_Eff1Val_3P], ui->ValCC1ComboBox_2->currentIndex());
-        mainQSettings.setValue(mainSettingsNames[Midi_Eff2Chan_3P], ui->ChanCC2ComboBox_2->currentIndex());
-        mainQSettings.setValue(mainSettingsNames[Midi_Eff2Ctrl_3P], ui->ControlCC2ComboBox_2->currentIndex());
-        mainQSettings.setValue(mainSettingsNames[Midi_Eff2Val_3P], ui->ValCC2ComboBox_2->currentIndex());
+        if (ui->nbPortsCombo->currentIndex() >= 1)
+        {
+            mainQSettings.setValue(mainSettingsNames[Midi_BeamEnabled_3P], beamsEnabled[Ports_Midi3]);
+            mainQSettings.setValue(mainSettingsNames[Midi_SendOnClick_3P], ui->sendOnClickCheckBox_2->isChecked());
+            mainQSettings.setValue(mainSettingsNames[Midi_FirstKey_3P], ui->startKeyComboBox_2->currentIndex());
+            mainQSettings.setValue(mainSettingsNames[Midi_NbKey_3P], ui->nKeysSpinBox_2->value());
+            mainQSettings.setValue(mainSettingsNames[Midi_EnableNotes_3P], (bool)(enabState[Ports_Midi3] & Mode_NoteOn));
+            mainQSettings.setValue(mainSettingsNames[Midi_EnableEffect1_3P], (bool)(((enabState[Ports_Midi3] >> 1) & 0x7) > Mode_NoteOn));
+            mainQSettings.setValue(mainSettingsNames[Midi_EnableEffect2_3P], (bool)(((enabState[Ports_Midi3] >> 4) & 0x7) > Mode_NoteOn));
+            mainQSettings.setValue(mainSettingsNames[Midi_DescEffect1_3P], ui->DescCC1ComboBox_2->currentIndex());
+            mainQSettings.setValue(mainSettingsNames[Midi_DescEffect2_3P], ui->DescCC2ComboBox_2->currentIndex());
+            mainQSettings.setValue(mainSettingsNames[Midi_NoteChan_3P], ui->ChanNoteComboBox_2->currentIndex());
+            mainQSettings.setValue(mainSettingsNames[Midi_NoteNote_3P], ui->NoteNoteComboBox_2->currentIndex());
+            mainQSettings.setValue(mainSettingsNames[Midi_NoteVel_3P], ui->VelNoteComboBox_2->currentIndex());
+            mainQSettings.setValue(mainSettingsNames[Midi_Eff1Chan_3P], ui->ChanCC1ComboBox_2->currentIndex());
+            mainQSettings.setValue(mainSettingsNames[Midi_Eff1Ctrl_3P], ui->ControlCC1ComboBox_2->currentIndex());
+            mainQSettings.setValue(mainSettingsNames[Midi_Eff1Val_3P], ui->ValCC1ComboBox_2->currentIndex());
+            mainQSettings.setValue(mainSettingsNames[Midi_Eff2Chan_3P], ui->ChanCC2ComboBox_2->currentIndex());
+            mainQSettings.setValue(mainSettingsNames[Midi_Eff2Ctrl_3P], ui->ControlCC2ComboBox_2->currentIndex());
+            mainQSettings.setValue(mainSettingsNames[Midi_Eff2Val_3P], ui->ValCC2ComboBox_2->currentIndex());
 
-        for (int _i = 0 ; _i < MAX_NBEAMS ; _i++)
-            mainQSettings.setValue(mainSettingsNames[Midi_Note0_3P + _i], Z0_ComboBox[Ports_Midi3][_i]->currentIndex());
+            for (int _i = 0 ; _i < MAX_NBEAMS ; _i++)
+                mainQSettings.setValue(mainSettingsNames[Midi_Note0_3P + _i], Z0_ComboBox[Ports_Midi3][_i]->currentIndex());
+        }
 
         /// PORT 4 ///
-        mainQSettings.setValue(mainSettingsNames[Midi_BeamEnabled_4P], beamsEnabled[Ports_Midi4]);
-        mainQSettings.setValue(mainSettingsNames[Midi_SendOnClick_4P], ui->sendOnClickCheckBox_3->isChecked());
-        mainQSettings.setValue(mainSettingsNames[Midi_FirstKey_4P], ui->startKeyComboBox_3->currentIndex());
-        mainQSettings.setValue(mainSettingsNames[Midi_NbKey_4P], ui->nKeysSpinBox_3->value());
-        mainQSettings.setValue(mainSettingsNames[Midi_EnableNotes_4P], (bool)(enabState[Ports_Midi4] & Mode_NoteOn));
-        mainQSettings.setValue(mainSettingsNames[Midi_EnableEffect1_4P], (bool)(((enabState[Ports_Midi4] >> 1) & 0x7) > Mode_NoteOn));
-        mainQSettings.setValue(mainSettingsNames[Midi_EnableEffect2_4P], (bool)(((enabState[Ports_Midi4] >> 4) & 0x7) > Mode_NoteOn));
-        mainQSettings.setValue(mainSettingsNames[Midi_DescEffect1_4P], ui->DescCC1ComboBox_3->currentIndex());
-        mainQSettings.setValue(mainSettingsNames[Midi_DescEffect2_4P], ui->DescCC2ComboBox_3->currentIndex());
-        mainQSettings.setValue(mainSettingsNames[Midi_NoteChan_4P], ui->ChanNoteComboBox_3->currentIndex());
-        mainQSettings.setValue(mainSettingsNames[Midi_NoteNote_4P], ui->NoteNoteComboBox_3->currentIndex());
-        mainQSettings.setValue(mainSettingsNames[Midi_NoteVel_4P], ui->VelNoteComboBox_3->currentIndex());
-        mainQSettings.setValue(mainSettingsNames[Midi_Eff1Chan_4P], ui->ChanCC1ComboBox_3->currentIndex());
-        mainQSettings.setValue(mainSettingsNames[Midi_Eff1Ctrl_4P], ui->ControlCC1ComboBox_3->currentIndex());
-        mainQSettings.setValue(mainSettingsNames[Midi_Eff1Val_4P], ui->ValCC1ComboBox_3->currentIndex());
-        mainQSettings.setValue(mainSettingsNames[Midi_Eff2Chan_4P], ui->ChanCC2ComboBox_3->currentIndex());
-        mainQSettings.setValue(mainSettingsNames[Midi_Eff2Ctrl_4P], ui->ControlCC2ComboBox_3->currentIndex());
-        mainQSettings.setValue(mainSettingsNames[Midi_Eff2Val_4P], ui->ValCC2ComboBox_3->currentIndex());
+        if (ui->nbPortsCombo->currentIndex() >= 2)
+        {
+            mainQSettings.setValue(mainSettingsNames[Midi_BeamEnabled_4P], beamsEnabled[Ports_Midi4]);
+            mainQSettings.setValue(mainSettingsNames[Midi_SendOnClick_4P], ui->sendOnClickCheckBox_3->isChecked());
+            mainQSettings.setValue(mainSettingsNames[Midi_FirstKey_4P], ui->startKeyComboBox_3->currentIndex());
+            mainQSettings.setValue(mainSettingsNames[Midi_NbKey_4P], ui->nKeysSpinBox_3->value());
+            mainQSettings.setValue(mainSettingsNames[Midi_EnableNotes_4P], (bool)(enabState[Ports_Midi4] & Mode_NoteOn));
+            mainQSettings.setValue(mainSettingsNames[Midi_EnableEffect1_4P], (bool)(((enabState[Ports_Midi4] >> 1) & 0x7) > Mode_NoteOn));
+            mainQSettings.setValue(mainSettingsNames[Midi_EnableEffect2_4P], (bool)(((enabState[Ports_Midi4] >> 4) & 0x7) > Mode_NoteOn));
+            mainQSettings.setValue(mainSettingsNames[Midi_DescEffect1_4P], ui->DescCC1ComboBox_3->currentIndex());
+            mainQSettings.setValue(mainSettingsNames[Midi_DescEffect2_4P], ui->DescCC2ComboBox_3->currentIndex());
+            mainQSettings.setValue(mainSettingsNames[Midi_NoteChan_4P], ui->ChanNoteComboBox_3->currentIndex());
+            mainQSettings.setValue(mainSettingsNames[Midi_NoteNote_4P], ui->NoteNoteComboBox_3->currentIndex());
+            mainQSettings.setValue(mainSettingsNames[Midi_NoteVel_4P], ui->VelNoteComboBox_3->currentIndex());
+            mainQSettings.setValue(mainSettingsNames[Midi_Eff1Chan_4P], ui->ChanCC1ComboBox_3->currentIndex());
+            mainQSettings.setValue(mainSettingsNames[Midi_Eff1Ctrl_4P], ui->ControlCC1ComboBox_3->currentIndex());
+            mainQSettings.setValue(mainSettingsNames[Midi_Eff1Val_4P], ui->ValCC1ComboBox_3->currentIndex());
+            mainQSettings.setValue(mainSettingsNames[Midi_Eff2Chan_4P], ui->ChanCC2ComboBox_3->currentIndex());
+            mainQSettings.setValue(mainSettingsNames[Midi_Eff2Ctrl_4P], ui->ControlCC2ComboBox_3->currentIndex());
+            mainQSettings.setValue(mainSettingsNames[Midi_Eff2Val_4P], ui->ValCC2ComboBox_3->currentIndex());
 
-        for (int _i = 0 ; _i < MAX_NBEAMS ; _i++)
-            mainQSettings.setValue(mainSettingsNames[Midi_Note0_4P + _i], Z0_ComboBox[Ports_Midi4][_i]->currentIndex());
+            for (int _i = 0 ; _i < MAX_NBEAMS ; _i++)
+                mainQSettings.setValue(mainSettingsNames[Midi_Note0_4P + _i], Z0_ComboBox[Ports_Midi4][_i]->currentIndex());
+        }
     }
 
     mainQSettings.endGroup();

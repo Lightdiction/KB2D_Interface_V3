@@ -11,6 +11,7 @@
 #define MMSYSERR_NOERROR        0
 #endif
 #ifdef MAC_PLATFORM
+//#include <CoreMIDI>
 #include <CoreMIDI/CoreMIDI.h>
 #include <stdio.h>
 #define DWORD_PTR               unsigned long long
@@ -20,6 +21,8 @@
 #include <QString>
 #include <QObject>
 #include <QThread>
+
+extern int macOSVersion;
 
 class midi : public QObject
 {
@@ -61,7 +64,7 @@ public:
     MIDIEndpointRef getDev() const;
     MIDIEndpointRef* getLPDev();
 
-    //static void midiInProc(const MIDIEventList* listEventsIn, void* refCon);
+    static void midiInProcMac11(const MIDIEventList* listEventsIn, void* refCon);
     static void midiInProc(const MIDIPacketList* listEventsIn, void* readProcRef, void* refCon);
 #endif
     int open(int ind, DWORD_PTR ptr);
@@ -150,8 +153,11 @@ protected:
     MIDIPortRef portRef = (unsigned int)NULL;
     MIDIEndpointRef devOut = (unsigned int)NULL;
 
-    Byte buffOut[512];
+    Byte buffOut[512] = {0};
+    MIDIEventList* eventList = (MIDIEventList*)buffOut;
+    MIDIEventPacket* currentEventPacket = nullptr;
     MIDIPacketList* packetList = (MIDIPacketList*)buffOut;
+    MIDIPacket* currentPacket = nullptr;
 #endif
     int index;
     QString name;

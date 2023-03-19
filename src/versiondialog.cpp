@@ -5,7 +5,7 @@ VersionDialog::VersionDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::VersionDialog)
 {
-    QFile verNoteFile(tr("VersionNotes.txt"));
+    QFile verNoteFile(qApp->applicationDirPath() + "/" + tr("VersionNotes.txt"));
 
     ui->setupUi(this);
 

@@ -130,18 +130,20 @@ void Keyboard::refreshKeyboard(int initialNote, int numNotes)
             // Create Black Key
             if (actualNotes.contains(_i))
             {
-                noteKeys[_i] = new KeyboardKey(KEYS_BLACK_WIDTH, "", "#282800", "#411", "#333");
+                noteKeys[_i] = new KeyboardKey(KEYS_BLACK_WIDTH, "", "#787811", "#722", "#333");
                 // Add beam Label
                 keyLabel.append(new QLabel(this));
                 keyLabel.last()->setText("(" + QString::number(actualNotes.indexOf(_i) + 1) + ")");
-                keyLabel.last()->setStyleSheet("color:#05F;font-weight:bold;");
+                keyLabel.last()->setStyleSheet("background:transparent;color:#03F;font-weight:bold;");
                 keyLabel.last()->setAlignment(Qt::AlignCenter | Qt::AlignHCenter);
-                keyLabel.last()->setFixedHeight(18);
-                blackKeysLayout->addWidget(keyLabel.last(), 0, indexBlackCol);
+                keyLabel.last()->setFixedHeight(noteKeys[_i]->height() / 2);
+                keyLabel.last()->setFixedWidth(KEYS_BLACK_WIDTH);
+                //blackKeysLayout->addWidget(keyLabel.last(), 0, indexBlackCol);
+                keyLabel.last()->setParent(noteKeys[_i]);
                 keyLabel.last()->show();
             }
             else
-                noteKeys[_i] = new KeyboardKey(KEYS_BLACK_WIDTH, "", "#111", "#411", "#333");
+                noteKeys[_i] = new KeyboardKey(KEYS_BLACK_WIDTH, "", "#111", "#722", "#333");
             blackKeysLayout->addWidget(noteKeys[_i], 0, indexBlackCol);
             indexBlackCol ++;
             blackKeyList.append(_i);
@@ -185,10 +187,13 @@ void Keyboard::refreshKeyboard(int initialNote, int numNotes)
                 // Add beam Label
                 keyLabel.append(new QLabel(this));
                 keyLabel.last()->setText("(" + QString::number(actualNotes.indexOf(_i) + 1) + ")");
-                keyLabel.last()->setStyleSheet("color:#03F;font-weight:bold;");
+                keyLabel.last()->setStyleSheet("background:transparent;color:#03F;font-weight:bold;");
                 keyLabel.last()->setAlignment(Qt::AlignCenter | Qt::AlignHCenter);
-                keyLabel.last()->setFixedHeight(18);
-                whiteKeysLayout->addWidget(keyLabel.last(), 1, indexWhiteCol);
+                //keyLabel.last()->setFixedHeight(18);
+                keyLabel.last()->setFixedHeight(noteKeys[_i]->height() - 100);
+                keyLabel.last()->setFixedWidth(KEYS_WIDTH);
+                keyLabel.last()->setParent(noteKeys[_i]);
+                //whiteKeysLayout->addWidget(keyLabel.last(), 1, indexWhiteCol);
                 keyLabel.last()->show();
             }
             else

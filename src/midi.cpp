@@ -405,12 +405,20 @@ int MidiDevIn::open(int ind, DWORD_PTR dwInstance)
         devIn = MIDIGetSource(ind);
         if (devIn == (unsigned int)NULL)
             return -1;
-        if (MIDIClientCreate(midi::getNameDevIn(ind).toCFString(), NULL, NULL, &clientRef))
-            return -1;
-        //MIDIReceiveBlock receiveBlock = ^void (const MIDIEventList* evList, void* refCon) { midiInProc(evList, refCon); };
-        //MIDIInputPortCreateWithProtocol(clientRef, ("OUT - " + name).toCFString(), kMIDIProtocol_1_0, &portRef, receiveBlock);
-        if (MIDIInputPortCreate(clientRef, ("OUT - " + midi::getNameDevIn(ind)).toCFString(), midiInProc, NULL, &portRef))
-            return -1;
+        if (macOSVersion >= 20)
+        {
+            if (MIDIClientCreateWithBlock(midi::getNameDevIn(ind).toCFString(), &clientRef, NULL))
+                return -1;
+            MIDIReceiveBlock receiveBlock = ^void (const MIDIEventList* evList, void* refCon) { midiInProcMac11(evList, refCon); };
+            MIDIInputPortCreateWithProtocol(clientRef, ("OUT - " + name).toCFString(), kMIDIProtocol_1_0, &portRef, receiveBlock);
+        }
+        else
+        {
+            if (MIDIClientCreate(midi::getNameDevIn(ind).toCFString(), NULL, NULL, &clientRef))
+                return -1;
+            if (MIDIInputPortCreate(clientRef, ("OUT - " + midi::getNameDevIn(ind)).toCFString(), midiInProc, NULL, &portRef))
+                return -1;
+        }
         if (MIDIPortConnectSource(portRef, devIn, &devIn))
             return -1;
         index = ind;
@@ -499,12 +507,20 @@ int MidiDevIn::open(QString nam, DWORD_PTR dwInstance)
             devIn = MIDIGetSource(index);
             if (devIn == (unsigned int)NULL)
                 return -1;
-            if (MIDIClientCreate(nam.toCFString(), NULL, NULL, &clientRef))
-                return -1;
-            //MIDIReceiveBlock receiveBlock = ^void (const MIDIEventList* evList, void* refCon) { midiInProc(evList, refCon); };
-            //MIDIInputPortCreateWithProtocol(clientRef, ("IN - " + nam).toCFString(), kMIDIProtocol_1_0, &portRef, receiveBlock);
-            if (MIDIInputPortCreate(clientRef, ("IN - " + nam).toCFString(), midiInProc, NULL, &portRef))
-                return -1;
+            if (macOSVersion >= 20)
+            {
+                if (MIDIClientCreateWithBlock(nam.toCFString(), &clientRef, NULL))
+                    return -1;
+                MIDIReceiveBlock receiveBlock = ^void (const MIDIEventList* evList, void* refCon) { midiInProcMac11(evList, refCon); };
+                MIDIInputPortCreateWithProtocol(clientRef, ("IN - " + nam).toCFString(), kMIDIProtocol_1_0, &portRef, receiveBlock);
+            }
+            else
+            {
+                if (MIDIClientCreate(nam.toCFString(), NULL, NULL, &clientRef))
+                    return -1;
+                if (MIDIInputPortCreate(clientRef, ("IN - " + nam).toCFString(), midiInProc, NULL, &portRef))
+                    return -1;
+            }
             if (MIDIPortConnectSource(portRef, devIn, &devIn))
                 return -1;
             index = _i;
@@ -702,8 +718,17 @@ int MidiDevOut::open(int ind)
         devOut = MIDIGetDestination(ind);
         if (devOut == (unsigned int)NULL)
             return -1;
-        if (MIDIClientCreate(midi::getNameDevOut(ind).toCFString(), NULL, NULL, &clientRef))
-            return -1;
+
+        if (macOSVersion >= 20)
+        {
+            if (MIDIClientCreateWithBlock(midi::getNameDevOut(ind).toCFString(), &clientRef, NULL))
+                return -1;
+        }
+        else
+        {
+            if (MIDIClientCreate(midi::getNameDevOut(ind).toCFString(), NULL, NULL, &clientRef))
+                return -1;
+        }
         if (MIDIOutputPortCreate(clientRef, ("OUT - " + midi::getNameDevOut(ind)).toCFString(), &portRef))
             return -1;
         index = ind;
@@ -789,8 +814,17 @@ int MidiDevOut::open(QString nam)
             devOut = MIDIGetDestination(_i);
             if (devOut == (unsigned int)NULL)
                 return -1;
-            if (MIDIClientCreate(nam.toCFString(), NULL, NULL, &clientRef))
-                return -1;
+
+            if (macOSVersion >= 20)
+            {
+                if (MIDIClientCreateWithBlock(nam.toCFString(), &clientRef, NULL))
+                    return -1;
+            }
+            else
+            {
+                if (MIDIClientCreate(nam.toCFString(), NULL, NULL, &clientRef))
+                    return -1;
+            }
             if (MIDIOutputPortCreate(clientRef, ("OUT - " + nam).toCFString(), &portRef))
                 return -1;
             index = _i;
@@ -822,10 +856,30 @@ int MidiDevOut::sendWord(char data1, char data2, char data3)
         return MMSYSERR_NOERROR;
 #endif
 #ifdef MAC_PLATFORM
-    MIDIPacket* currentPacket = MIDIPacketListInit(packetList);
-    Byte messOut[3] = { (Byte)data1, (Byte)data2, (Byte)data3 };
-    currentPacket = MIDIPacketListAdd(packetList, sizeof(buffOut), currentPacket, 0, 3, messOut);
-    return MIDISend(portRef, devOut, packetList);
+    if (macOSVersion >= 20)
+    {
+        uint32_t messOut = (0x21 << 24) + ((uint32_t)data1 << 16) + ((uint32_t) data2 << 8) + ((uint32_t) data3 << 0);  // UMP Messages
+        if (currentEventPacket == nullptr)
+        {
+            //MIDIFlushOutput(devOut);
+            //currentEventPacket = MIDIEventListInit(eventList, kMIDIProtocol_1_0);
+        }
+        currentEventPacket = MIDIEventListInit(eventList, kMIDIProtocol_1_0);
+        currentEventPacket = MIDIEventListAdd(eventList, sizeof(buffOut), currentEventPacket, 0, 1, &messOut);
+        return MIDISendEventList(portRef, devOut, eventList);
+    }
+    else
+    {
+        Byte messOut[3] = { (Byte)data1, (Byte)data2, (Byte)data3 };
+        if (currentPacket == nullptr)
+        {
+            //MIDIFlushOutput(devOut);
+            //currentPacket = MIDIPacketListInit(packetList);
+        }
+        currentPacket = MIDIPacketListInit(packetList);
+        currentPacket = MIDIPacketListAdd(packetList, sizeof(buffOut), currentPacket, 0, 3, messOut);
+        return MIDISend(portRef, devOut, packetList);
+    }
 #endif
     return -1;
 }

@@ -122,7 +122,23 @@ bool MainWindow::checkNewVersions()
 #endif
             QNetworkReply *replyExe = namExe.get(reqExe);
             connect(replyExe, &QNetworkReply::finished, &loopExe, &QEventLoop::quit);
+
+            cancelDownload = false;
+            if (downloadProgressDialog)
+            {
+                delete downloadProgressDialog;
+                downloadProgressDialog = nullptr;
+            }
+            downloadProgressDialog = new QProgressDialog("Downloading files...", "Cancel", 0, 100, this);
+            downloadProgressDialog->setModal(true);
+            downloadProgressDialog->show();
+            connect(downloadProgressDialog, &QProgressDialog::canceled, &loopExe, [&loopExe, this] () { (&loopExe)->quit(); this->cancelDownload = true; });
+
+            connect(replyExe, &QNetworkReply::downloadProgress, this, &MainWindow::updateProgressDial);
             loopExe.exec();
+
+            if (cancelDownload)
+                return false;
 
             QByteArray exeContent = replyExe->readAll();
             if (exeContent.length() > 0)
@@ -151,6 +167,29 @@ bool MainWindow::checkNewVersions()
         }
     }
     return false;
+}
+
+/*
+ * ============================
+ * Updates the progress Dialog
+ * used during the downloads
+ * ============================
+ */
+void MainWindow::updateProgressDial(qint64 ist, qint64 max)
+{
+    if (!downloadProgressDialog)
+    {
+        downloadProgressDialog = new QProgressDialog("Downloading files...", "Cancel", 0, 100, this);
+        downloadProgressDialog->setModal(true);
+        downloadProgressDialog->show();
+    }
+    downloadProgressDialog->setRange(0, max);
+    downloadProgressDialog->setValue(ist);
+    if (max < 0)
+    {
+        delete downloadProgressDialog;
+        downloadProgressDialog = nullptr;
+    }
 }
 
 /*
@@ -593,7 +632,24 @@ bool MainWindow::autoStartFUAndParse()
     QNetworkRequest req((QUrl)(DIST_RESSOURCES "FWKB_V" + QString::number(lastParsedFirmware) + ".kbf"));
     QNetworkReply *reply = nam.get(req);
     connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+
+    cancelDownload = false;
+    if (downloadProgressDialog)
+    {
+        delete downloadProgressDialog;
+        downloadProgressDialog = nullptr;
+    }
+    downloadProgressDialog = new QProgressDialog("Downloading files...", "Cancel", 0, 100, this);
+    downloadProgressDialog->setModal(true);
+    downloadProgressDialog->show();
+    connect(downloadProgressDialog, &QProgressDialog::canceled, &loop, [&loop, this] () { (&loop)->quit(); this->cancelDownload = true; });
+
+    connect(reply, &QNetworkReply::downloadProgress, this, &MainWindow::updateProgressDial);
     loop.exec();
+
+    if (cancelDownload)
+        return false;
+
     QByteArray buffer = reply->readAll();
 
     if (buffer.length() > 0)

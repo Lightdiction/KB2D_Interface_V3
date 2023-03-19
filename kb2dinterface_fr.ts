@@ -11,9 +11,9 @@
     <message>
         <location filename="aboutdialog.ui" line="116"/>
         <source>KB2D Laser Harp Interface
-Version: 3.53
+Version: 3.54
 
-Date: 18th May 2022
+Date: 5th February 2023
 
 Company: Lightdiction SAS
 Author: Thomas Avisse
@@ -22,16 +22,16 @@ https://lightdiction.com</source>
         <oldsource>KB2D Laser Harp Interface
 Version: 3.53
 
-Date: 25th March 2022
+Date: 18th May 2022
 
 Company: Lightdiction SAS
 Author: Thomas Avisse
 
 https://lightdiction.com</oldsource>
         <translation>Interface de Harpe Laser KB2D
-Version : 3.53
+Version : 3.54
 
-Date : 18 Mai 2022
+Date : 5 Février 2023
 
 Entreprise : Lightdiction SAS
 Auteur : Thomas Avisse
@@ -3753,7 +3753,7 @@ https://lightdiction.com</translation>
 <context>
     <name>Keyboard</name>
     <message>
-        <location filename="src/keyboard.cpp" line="162"/>
+        <location filename="src/keyboard.cpp" line="164"/>
         <source>C</source>
         <translation>Do</translation>
     </message>
@@ -3775,9 +3775,9 @@ https://lightdiction.com</translation>
     <name>MainWindow</name>
     <message>
         <location filename="mainwindow.ui" line="46"/>
-        <source>Lightdiction - KB2D Laser Harp Interface - v3.53</source>
-        <oldsource>Lightdiction - KB2D Laser Harp Interface - v3.51</oldsource>
-        <translation>Lightdiction - Interface de Harpe Laser KB2D - v3.53</translation>
+        <source>Lightdiction - KB2D Laser Harp Interface - v3.54</source>
+        <oldsource>Lightdiction - KB2D Laser Harp Interface - v3.53</oldsource>
+        <translation>Lightdiction - Interface de Harpe Laser KB2D - v3.54</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="150"/>
@@ -3785,344 +3785,344 @@ https://lightdiction.com</translation>
         <translation>Non Connecté</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17387"/>
+        <location filename="mainwindow.ui" line="17390"/>
         <source>Global settings</source>
         <translation>Paramètres généraux</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1897"/>
         <location filename="mainwindow.ui" line="2906"/>
-        <location filename="mainwindow.ui" line="3808"/>
-        <location filename="mainwindow.ui" line="6267"/>
-        <location filename="mainwindow.ui" line="6793"/>
-        <location filename="mainwindow.ui" line="7215"/>
-        <location filename="mainwindow.ui" line="7989"/>
-        <location filename="mainwindow.ui" line="9703"/>
-        <location filename="mainwindow.ui" line="10666"/>
-        <location filename="mainwindow.ui" line="11433"/>
-        <location filename="mainwindow.ui" line="12728"/>
+        <location filename="mainwindow.ui" line="3811"/>
+        <location filename="mainwindow.ui" line="6270"/>
+        <location filename="mainwindow.ui" line="6796"/>
+        <location filename="mainwindow.ui" line="7218"/>
+        <location filename="mainwindow.ui" line="7992"/>
+        <location filename="mainwindow.ui" line="9706"/>
+        <location filename="mainwindow.ui" line="10669"/>
+        <location filename="mainwindow.ui" line="11436"/>
+        <location filename="mainwindow.ui" line="12731"/>
         <source>12</source>
         <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1919"/>
         <location filename="mainwindow.ui" line="2794"/>
-        <location filename="mainwindow.ui" line="3654"/>
-        <location filename="mainwindow.ui" line="6155"/>
-        <location filename="mainwindow.ui" line="6675"/>
-        <location filename="mainwindow.ui" line="7237"/>
-        <location filename="mainwindow.ui" line="8011"/>
-        <location filename="mainwindow.ui" line="9591"/>
-        <location filename="mainwindow.ui" line="10328"/>
-        <location filename="mainwindow.ui" line="12067"/>
-        <location filename="mainwindow.ui" line="12693"/>
+        <location filename="mainwindow.ui" line="3657"/>
+        <location filename="mainwindow.ui" line="6158"/>
+        <location filename="mainwindow.ui" line="6678"/>
+        <location filename="mainwindow.ui" line="7240"/>
+        <location filename="mainwindow.ui" line="8014"/>
+        <location filename="mainwindow.ui" line="9594"/>
+        <location filename="mainwindow.ui" line="10331"/>
+        <location filename="mainwindow.ui" line="12070"/>
+        <location filename="mainwindow.ui" line="12696"/>
         <source>5</source>
         <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1809"/>
         <location filename="mainwindow.ui" line="2762"/>
-        <location filename="mainwindow.ui" line="3676"/>
-        <location filename="mainwindow.ui" line="6123"/>
-        <location filename="mainwindow.ui" line="6477"/>
-        <location filename="mainwindow.ui" line="7127"/>
-        <location filename="mainwindow.ui" line="7901"/>
-        <location filename="mainwindow.ui" line="9559"/>
-        <location filename="mainwindow.ui" line="10446"/>
-        <location filename="mainwindow.ui" line="12217"/>
-        <location filename="mainwindow.ui" line="12683"/>
+        <location filename="mainwindow.ui" line="3679"/>
+        <location filename="mainwindow.ui" line="6126"/>
+        <location filename="mainwindow.ui" line="6480"/>
+        <location filename="mainwindow.ui" line="7130"/>
+        <location filename="mainwindow.ui" line="7904"/>
+        <location filename="mainwindow.ui" line="9562"/>
+        <location filename="mainwindow.ui" line="10449"/>
+        <location filename="mainwindow.ui" line="12220"/>
+        <location filename="mainwindow.ui" line="12686"/>
         <source>3</source>
         <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1765"/>
         <location filename="mainwindow.ui" line="2778"/>
-        <location filename="mainwindow.ui" line="3720"/>
-        <location filename="mainwindow.ui" line="6139"/>
-        <location filename="mainwindow.ui" line="6609"/>
-        <location filename="mainwindow.ui" line="7083"/>
-        <location filename="mainwindow.ui" line="7857"/>
-        <location filename="mainwindow.ui" line="9575"/>
-        <location filename="mainwindow.ui" line="10622"/>
-        <location filename="mainwindow.ui" line="12292"/>
-        <location filename="mainwindow.ui" line="12688"/>
+        <location filename="mainwindow.ui" line="3723"/>
+        <location filename="mainwindow.ui" line="6142"/>
+        <location filename="mainwindow.ui" line="6612"/>
+        <location filename="mainwindow.ui" line="7086"/>
+        <location filename="mainwindow.ui" line="7860"/>
+        <location filename="mainwindow.ui" line="9578"/>
+        <location filename="mainwindow.ui" line="10625"/>
+        <location filename="mainwindow.ui" line="12295"/>
+        <location filename="mainwindow.ui" line="12691"/>
         <source>4</source>
         <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1875"/>
         <location filename="mainwindow.ui" line="2874"/>
-        <location filename="mainwindow.ui" line="3610"/>
-        <location filename="mainwindow.ui" line="6235"/>
-        <location filename="mainwindow.ui" line="6543"/>
-        <location filename="mainwindow.ui" line="7193"/>
-        <location filename="mainwindow.ui" line="7967"/>
-        <location filename="mainwindow.ui" line="9671"/>
-        <location filename="mainwindow.ui" line="10578"/>
-        <location filename="mainwindow.ui" line="11661"/>
-        <location filename="mainwindow.ui" line="12718"/>
+        <location filename="mainwindow.ui" line="3613"/>
+        <location filename="mainwindow.ui" line="6238"/>
+        <location filename="mainwindow.ui" line="6546"/>
+        <location filename="mainwindow.ui" line="7196"/>
+        <location filename="mainwindow.ui" line="7970"/>
+        <location filename="mainwindow.ui" line="9674"/>
+        <location filename="mainwindow.ui" line="10581"/>
+        <location filename="mainwindow.ui" line="11664"/>
+        <location filename="mainwindow.ui" line="12721"/>
         <source>10</source>
         <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1831"/>
         <location filename="mainwindow.ui" line="2858"/>
-        <location filename="mainwindow.ui" line="3467"/>
-        <location filename="mainwindow.ui" line="6219"/>
-        <location filename="mainwindow.ui" line="6587"/>
-        <location filename="mainwindow.ui" line="7149"/>
-        <location filename="mainwindow.ui" line="7923"/>
-        <location filename="mainwindow.ui" line="9655"/>
-        <location filename="mainwindow.ui" line="10350"/>
-        <location filename="mainwindow.ui" line="11786"/>
-        <location filename="mainwindow.ui" line="12713"/>
+        <location filename="mainwindow.ui" line="3470"/>
+        <location filename="mainwindow.ui" line="6222"/>
+        <location filename="mainwindow.ui" line="6590"/>
+        <location filename="mainwindow.ui" line="7152"/>
+        <location filename="mainwindow.ui" line="7926"/>
+        <location filename="mainwindow.ui" line="9658"/>
+        <location filename="mainwindow.ui" line="10353"/>
+        <location filename="mainwindow.ui" line="11789"/>
+        <location filename="mainwindow.ui" line="12716"/>
         <source>9</source>
         <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1699"/>
         <location filename="mainwindow.ui" line="2746"/>
-        <location filename="mainwindow.ui" line="3566"/>
-        <location filename="mainwindow.ui" line="6107"/>
-        <location filename="mainwindow.ui" line="6653"/>
-        <location filename="mainwindow.ui" line="7017"/>
-        <location filename="mainwindow.ui" line="7791"/>
-        <location filename="mainwindow.ui" line="9543"/>
-        <location filename="mainwindow.ui" line="10556"/>
-        <location filename="mainwindow.ui" line="11761"/>
-        <location filename="mainwindow.ui" line="12678"/>
+        <location filename="mainwindow.ui" line="3569"/>
+        <location filename="mainwindow.ui" line="6110"/>
+        <location filename="mainwindow.ui" line="6656"/>
+        <location filename="mainwindow.ui" line="7020"/>
+        <location filename="mainwindow.ui" line="7794"/>
+        <location filename="mainwindow.ui" line="9546"/>
+        <location filename="mainwindow.ui" line="10559"/>
+        <location filename="mainwindow.ui" line="11764"/>
+        <location filename="mainwindow.ui" line="12681"/>
         <source>2</source>
         <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1787"/>
         <location filename="mainwindow.ui" line="2842"/>
-        <location filename="mainwindow.ui" line="3786"/>
-        <location filename="mainwindow.ui" line="6203"/>
-        <location filename="mainwindow.ui" line="6741"/>
-        <location filename="mainwindow.ui" line="7105"/>
-        <location filename="mainwindow.ui" line="7879"/>
-        <location filename="mainwindow.ui" line="9639"/>
-        <location filename="mainwindow.ui" line="10468"/>
-        <location filename="mainwindow.ui" line="11736"/>
-        <location filename="mainwindow.ui" line="12708"/>
+        <location filename="mainwindow.ui" line="3789"/>
+        <location filename="mainwindow.ui" line="6206"/>
+        <location filename="mainwindow.ui" line="6744"/>
+        <location filename="mainwindow.ui" line="7108"/>
+        <location filename="mainwindow.ui" line="7882"/>
+        <location filename="mainwindow.ui" line="9642"/>
+        <location filename="mainwindow.ui" line="10471"/>
+        <location filename="mainwindow.ui" line="11739"/>
+        <location filename="mainwindow.ui" line="12711"/>
         <source>8</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="11236"/>
-        <location filename="mainwindow.ui" line="11286"/>
-        <location filename="mainwindow.ui" line="11386"/>
-        <location filename="mainwindow.ui" line="11486"/>
-        <location filename="mainwindow.ui" line="11539"/>
-        <location filename="mainwindow.ui" line="11589"/>
-        <location filename="mainwindow.ui" line="11814"/>
-        <location filename="mainwindow.ui" line="11864"/>
-        <location filename="mainwindow.ui" line="11942"/>
-        <location filename="mainwindow.ui" line="11992"/>
-        <location filename="mainwindow.ui" line="12095"/>
-        <location filename="mainwindow.ui" line="12170"/>
-        <location filename="mainwindow.ui" line="12245"/>
-        <location filename="mainwindow.ui" line="12320"/>
-        <location filename="mainwindow.ui" line="12370"/>
+        <location filename="mainwindow.ui" line="11239"/>
+        <location filename="mainwindow.ui" line="11289"/>
+        <location filename="mainwindow.ui" line="11389"/>
+        <location filename="mainwindow.ui" line="11489"/>
+        <location filename="mainwindow.ui" line="11542"/>
+        <location filename="mainwindow.ui" line="11592"/>
+        <location filename="mainwindow.ui" line="11817"/>
+        <location filename="mainwindow.ui" line="11867"/>
+        <location filename="mainwindow.ui" line="11945"/>
+        <location filename="mainwindow.ui" line="11995"/>
+        <location filename="mainwindow.ui" line="12098"/>
+        <location filename="mainwindow.ui" line="12173"/>
+        <location filename="mainwindow.ui" line="12248"/>
+        <location filename="mainwindow.ui" line="12323"/>
+        <location filename="mainwindow.ui" line="12373"/>
         <source>Angle position of beam 2</source>
         <translation>Position angulaire du faisceau 2</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1743"/>
         <location filename="mainwindow.ui" line="2730"/>
-        <location filename="mainwindow.ui" line="3764"/>
-        <location filename="mainwindow.ui" line="6091"/>
-        <location filename="mainwindow.ui" line="6521"/>
-        <location filename="mainwindow.ui" line="7061"/>
-        <location filename="mainwindow.ui" line="7835"/>
-        <location filename="mainwindow.ui" line="9527"/>
-        <location filename="mainwindow.ui" line="10372"/>
-        <location filename="mainwindow.ui" line="11333"/>
-        <location filename="mainwindow.ui" line="12657"/>
-        <location filename="mainwindow.ui" line="12673"/>
+        <location filename="mainwindow.ui" line="3767"/>
+        <location filename="mainwindow.ui" line="6094"/>
+        <location filename="mainwindow.ui" line="6524"/>
+        <location filename="mainwindow.ui" line="7064"/>
+        <location filename="mainwindow.ui" line="7838"/>
+        <location filename="mainwindow.ui" line="9530"/>
+        <location filename="mainwindow.ui" line="10375"/>
+        <location filename="mainwindow.ui" line="11336"/>
+        <location filename="mainwindow.ui" line="12660"/>
+        <location filename="mainwindow.ui" line="12676"/>
         <source>1</source>
         <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1941"/>
         <location filename="mainwindow.ui" line="2810"/>
-        <location filename="mainwindow.ui" line="3489"/>
-        <location filename="mainwindow.ui" line="6171"/>
-        <location filename="mainwindow.ui" line="6499"/>
-        <location filename="mainwindow.ui" line="7259"/>
-        <location filename="mainwindow.ui" line="8033"/>
-        <location filename="mainwindow.ui" line="9607"/>
-        <location filename="mainwindow.ui" line="10688"/>
-        <location filename="mainwindow.ui" line="11158"/>
-        <location filename="mainwindow.ui" line="12698"/>
+        <location filename="mainwindow.ui" line="3492"/>
+        <location filename="mainwindow.ui" line="6174"/>
+        <location filename="mainwindow.ui" line="6502"/>
+        <location filename="mainwindow.ui" line="7262"/>
+        <location filename="mainwindow.ui" line="8036"/>
+        <location filename="mainwindow.ui" line="9610"/>
+        <location filename="mainwindow.ui" line="10691"/>
+        <location filename="mainwindow.ui" line="11161"/>
+        <location filename="mainwindow.ui" line="12701"/>
         <source>6</source>
         <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1721"/>
         <location filename="mainwindow.ui" line="2922"/>
-        <location filename="mainwindow.ui" line="3830"/>
-        <location filename="mainwindow.ui" line="6283"/>
-        <location filename="mainwindow.ui" line="6565"/>
-        <location filename="mainwindow.ui" line="7039"/>
-        <location filename="mainwindow.ui" line="7813"/>
-        <location filename="mainwindow.ui" line="9719"/>
-        <location filename="mainwindow.ui" line="10424"/>
-        <location filename="mainwindow.ui" line="11358"/>
-        <location filename="mainwindow.ui" line="12733"/>
+        <location filename="mainwindow.ui" line="3833"/>
+        <location filename="mainwindow.ui" line="6286"/>
+        <location filename="mainwindow.ui" line="6568"/>
+        <location filename="mainwindow.ui" line="7042"/>
+        <location filename="mainwindow.ui" line="7816"/>
+        <location filename="mainwindow.ui" line="9722"/>
+        <location filename="mainwindow.ui" line="10427"/>
+        <location filename="mainwindow.ui" line="11361"/>
+        <location filename="mainwindow.ui" line="12736"/>
         <source>13</source>
         <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1633"/>
         <location filename="mainwindow.ui" line="2954"/>
-        <location filename="mainwindow.ui" line="3588"/>
-        <location filename="mainwindow.ui" line="6315"/>
-        <location filename="mainwindow.ui" line="6719"/>
-        <location filename="mainwindow.ui" line="6951"/>
-        <location filename="mainwindow.ui" line="7725"/>
-        <location filename="mainwindow.ui" line="9751"/>
-        <location filename="mainwindow.ui" line="10644"/>
-        <location filename="mainwindow.ui" line="11711"/>
-        <location filename="mainwindow.ui" line="12743"/>
+        <location filename="mainwindow.ui" line="3591"/>
+        <location filename="mainwindow.ui" line="6318"/>
+        <location filename="mainwindow.ui" line="6722"/>
+        <location filename="mainwindow.ui" line="6954"/>
+        <location filename="mainwindow.ui" line="7728"/>
+        <location filename="mainwindow.ui" line="9754"/>
+        <location filename="mainwindow.ui" line="10647"/>
+        <location filename="mainwindow.ui" line="11714"/>
+        <location filename="mainwindow.ui" line="12746"/>
         <source>15</source>
         <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1963"/>
         <location filename="mainwindow.ui" line="2970"/>
-        <location filename="mainwindow.ui" line="3632"/>
-        <location filename="mainwindow.ui" line="6331"/>
-        <location filename="mainwindow.ui" line="6697"/>
-        <location filename="mainwindow.ui" line="7281"/>
-        <location filename="mainwindow.ui" line="8055"/>
-        <location filename="mainwindow.ui" line="9767"/>
-        <location filename="mainwindow.ui" line="10534"/>
-        <location filename="mainwindow.ui" line="11686"/>
-        <location filename="mainwindow.ui" line="12748"/>
+        <location filename="mainwindow.ui" line="3635"/>
+        <location filename="mainwindow.ui" line="6334"/>
+        <location filename="mainwindow.ui" line="6700"/>
+        <location filename="mainwindow.ui" line="7284"/>
+        <location filename="mainwindow.ui" line="8058"/>
+        <location filename="mainwindow.ui" line="9770"/>
+        <location filename="mainwindow.ui" line="10537"/>
+        <location filename="mainwindow.ui" line="11689"/>
+        <location filename="mainwindow.ui" line="12751"/>
         <source>16</source>
         <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1677"/>
         <location filename="mainwindow.ui" line="2826"/>
-        <location filename="mainwindow.ui" line="3511"/>
-        <location filename="mainwindow.ui" line="6187"/>
-        <location filename="mainwindow.ui" line="6433"/>
-        <location filename="mainwindow.ui" line="6995"/>
-        <location filename="mainwindow.ui" line="7769"/>
-        <location filename="mainwindow.ui" line="9623"/>
-        <location filename="mainwindow.ui" line="10600"/>
-        <location filename="mainwindow.ui" line="11458"/>
-        <location filename="mainwindow.ui" line="12703"/>
+        <location filename="mainwindow.ui" line="3514"/>
+        <location filename="mainwindow.ui" line="6190"/>
+        <location filename="mainwindow.ui" line="6436"/>
+        <location filename="mainwindow.ui" line="6998"/>
+        <location filename="mainwindow.ui" line="7772"/>
+        <location filename="mainwindow.ui" line="9626"/>
+        <location filename="mainwindow.ui" line="10603"/>
+        <location filename="mainwindow.ui" line="11461"/>
+        <location filename="mainwindow.ui" line="12706"/>
         <source>7</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17656"/>
+        <location filename="mainwindow.ui" line="17659"/>
         <source>Invert X Notes</source>
         <translation>Inverser les Notes X</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17683"/>
+        <location filename="mainwindow.ui" line="17686"/>
         <source>Calibrate Angles</source>
         <translation>Calibrer les angles</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1611"/>
         <location filename="mainwindow.ui" line="2938"/>
-        <location filename="mainwindow.ui" line="3742"/>
-        <location filename="mainwindow.ui" line="6299"/>
-        <location filename="mainwindow.ui" line="6631"/>
-        <location filename="mainwindow.ui" line="6929"/>
-        <location filename="mainwindow.ui" line="7703"/>
-        <location filename="mainwindow.ui" line="9735"/>
-        <location filename="mainwindow.ui" line="10512"/>
-        <location filename="mainwindow.ui" line="12142"/>
-        <location filename="mainwindow.ui" line="12738"/>
+        <location filename="mainwindow.ui" line="3745"/>
+        <location filename="mainwindow.ui" line="6302"/>
+        <location filename="mainwindow.ui" line="6634"/>
+        <location filename="mainwindow.ui" line="6932"/>
+        <location filename="mainwindow.ui" line="7706"/>
+        <location filename="mainwindow.ui" line="9738"/>
+        <location filename="mainwindow.ui" line="10515"/>
+        <location filename="mainwindow.ui" line="12145"/>
+        <location filename="mainwindow.ui" line="12741"/>
         <source>14</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="11186"/>
+        <location filename="mainwindow.ui" line="11189"/>
         <source>Angle position of beam 1</source>
         <translation>Position angulaire du faisceau 1</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1853"/>
         <location filename="mainwindow.ui" line="2890"/>
-        <location filename="mainwindow.ui" line="3698"/>
-        <location filename="mainwindow.ui" line="6251"/>
-        <location filename="mainwindow.ui" line="6455"/>
-        <location filename="mainwindow.ui" line="7171"/>
-        <location filename="mainwindow.ui" line="7945"/>
-        <location filename="mainwindow.ui" line="9687"/>
-        <location filename="mainwindow.ui" line="10490"/>
-        <location filename="mainwindow.ui" line="11636"/>
-        <location filename="mainwindow.ui" line="12723"/>
+        <location filename="mainwindow.ui" line="3701"/>
+        <location filename="mainwindow.ui" line="6254"/>
+        <location filename="mainwindow.ui" line="6458"/>
+        <location filename="mainwindow.ui" line="7174"/>
+        <location filename="mainwindow.ui" line="7948"/>
+        <location filename="mainwindow.ui" line="9690"/>
+        <location filename="mainwindow.ui" line="10493"/>
+        <location filename="mainwindow.ui" line="11639"/>
+        <location filename="mainwindow.ui" line="12726"/>
         <source>11</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17668"/>
         <location filename="mainwindow.ui" line="17671"/>
+        <location filename="mainwindow.ui" line="17674"/>
         <source>Stop Calibration</source>
         <translation>Arrêter la Calibration</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17500"/>
+        <location filename="mainwindow.ui" line="17503"/>
         <source>Start Detection</source>
         <translation>Démarrer la Détection</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14070"/>
-        <location filename="mainwindow.ui" line="14137"/>
+        <location filename="mainwindow.ui" line="14073"/>
+        <location filename="mainwindow.ui" line="14140"/>
         <source>This defines the delta of amplitude around the height of interaction before starting to modulate the note.
 This way, the pitch does not change for small height variation.</source>
         <translation>Cela définit le delta d&apos;amplitude autour de la hauteur d&apos;intéraction, avant de commencer à moduler la note.
 De cette façon, le pitch ne change pas pour des variations de hauteur très faibles.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="13874"/>
-        <location filename="mainwindow.ui" line="14268"/>
+        <location filename="mainwindow.ui" line="13877"/>
+        <location filename="mainwindow.ui" line="14271"/>
         <source>Smooth coeff: This parameter avoids sudden variations on Z.
 If this parameter is high enough, it will prevent the pitch to vary quickly.</source>
         <translation>Smooth Coeff : Ce paramètre supprime les variations brusque sur Z (hauteur).
 Si ce paramètre est assez important, cela va empêcher le pitch de varier rapidement.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="13878"/>
+        <location filename="mainwindow.ui" line="13881"/>
         <source>Smoothing filter</source>
         <translation>Filtre de lissage</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14074"/>
+        <location filename="mainwindow.ui" line="14077"/>
         <source>Stabilization delta</source>
         <oldsource>Stabilization delta on Z</oldsource>
         <translation>Delta de stabilisation</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14657"/>
+        <location filename="mainwindow.ui" line="14660"/>
         <source>Invert the pitch modulation in function of height variation.</source>
         <translation>Inverse la modulation du pitch en fonction de la variation de hauteur.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="13781"/>
-        <location filename="mainwindow.ui" line="14236"/>
+        <location filename="mainwindow.ui" line="13784"/>
+        <location filename="mainwindow.ui" line="14239"/>
         <source>This defines the amount of pitch modulation in function of height variation.
 The value you put here is highly dependant on the power of the laser</source>
         <translation>Cela définit l&apos;importance de la modulation du pitch en fonction de la variation de hauteur.
 La valeur que vous mettez ici dépend fortement de la puissance du laser</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14240"/>
+        <location filename="mainwindow.ui" line="14243"/>
         <source>Amplitude (sensitivity)</source>
         <oldsource>Amplitude on Z modulation</oldsource>
         <translation>Amplitude (sensibilité)</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14099"/>
+        <location filename="mainwindow.ui" line="14102"/>
         <source>Z mode : - Relative modulation. The pitch / Z var is neutral (0x40 = 64) when you interact with the beam.
 Then when you move your hand up or down the pitch / Z var goes up or down.
 
@@ -4135,36 +4135,36 @@ Puis lorsque vous bougez votre main vers le haut ou le bas le pitch / Var Z va a
 Cette méthode n&apos;est pas très préciser, car la hauteur détectée va dépendre de la réflectivité de la surface.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14316"/>
+        <location filename="mainwindow.ui" line="14319"/>
         <source>Smooth coeff: This parameter avoids sudden variations on Z.
 If this parameter is too low, it will prevent the pitch to vary quickly.</source>
         <translation>Smooth coeff : Ce paramètre filtre des variations brusques sur Z.
 Si ce paramètre est assez haut, cela va empêcher le pitch de varier rapidement.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14323"/>
+        <location filename="mainwindow.ui" line="14326"/>
         <source>NB: There is still work in progress on absolute modulation</source>
         <translation>NB : La modulation de hauteur absolue est toujours en développement</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="13948"/>
-        <location filename="mainwindow.ui" line="14023"/>
+        <location filename="mainwindow.ui" line="13951"/>
+        <location filename="mainwindow.ui" line="14026"/>
         <source>This allows to ignore Z variations at the beginning of the interaction.</source>
         <translation>Cela permet d&apos;ignorer les variations de Z au tout début de l&apos;interaction.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="13951"/>
+        <location filename="mainwindow.ui" line="13954"/>
         <source>Attack Filter</source>
         <oldsource>Attack Z Filter</oldsource>
         <translation>Filtre sur l&apos;Attaque</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="13986"/>
+        <location filename="mainwindow.ui" line="13989"/>
         <source>Relative modulation</source>
         <translation>Modulation relative</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="13991"/>
+        <location filename="mainwindow.ui" line="13994"/>
         <source>Absolute modulation</source>
         <translation>Modulation absolue</translation>
     </message>
@@ -4172,9 +4172,9 @@ Si ce paramètre est assez haut, cela va empêcher le pitch de varier rapidement
         <location filename="mainwindow.ui" line="329"/>
         <location filename="mainwindow.ui" line="336"/>
         <location filename="mainwindow.ui" line="360"/>
-        <location filename="mainwindow.ui" line="16334"/>
-        <location filename="mainwindow.ui" line="16407"/>
-        <location filename="mainwindow.ui" line="16414"/>
+        <location filename="mainwindow.ui" line="16337"/>
+        <location filename="mainwindow.ui" line="16410"/>
+        <location filename="mainwindow.ui" line="16417"/>
         <location filename="src/grports.cpp" line="146"/>
         <location filename="src/grports.cpp" line="147"/>
         <location filename="src/grports.cpp" line="148"/>
@@ -4193,21 +4193,21 @@ Si ce paramètre est assez haut, cela va empêcher le pitch de varier rapidement
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="16326"/>
-        <location filename="mainwindow.ui" line="16377"/>
+        <location filename="mainwindow.ui" line="16329"/>
+        <location filename="mainwindow.ui" line="16380"/>
         <source>MIDI In (mapping)
 Connect an external device here (like a footswitch) to map any button or preset on this interface.</source>
         <translation>MIDI In (mapping)
 Connectez un contrôleur externe ici (comme une pédale) pour mapper n&apos;importe quel bouton ou preset de cette interface.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="16381"/>
+        <location filename="mainwindow.ui" line="16384"/>
         <source>MIDI In (Mapping)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="16354"/>
-        <location filename="mainwindow.ui" line="16400"/>
+        <location filename="mainwindow.ui" line="16357"/>
+        <location filename="mainwindow.ui" line="16403"/>
         <source>MIDI Out Through
 All MIDI messages received on MIDI In (mapping) are transferred to this MIDI Through.</source>
         <translation>MIDI Out Through
@@ -4229,13 +4229,13 @@ Tous les messages reçu sur le MIDI In (mapping) sont transférés vers ce MIDI 
         <translation>[Sélectionner la Config]</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17012"/>
-        <location filename="mainwindow.ui" line="17601"/>
-        <location filename="src/fupdater.cpp" line="360"/>
-        <location filename="src/fupdater.cpp" line="408"/>
-        <location filename="src/fupdater.cpp" line="463"/>
-        <location filename="src/fupdater.cpp" line="493"/>
-        <location filename="src/fupdater.cpp" line="515"/>
+        <location filename="mainwindow.ui" line="17015"/>
+        <location filename="mainwindow.ui" line="17604"/>
+        <location filename="src/fupdater.cpp" line="399"/>
+        <location filename="src/fupdater.cpp" line="447"/>
+        <location filename="src/fupdater.cpp" line="502"/>
+        <location filename="src/fupdater.cpp" line="532"/>
+        <location filename="src/fupdater.cpp" line="554"/>
         <source>Load Firmware file</source>
         <translation>Charger le fichier Firmware</translation>
     </message>
@@ -4245,72 +4245,72 @@ Tous les messages reçu sur le MIDI In (mapping) sont transférés vers ce MIDI 
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="13268"/>
-        <location filename="mainwindow.ui" line="13442"/>
+        <location filename="mainwindow.ui" line="13271"/>
+        <location filename="mainwindow.ui" line="13445"/>
         <source>Frames per second should be the same as the value on your laser projector</source>
         <translation>Le nombre d&apos;Images par Seconde devrait avoir la même valeur que sur votre projecteur laser</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="13271"/>
+        <location filename="mainwindow.ui" line="13274"/>
         <location filename="src/grextmapping.cpp" line="247"/>
         <source>Frames Per Second</source>
         <translation>Images par Seconde</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="13347"/>
-        <location filename="mainwindow.ui" line="13486"/>
+        <location filename="mainwindow.ui" line="13350"/>
+        <location filename="mainwindow.ui" line="13489"/>
         <source>Threshold on the power detected by the KB2D to consider a detection as valid</source>
         <translation>Seuil sur la puissance détectée par le KB2D pour considérer une détection comme valide</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="13489"/>
+        <location filename="mainwindow.ui" line="13492"/>
         <source>Detection threshold</source>
         <translation>Seuil de détection</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="13024"/>
-        <location filename="mainwindow.ui" line="13589"/>
+        <location filename="mainwindow.ui" line="13027"/>
+        <location filename="mainwindow.ui" line="13592"/>
         <source>The system will be more sensitive to interactions with high values.</source>
         <translation>Le système sera plus sensible aux interactions avec des valeurs importantes.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="12464"/>
+        <location filename="mainwindow.ui" line="12467"/>
         <source>Number of beams</source>
         <translation>Nombre de faisceaux</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="13064"/>
-        <location filename="mainwindow.ui" line="13080"/>
+        <location filename="mainwindow.ui" line="13067"/>
+        <location filename="mainwindow.ui" line="13083"/>
         <source>No Amplification</source>
         <translation>Pas d&apos;amplification</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="13085"/>
+        <location filename="mainwindow.ui" line="13088"/>
         <source>x 2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="13090"/>
+        <location filename="mainwindow.ui" line="13093"/>
         <source>x 4</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="13095"/>
+        <location filename="mainwindow.ui" line="13098"/>
         <source>x 8</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="13100"/>
+        <location filename="mainwindow.ui" line="13103"/>
         <source>x 16</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="13171"/>
+        <location filename="mainwindow.ui" line="13174"/>
         <source>Hardware Gain</source>
         <translation>Gain Hardware</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17176"/>
+        <location filename="mainwindow.ui" line="17179"/>
         <source>0</source>
         <translation></translation>
     </message>
@@ -4318,86 +4318,86 @@ Tous les messages reçu sur le MIDI In (mapping) sont transférés vers ce MIDI 
         <location filename="mainwindow.ui" line="862"/>
         <location filename="mainwindow.ui" line="1121"/>
         <location filename="mainwindow.ui" line="1377"/>
-        <location filename="mainwindow.ui" line="4751"/>
-        <location filename="mainwindow.ui" line="5010"/>
-        <location filename="mainwindow.ui" line="5266"/>
-        <location filename="mainwindow.ui" line="8187"/>
-        <location filename="mainwindow.ui" line="8446"/>
-        <location filename="mainwindow.ui" line="8702"/>
+        <location filename="mainwindow.ui" line="4754"/>
+        <location filename="mainwindow.ui" line="5013"/>
+        <location filename="mainwindow.ui" line="5269"/>
+        <location filename="mainwindow.ui" line="8190"/>
+        <location filename="mainwindow.ui" line="8449"/>
+        <location filename="mainwindow.ui" line="8705"/>
         <source>Channel</source>
         <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1387"/>
-        <location filename="mainwindow.ui" line="5276"/>
-        <location filename="mainwindow.ui" line="8712"/>
+        <location filename="mainwindow.ui" line="5279"/>
+        <location filename="mainwindow.ui" line="8715"/>
         <source>Note</source>
         <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="975"/>
         <location filename="mainwindow.ui" line="1131"/>
-        <location filename="mainwindow.ui" line="4864"/>
-        <location filename="mainwindow.ui" line="5020"/>
-        <location filename="mainwindow.ui" line="8300"/>
-        <location filename="mainwindow.ui" line="8456"/>
+        <location filename="mainwindow.ui" line="4867"/>
+        <location filename="mainwindow.ui" line="5023"/>
+        <location filename="mainwindow.ui" line="8303"/>
+        <location filename="mainwindow.ui" line="8459"/>
         <source>Control</source>
         <translation>Contrôle</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="872"/>
         <location filename="mainwindow.ui" line="1141"/>
-        <location filename="mainwindow.ui" line="4761"/>
-        <location filename="mainwindow.ui" line="5030"/>
-        <location filename="mainwindow.ui" line="8197"/>
-        <location filename="mainwindow.ui" line="8466"/>
+        <location filename="mainwindow.ui" line="4764"/>
+        <location filename="mainwindow.ui" line="5033"/>
+        <location filename="mainwindow.ui" line="8200"/>
+        <location filename="mainwindow.ui" line="8469"/>
         <source>Value</source>
         <translation>Valeur</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1033"/>
         <location filename="mainwindow.ui" line="1289"/>
-        <location filename="mainwindow.ui" line="4922"/>
-        <location filename="mainwindow.ui" line="5178"/>
-        <location filename="mainwindow.ui" line="8358"/>
-        <location filename="mainwindow.ui" line="8614"/>
+        <location filename="mainwindow.ui" line="4925"/>
+        <location filename="mainwindow.ui" line="5181"/>
+        <location filename="mainwindow.ui" line="8361"/>
+        <location filename="mainwindow.ui" line="8617"/>
         <source>Control Change</source>
         <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1397"/>
-        <location filename="mainwindow.ui" line="5286"/>
-        <location filename="mainwindow.ui" line="8722"/>
+        <location filename="mainwindow.ui" line="5289"/>
+        <location filename="mainwindow.ui" line="8725"/>
         <source>Velocity</source>
         <translation>Vélocité</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17612"/>
+        <location filename="mainwindow.ui" line="17615"/>
         <source>F5</source>
         <translation>Fa5</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="16250"/>
+        <location filename="mainwindow.ui" line="16253"/>
         <source>External MIDI Mapping</source>
         <translation>Mapping MIDI Externe</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="16492"/>
+        <location filename="mainwindow.ui" line="16495"/>
         <source>Load from File</source>
         <translation>Charger depuis le fichier</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="16464"/>
+        <location filename="mainwindow.ui" line="16467"/>
         <source>Save in File</source>
         <translation>Sauver dans le fichier</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="16520"/>
+        <location filename="mainwindow.ui" line="16523"/>
         <source>Default settings</source>
         <translation>Paramètres par défaut</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="16271"/>
+        <location filename="mainwindow.ui" line="16274"/>
         <source>Put &quot;-1&quot; in the 2nd or 3rd column to accept any value in these columns.</source>
         <translation>Mettez -1 dans la 2ème ou 3ème colonne pour accepter n&apos;importe quelle valeur dans ces colonnes.</translation>
     </message>
@@ -4445,46 +4445,46 @@ Tous les messages reçu sur le MIDI In (mapping) sont transférés vers ce MIDI 
     </message>
     <message>
         <location filename="mainwindow.ui" line="1652"/>
-        <location filename="mainwindow.ui" line="6970"/>
-        <location filename="mainwindow.ui" line="7744"/>
+        <location filename="mainwindow.ui" line="6973"/>
+        <location filename="mainwindow.ui" line="7747"/>
         <source>Enable beams</source>
         <translation>Activer les faisceaux</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="3243"/>
-        <location filename="mainwindow.ui" line="4259"/>
-        <location filename="mainwindow.ui" line="9856"/>
+        <location filename="mainwindow.ui" line="4262"/>
+        <location filename="mainwindow.ui" line="9859"/>
         <source>First Key &gt; </source>
         <translation>Première Touche &gt; </translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3338"/>
-        <location filename="mainwindow.ui" line="4370"/>
-        <location filename="mainwindow.ui" line="9967"/>
+        <location filename="mainwindow.ui" line="3341"/>
+        <location filename="mainwindow.ui" line="4373"/>
+        <location filename="mainwindow.ui" line="9970"/>
         <source>Number of keys &gt; </source>
         <translation>Nombre de touches &gt; </translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="3197"/>
-        <location filename="mainwindow.ui" line="4581"/>
-        <location filename="mainwindow.ui" line="10178"/>
+        <location filename="mainwindow.ui" line="4584"/>
+        <location filename="mainwindow.ui" line="10181"/>
         <source>Send Note on a click</source>
         <translation>Envoyer la note en cliquant</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2114"/>
-        <location filename="mainwindow.ui" line="5475"/>
-        <location filename="mainwindow.ui" line="8911"/>
+        <location filename="mainwindow.ui" line="5478"/>
+        <location filename="mainwindow.ui" line="8914"/>
         <source>Notes parameters (Combo X)</source>
         <translation>Paramètres de Notes (Combo X)</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1002"/>
-        <location filename="mainwindow.ui" line="4891"/>
-        <location filename="mainwindow.ui" line="8327"/>
-        <location filename="src/grnotes.cpp" line="855"/>
-        <location filename="src/grnotes.cpp" line="866"/>
-        <location filename="src/grnotes.cpp" line="877"/>
+        <location filename="mainwindow.ui" line="4894"/>
+        <location filename="mainwindow.ui" line="8330"/>
+        <location filename="src/grnotes.cpp" line="1079"/>
+        <location filename="src/grnotes.cpp" line="1090"/>
+        <location filename="src/grnotes.cpp" line="1101"/>
         <source>Enable Effect 1</source>
         <translation>Activer l&apos;Effet 1</translation>
     </message>
@@ -4498,214 +4498,214 @@ Tous les messages reçu sur le MIDI In (mapping) sont transférés vers ce MIDI 
         <location filename="mainwindow.ui" line="1028"/>
         <location filename="mainwindow.ui" line="1277"/>
         <location filename="mainwindow.ui" line="1284"/>
-        <location filename="mainwindow.ui" line="4910"/>
-        <location filename="mainwindow.ui" line="4917"/>
-        <location filename="mainwindow.ui" line="5166"/>
-        <location filename="mainwindow.ui" line="5173"/>
-        <location filename="mainwindow.ui" line="8346"/>
-        <location filename="mainwindow.ui" line="8353"/>
-        <location filename="mainwindow.ui" line="8602"/>
-        <location filename="mainwindow.ui" line="8609"/>
+        <location filename="mainwindow.ui" line="4913"/>
+        <location filename="mainwindow.ui" line="4920"/>
+        <location filename="mainwindow.ui" line="5169"/>
+        <location filename="mainwindow.ui" line="5176"/>
+        <location filename="mainwindow.ui" line="8349"/>
+        <location filename="mainwindow.ui" line="8356"/>
+        <location filename="mainwindow.ui" line="8605"/>
+        <location filename="mainwindow.ui" line="8612"/>
         <source>Poly Aftertouch</source>
         <translation>Poly Aftertouch</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1038"/>
         <location filename="mainwindow.ui" line="1294"/>
-        <location filename="mainwindow.ui" line="4927"/>
-        <location filename="mainwindow.ui" line="5183"/>
-        <location filename="mainwindow.ui" line="8363"/>
-        <location filename="mainwindow.ui" line="8619"/>
+        <location filename="mainwindow.ui" line="4930"/>
+        <location filename="mainwindow.ui" line="5186"/>
+        <location filename="mainwindow.ui" line="8366"/>
+        <location filename="mainwindow.ui" line="8622"/>
         <source>Program Change</source>
         <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1043"/>
         <location filename="mainwindow.ui" line="1299"/>
-        <location filename="mainwindow.ui" line="4932"/>
-        <location filename="mainwindow.ui" line="5188"/>
-        <location filename="mainwindow.ui" line="8368"/>
-        <location filename="mainwindow.ui" line="8624"/>
+        <location filename="mainwindow.ui" line="4935"/>
+        <location filename="mainwindow.ui" line="5191"/>
+        <location filename="mainwindow.ui" line="8371"/>
+        <location filename="mainwindow.ui" line="8627"/>
         <source>Channel Aftertouch</source>
         <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1048"/>
         <location filename="mainwindow.ui" line="1304"/>
-        <location filename="mainwindow.ui" line="4937"/>
-        <location filename="mainwindow.ui" line="5193"/>
-        <location filename="mainwindow.ui" line="8373"/>
-        <location filename="mainwindow.ui" line="8629"/>
+        <location filename="mainwindow.ui" line="4940"/>
+        <location filename="mainwindow.ui" line="5196"/>
+        <location filename="mainwindow.ui" line="8376"/>
+        <location filename="mainwindow.ui" line="8632"/>
         <source>Pitch bend</source>
         <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1258"/>
-        <location filename="mainwindow.ui" line="5147"/>
-        <location filename="mainwindow.ui" line="8583"/>
-        <location filename="src/grnotes.cpp" line="934"/>
-        <location filename="src/grnotes.cpp" line="945"/>
-        <location filename="src/grnotes.cpp" line="956"/>
+        <location filename="mainwindow.ui" line="5150"/>
+        <location filename="mainwindow.ui" line="8586"/>
+        <location filename="src/grnotes.cpp" line="1251"/>
+        <location filename="src/grnotes.cpp" line="1262"/>
+        <location filename="src/grnotes.cpp" line="1273"/>
         <source>Enable Effect 2</source>
         <translation>Activer l&apos;Effet 2</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1508"/>
-        <location filename="mainwindow.ui" line="5397"/>
-        <location filename="mainwindow.ui" line="8833"/>
-        <location filename="src/grnotes.cpp" line="779"/>
-        <location filename="src/grnotes.cpp" line="789"/>
-        <location filename="src/grnotes.cpp" line="799"/>
+        <location filename="mainwindow.ui" line="5400"/>
+        <location filename="mainwindow.ui" line="8836"/>
+        <location filename="src/grnotes.cpp" line="910"/>
+        <location filename="src/grnotes.cpp" line="920"/>
+        <location filename="src/grnotes.cpp" line="930"/>
         <source>Enable Notes On / Off</source>
         <translation>Activer les Notes On / Off</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3538"/>
-        <location filename="mainwindow.ui" line="6768"/>
-        <location filename="mainwindow.ui" line="10399"/>
+        <location filename="mainwindow.ui" line="3541"/>
+        <location filename="mainwindow.ui" line="6771"/>
+        <location filename="mainwindow.ui" line="10402"/>
         <source>Select beam to assign</source>
         <translation>Sélectionnez le faisceau à assigner</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3852"/>
-        <location filename="mainwindow.ui" line="6815"/>
-        <location filename="mainwindow.ui" line="10710"/>
+        <location filename="mainwindow.ui" line="3855"/>
+        <location filename="mainwindow.ui" line="6818"/>
+        <location filename="mainwindow.ui" line="10713"/>
         <source>All</source>
         <translation>Tous</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3933"/>
-        <location filename="mainwindow.ui" line="7375"/>
-        <location filename="mainwindow.ui" line="10804"/>
+        <location filename="mainwindow.ui" line="3936"/>
+        <location filename="mainwindow.ui" line="7378"/>
+        <location filename="mainwindow.ui" line="10807"/>
         <source>+1/2 tone</source>
         <translation>+1/2 ton</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3949"/>
-        <location filename="mainwindow.ui" line="7391"/>
-        <location filename="mainwindow.ui" line="10820"/>
+        <location filename="mainwindow.ui" line="3952"/>
+        <location filename="mainwindow.ui" line="7394"/>
+        <location filename="mainwindow.ui" line="10823"/>
         <source>+1 tone</source>
         <translation>+1 ton</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3965"/>
-        <location filename="mainwindow.ui" line="7407"/>
-        <location filename="mainwindow.ui" line="10836"/>
+        <location filename="mainwindow.ui" line="3968"/>
+        <location filename="mainwindow.ui" line="7410"/>
+        <location filename="mainwindow.ui" line="10839"/>
         <source>-1/2 tone</source>
         <translation>-1/2 ton</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3981"/>
-        <location filename="mainwindow.ui" line="7423"/>
-        <location filename="mainwindow.ui" line="10852"/>
+        <location filename="mainwindow.ui" line="3984"/>
+        <location filename="mainwindow.ui" line="7426"/>
+        <location filename="mainwindow.ui" line="10855"/>
         <source>-1 tone</source>
         <translation>-1 ton</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="4018"/>
-        <location filename="mainwindow.ui" line="7476"/>
-        <location filename="mainwindow.ui" line="10905"/>
+        <location filename="mainwindow.ui" line="4021"/>
+        <location filename="mainwindow.ui" line="7479"/>
+        <location filename="mainwindow.ui" line="10908"/>
         <source>User 1</source>
         <translation>User 1</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="4034"/>
-        <location filename="mainwindow.ui" line="7492"/>
-        <location filename="mainwindow.ui" line="10921"/>
+        <location filename="mainwindow.ui" line="4037"/>
+        <location filename="mainwindow.ui" line="7495"/>
+        <location filename="mainwindow.ui" line="10924"/>
         <source>Manage presets...</source>
         <translation>Gérer les presets...</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="4050"/>
-        <location filename="mainwindow.ui" line="7508"/>
-        <location filename="mainwindow.ui" line="10937"/>
+        <location filename="mainwindow.ui" line="4053"/>
+        <location filename="mainwindow.ui" line="7511"/>
+        <location filename="mainwindow.ui" line="10940"/>
         <source>User 2</source>
         <translation>User 2</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="4066"/>
-        <location filename="mainwindow.ui" line="7524"/>
-        <location filename="mainwindow.ui" line="10953"/>
+        <location filename="mainwindow.ui" line="4069"/>
+        <location filename="mainwindow.ui" line="7527"/>
+        <location filename="mainwindow.ui" line="10956"/>
         <source>User 3</source>
         <translation>User 3</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="4082"/>
-        <location filename="mainwindow.ui" line="7540"/>
-        <location filename="mainwindow.ui" line="10969"/>
+        <location filename="mainwindow.ui" line="4085"/>
+        <location filename="mainwindow.ui" line="7543"/>
+        <location filename="mainwindow.ui" line="10972"/>
         <source>Save preset...</source>
         <translation>Sauver le preset...</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="4155"/>
+        <location filename="mainwindow.ui" line="4158"/>
         <source>MIDI Effects configuration [ KB2D_3 ]</source>
         <translation>Configuration des effets MIDI [ KB2D_3 ]</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="7584"/>
+        <location filename="mainwindow.ui" line="7587"/>
         <source>MIDI Effects configuration [ KB2D_4 ]</source>
         <translation>Configuration des effets MIDI [ KB2D_4 ]</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="11031"/>
+        <location filename="mainwindow.ui" line="11034"/>
         <source>Beam Angles configuration</source>
         <translation>Configuration des Angles des faisceaux</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="11911"/>
+        <location filename="mainwindow.ui" line="11914"/>
         <source>Angle</source>
         <translation>Angle</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="12039"/>
+        <location filename="mainwindow.ui" line="12042"/>
         <source>Click to learn</source>
         <translation>Cliquez pour apprendre</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="12946"/>
+        <location filename="mainwindow.ui" line="12949"/>
         <source>Detection settings</source>
         <translation>Paramètres de détection</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="13199"/>
-        <location filename="mainwindow.ui" line="13514"/>
-        <location filename="mainwindow.ui" line="13633"/>
+        <location filename="mainwindow.ui" line="13202"/>
+        <location filename="mainwindow.ui" line="13517"/>
+        <location filename="mainwindow.ui" line="13636"/>
         <source>The Release value defines the frame counter before a note turns off after an interaction. If this value is too low, it may cause false off notes.</source>
         <translation>La valeur de Release définit le nombre de Frames avant qu&apos;une note passe Off après une interaction. Si cette valeur est trop faible, celà entraîne des Notes Off parasites.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="13243"/>
+        <location filename="mainwindow.ui" line="13246"/>
         <source>Max interaction duration</source>
         <translation>Durée d&apos;interaction max</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="13517"/>
+        <location filename="mainwindow.ui" line="13520"/>
         <location filename="src/grextmapping.cpp" line="257"/>
         <source>Note Off Release</source>
         <translation>Note Off Release</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="13700"/>
+        <location filename="mainwindow.ui" line="13703"/>
         <source>Height Settings</source>
         <translation>Paramètres de hauteur</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="16305"/>
+        <location filename="mainwindow.ui" line="16308"/>
         <source>External controllers and mapping Ports</source>
         <translation>Contrôleurs externes et Ports de mapping</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="16358"/>
+        <location filename="mainwindow.ui" line="16361"/>
         <source>MIDI Out (Thru)</source>
         <translation>MIDI Out (Thru)</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="16855"/>
+        <location filename="mainwindow.ui" line="16858"/>
         <source>Firmware Updater</source>
         <translation>Mise à jour de Firmware</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="16977"/>
+        <location filename="mainwindow.ui" line="16980"/>
         <location filename="src/grports.cpp" line="416"/>
         <location filename="src/grports.cpp" line="424"/>
         <source>Exit Firmware Updater</source>
@@ -4713,547 +4713,547 @@ Tous les messages reçu sur le MIDI In (mapping) sont transférés vers ce MIDI 
         <translation>Sortir du Programme de mise à jour</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17083"/>
+        <location filename="mainwindow.ui" line="17086"/>
         <source>Not connected</source>
         <translation>Non connecté</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17116"/>
+        <location filename="mainwindow.ui" line="17119"/>
         <source>LD Firmware Updater Status:</source>
         <translation>Statut du programme de mise à jour :</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17146"/>
+        <location filename="mainwindow.ui" line="17149"/>
         <source>Unique ID:</source>
         <translation>Unique ID :</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17209"/>
+        <location filename="mainwindow.ui" line="17212"/>
         <source>LD Firmware Updater Version:</source>
         <translation>Version du programme de mise à jour :</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17239"/>
+        <location filename="mainwindow.ui" line="17242"/>
         <source>0.0</source>
         <translation>0.0</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17283"/>
+        <location filename="mainwindow.ui" line="17286"/>
         <source>%p %</source>
         <translation>%p %</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17365"/>
+        <location filename="mainwindow.ui" line="17368"/>
         <source>Menu</source>
         <translation>Menu</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17375"/>
+        <location filename="mainwindow.ui" line="17378"/>
         <source>Tools</source>
         <translation>Outils</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17408"/>
+        <location filename="mainwindow.ui" line="17411"/>
         <source>External mapping</source>
         <translation>Mapping externe</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17418"/>
+        <location filename="mainwindow.ui" line="17421"/>
         <source>Language</source>
         <translation>Langue</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17440"/>
+        <location filename="mainwindow.ui" line="17443"/>
         <source>toolBar</source>
         <translation>Barre d&apos;outil</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17494"/>
+        <location filename="mainwindow.ui" line="17497"/>
         <location filename="src/grextmapping.cpp" line="97"/>
         <source>Start KB2D</source>
         <translation>Démarrer le KB2D</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17497"/>
+        <location filename="mainwindow.ui" line="17500"/>
         <source>Start</source>
         <translation>Démarrer</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17503"/>
-        <location filename="mainwindow.ui" line="17547"/>
+        <location filename="mainwindow.ui" line="17506"/>
+        <location filename="mainwindow.ui" line="17550"/>
         <source>Space</source>
         <translation>Espace</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17508"/>
+        <location filename="mainwindow.ui" line="17511"/>
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17511"/>
+        <location filename="mainwindow.ui" line="17514"/>
         <source>Exit program</source>
         <translation>Quitter le programme</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17514"/>
+        <location filename="mainwindow.ui" line="17517"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17523"/>
         <location filename="mainwindow.ui" line="17526"/>
+        <location filename="mainwindow.ui" line="17529"/>
         <source>About</source>
         <translation>A propos</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17529"/>
+        <location filename="mainwindow.ui" line="17532"/>
         <source>Ctrl+A</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17538"/>
+        <location filename="mainwindow.ui" line="17541"/>
         <location filename="src/grextmapping.cpp" line="99"/>
         <source>Pause KB2D</source>
         <translation>Met le KB2D en pause</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17541"/>
+        <location filename="mainwindow.ui" line="17544"/>
         <source>Pause</source>
         <translation>Pause</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17544"/>
+        <location filename="mainwindow.ui" line="17547"/>
         <source>Pause Detection</source>
         <translation>Met la détection en pause</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17674"/>
+        <location filename="mainwindow.ui" line="17677"/>
         <source>Esc</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17737"/>
+        <location filename="mainwindow.ui" line="17740"/>
         <source>MIDI ports Settings</source>
         <translation>Paramètres des ports MIDI</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17740"/>
+        <location filename="mainwindow.ui" line="17743"/>
         <source>MIDI Configuration</source>
         <translation>Configuration MIDI</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17559"/>
+        <location filename="mainwindow.ui" line="17562"/>
         <location filename="src/grextmapping.cpp" line="103"/>
         <source>Restore Defaults</source>
         <translation>Paramètres par défaut</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="12610"/>
+        <location filename="mainwindow.ui" line="12613"/>
         <source>Disable Angle filter when you want to always have the closest note played.
 This is useful with GlideX variable.</source>
         <translation>Désactivez le filtre angulaire lorsque vous voulez toujours que la note la plus proche soit jouée.
 C&apos;est utile avec la variable GlideX.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="12620"/>
+        <location filename="mainwindow.ui" line="12623"/>
         <source>Enable Angle filter (mrad) =</source>
         <translation>Activer le filtre d&apos;angle (mrad) =</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="12819"/>
+        <location filename="mainwindow.ui" line="12822"/>
         <source>A beam interaction is considered as valid if the difference between the angle measured by the KB2D and one of the beam angle set (in angles parameters) is less than &apos;Angle filter&apos;.
 We recommand a value around 25 - 30 for polyphonic detection.</source>
         <translation>Une interaction avec un faisceau est considérée comme valide si la différence entre le faisceau mesuré par le KB2D et un des angles paramétré (dans les paramètres d&apos;angles) est inférieure à la valeur du filtre angulaire.
 Une valeur autour de 25 - 30 est recommandée pour la détection polyphonique.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="13027"/>
+        <location filename="mainwindow.ui" line="13030"/>
         <source>Min interaction time</source>
         <oldsource>Min det time</oldsource>
         <translation>Temps d&apos;interaction min</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14356"/>
-        <location filename="mainwindow.ui" line="14400"/>
-        <location filename="mainwindow.ui" line="14512"/>
+        <location filename="mainwindow.ui" line="14359"/>
+        <location filename="mainwindow.ui" line="14403"/>
+        <location filename="mainwindow.ui" line="14515"/>
         <source>Min value for Height variable.</source>
         <translation>Valeur minimale pour la variable de Hauteur.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14406"/>
+        <location filename="mainwindow.ui" line="14409"/>
         <location filename="src/grextmapping.cpp" line="277"/>
         <source>Min Height</source>
         <translation>Hauteur min</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14434"/>
-        <location filename="mainwindow.ui" line="14465"/>
+        <location filename="mainwindow.ui" line="14437"/>
+        <location filename="mainwindow.ui" line="14468"/>
         <source>Max value for Height variable.</source>
         <translation>Valeur maximale pour la variable de Hauteur.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14437"/>
+        <location filename="mainwindow.ui" line="14440"/>
         <location filename="src/grextmapping.cpp" line="281"/>
         <source>Max Height</source>
         <translation>Hauteur max</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14106"/>
+        <location filename="mainwindow.ui" line="14109"/>
         <source>Height modulation</source>
         <translation>Modulation de hauteur</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14700"/>
+        <location filename="mainwindow.ui" line="14703"/>
         <source>Position / Width / Glide X Settings</source>
         <translation>Paramètres de Position / Largeur / GlideX</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14556"/>
-        <location filename="mainwindow.ui" line="14593"/>
-        <location filename="mainwindow.ui" line="14892"/>
-        <location filename="mainwindow.ui" line="15166"/>
-        <location filename="mainwindow.ui" line="15203"/>
-        <location filename="mainwindow.ui" line="15536"/>
-        <location filename="mainwindow.ui" line="15573"/>
-        <location filename="mainwindow.ui" line="15620"/>
-        <location filename="mainwindow.ui" line="15664"/>
-        <location filename="mainwindow.ui" line="15997"/>
-        <location filename="mainwindow.ui" line="16034"/>
+        <location filename="mainwindow.ui" line="14559"/>
+        <location filename="mainwindow.ui" line="14596"/>
+        <location filename="mainwindow.ui" line="14895"/>
+        <location filename="mainwindow.ui" line="15169"/>
+        <location filename="mainwindow.ui" line="15206"/>
+        <location filename="mainwindow.ui" line="15539"/>
+        <location filename="mainwindow.ui" line="15576"/>
+        <location filename="mainwindow.ui" line="15623"/>
+        <location filename="mainwindow.ui" line="15667"/>
+        <location filename="mainwindow.ui" line="16000"/>
+        <location filename="mainwindow.ui" line="16037"/>
         <source>Min value for PosX variable.</source>
         <translation>Valeur minimale pour la variable PosX.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="15542"/>
+        <location filename="mainwindow.ui" line="15545"/>
         <location filename="src/grextmapping.cpp" line="286"/>
         <source>Min Position</source>
         <oldsource>Min PosX</oldsource>
         <translation>Position min</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="15461"/>
-        <location filename="mainwindow.ui" line="15492"/>
+        <location filename="mainwindow.ui" line="15464"/>
+        <location filename="mainwindow.ui" line="15495"/>
         <source>Max value for PosX variable.</source>
         <translation>Valeur maximale pour la variable PosX.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="15464"/>
+        <location filename="mainwindow.ui" line="15467"/>
         <location filename="src/grextmapping.cpp" line="288"/>
         <source>Max Position</source>
         <oldsource>Max PosX</oldsource>
         <translation>Position max</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="15267"/>
+        <location filename="mainwindow.ui" line="15270"/>
         <source>Invert the PosX variation.</source>
         <translation>Inverser la variation de PosX.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="15276"/>
+        <location filename="mainwindow.ui" line="15279"/>
         <source>Invert Position</source>
         <oldsource>Invert PosX</oldsource>
         <translation>Inv. la position</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="15407"/>
+        <location filename="mainwindow.ui" line="15410"/>
         <source>Invert the WidthX variation.</source>
         <translation>Inverser la variation de WidthX.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="15416"/>
+        <location filename="mainwindow.ui" line="15419"/>
         <source>Invert Width</source>
         <oldsource>Invert WidthX</oldsource>
         <translation>Inv. la largeur</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14735"/>
-        <location filename="mainwindow.ui" line="14775"/>
-        <location filename="mainwindow.ui" line="14815"/>
-        <location filename="mainwindow.ui" line="14855"/>
-        <location filename="mainwindow.ui" line="14929"/>
-        <location filename="mainwindow.ui" line="14969"/>
-        <location filename="mainwindow.ui" line="15337"/>
+        <location filename="mainwindow.ui" line="14738"/>
+        <location filename="mainwindow.ui" line="14778"/>
+        <location filename="mainwindow.ui" line="14818"/>
+        <location filename="mainwindow.ui" line="14858"/>
+        <location filename="mainwindow.ui" line="14932"/>
+        <location filename="mainwindow.ui" line="14972"/>
+        <location filename="mainwindow.ui" line="15340"/>
         <source>Invert the GlideX variation.</source>
         <translation>Inverser la variation de GlideX.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="15346"/>
+        <location filename="mainwindow.ui" line="15349"/>
         <source>Invert Glide</source>
         <oldsource>Invert GlideX</oldsource>
         <translation>Inverser le Glide</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="15844"/>
-        <location filename="mainwindow.ui" line="15916"/>
+        <location filename="mainwindow.ui" line="15847"/>
+        <location filename="mainwindow.ui" line="15919"/>
         <source>Min value for GlideX variable.</source>
         <translation>Valeur minimale de la variable GlideX.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="15922"/>
+        <location filename="mainwindow.ui" line="15925"/>
         <location filename="src/grextmapping.cpp" line="306"/>
         <source>Min Glide</source>
         <oldsource>Min GlideX</oldsource>
         <translation>Glide min</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="15888"/>
-        <location filename="mainwindow.ui" line="15953"/>
+        <location filename="mainwindow.ui" line="15891"/>
+        <location filename="mainwindow.ui" line="15956"/>
         <source>Max value for GlideX variable.</source>
         <translation>Valeur maximale pour la variable GlideX.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="15891"/>
+        <location filename="mainwindow.ui" line="15894"/>
         <location filename="src/grextmapping.cpp" line="308"/>
         <source>Max Glide</source>
         <oldsource>Max GlideX</oldsource>
         <translation>Glide max</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="15057"/>
-        <location filename="mainwindow.ui" line="15094"/>
+        <location filename="mainwindow.ui" line="15060"/>
+        <location filename="mainwindow.ui" line="15097"/>
         <source>Min value for WidthX variable.</source>
         <translation>Valeur minimale pour la variable WidthX.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="15063"/>
+        <location filename="mainwindow.ui" line="15066"/>
         <location filename="src/grextmapping.cpp" line="296"/>
         <source>Min Width</source>
         <oldsource>Min WidthX</oldsource>
         <translation>Largeur min</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="15013"/>
-        <location filename="mainwindow.ui" line="15138"/>
+        <location filename="mainwindow.ui" line="15016"/>
+        <location filename="mainwindow.ui" line="15141"/>
         <source>Max value for WidthX variable.</source>
         <translation>Valeur maximale pour la variable WidthX.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="15141"/>
+        <location filename="mainwindow.ui" line="15144"/>
         <location filename="src/grextmapping.cpp" line="298"/>
         <source>Max Width</source>
         <oldsource>Max WidthX</oldsource>
         <translation>Largeur max</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="15702"/>
-        <location filename="mainwindow.ui" line="15736"/>
-        <location filename="mainwindow.ui" line="15783"/>
+        <location filename="mainwindow.ui" line="15705"/>
+        <location filename="mainwindow.ui" line="15739"/>
+        <location filename="mainwindow.ui" line="15786"/>
         <source>This defines the delta of variation around each beam before staring to modulate GlideX.</source>
         <translation>Cela définit le delta de variation autour de chaque faisceau avant de commencer à moduler GlideX.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="15705"/>
+        <location filename="mainwindow.ui" line="15708"/>
         <source>Glide Stabilization delta</source>
         <translation>Delta de stabilisation du Glide</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="16170"/>
+        <location filename="mainwindow.ui" line="16173"/>
         <source>Harp + Height</source>
         <translation>Harpe + Hauteur</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="16186"/>
+        <location filename="mainwindow.ui" line="16189"/>
         <source>Tracking Effects</source>
         <translation>Effets de Suivi</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="16202"/>
+        <location filename="mainwindow.ui" line="16205"/>
         <source>Theremin</source>
         <translation>Thérémine</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="16218"/>
+        <location filename="mainwindow.ui" line="16221"/>
         <source>Basic Harp</source>
         <translation>Harpe Basique</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17562"/>
+        <location filename="mainwindow.ui" line="17565"/>
         <source>Ctrl+D</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17571"/>
+        <location filename="mainwindow.ui" line="17574"/>
         <source>Save all in KB2D</source>
         <translation>Enregistrer dans le KB2D</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17574"/>
+        <location filename="mainwindow.ui" line="17577"/>
         <location filename="src/grextmapping.cpp" line="105"/>
         <source>Save in KB2D</source>
         <translation>Enregistrer dans le KB2D</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17577"/>
+        <location filename="mainwindow.ui" line="17580"/>
         <source>Save all parameters in the Flash memory of the KB2D</source>
         <translation>Enregistre tous les paramètres dans la mémoire Flash du KB2D</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17580"/>
+        <location filename="mainwindow.ui" line="17583"/>
         <source>Ctrl+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17585"/>
+        <location filename="mainwindow.ui" line="17588"/>
         <source>Start Legacy Updater</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17593"/>
+        <location filename="mainwindow.ui" line="17596"/>
         <location filename="src/grports.cpp" line="447"/>
         <source>Start Firmware Updater</source>
         <translation>Démarrer le Firmware Updater</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17728"/>
+        <location filename="mainwindow.ui" line="17731"/>
         <source>Learn All - One by One</source>
         <translation>Apprendre Tous - Un par Un</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17609"/>
+        <location filename="mainwindow.ui" line="17612"/>
         <source>Update All</source>
         <translation>Actualiser</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14562"/>
+        <location filename="mainwindow.ui" line="14565"/>
         <source>Substitute height value</source>
         <translation>Hauteur - valeur de repli</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14666"/>
+        <location filename="mainwindow.ui" line="14669"/>
         <source>Invert Height modulation</source>
         <translation>Inverser la modulation de hauteur</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14744"/>
+        <location filename="mainwindow.ui" line="14747"/>
         <source>[ KB2D_4 ] Effect 1</source>
         <translation>[ KB2D_4 ] Effet 1</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14784"/>
+        <location filename="mainwindow.ui" line="14787"/>
         <source>[ KB2D ] Effect 1</source>
         <translation>[ KB2D ] Effet 1</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14824"/>
+        <location filename="mainwindow.ui" line="14827"/>
         <source>[ KB2D_3 ] Effect 1</source>
         <translation>[ KB2D_3 ] Effet 1</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14864"/>
+        <location filename="mainwindow.ui" line="14867"/>
         <source>[ KB2D ] Effect 2</source>
         <translation>[ KB2D ] Effet 2</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14898"/>
+        <location filename="mainwindow.ui" line="14901"/>
         <source>Activate substitute values:</source>
         <translation>Activer les valeurs de repli :</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14938"/>
+        <location filename="mainwindow.ui" line="14941"/>
         <source>[ KB2D_3 ] Effect 2</source>
         <translation>[ KB2D_3 ] Effet 2</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="14978"/>
+        <location filename="mainwindow.ui" line="14981"/>
         <source>[ KB2D_4 ] Effect 2</source>
         <translation>[ KB2D_4 ] Effet 2</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="15172"/>
-        <location filename="mainwindow.ui" line="16003"/>
+        <location filename="mainwindow.ui" line="15175"/>
+        <location filename="mainwindow.ui" line="16006"/>
         <source>Substitute width value</source>
         <translation>Largeur - valeur de repli</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="15670"/>
+        <location filename="mainwindow.ui" line="15673"/>
         <source>Substitute position value</source>
         <translation>Position - valeur de repli</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="16130"/>
+        <location filename="mainwindow.ui" line="16133"/>
         <source>Preset modes</source>
         <translation>Modes préconfigurés</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17621"/>
+        <location filename="mainwindow.ui" line="17624"/>
         <location filename="src/grextmapping.cpp" line="101"/>
         <source>Restart KB2D</source>
         <translation>Redémarrer le KB2D</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17624"/>
+        <location filename="mainwindow.ui" line="17627"/>
         <source>Restart</source>
         <translation>Redémarrer</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17627"/>
+        <location filename="mainwindow.ui" line="17630"/>
         <source>Ctrl+R</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17632"/>
+        <location filename="mainwindow.ui" line="17635"/>
         <source>Go to mapping settings</source>
         <translation>Aller vers le mapping</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17637"/>
+        <location filename="mainwindow.ui" line="17640"/>
         <source>Save mapping</source>
         <translation>Enregistrer le mapping</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17642"/>
+        <location filename="mainwindow.ui" line="17645"/>
         <source>Load mapping</source>
         <translation>Charger un mapping</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17647"/>
+        <location filename="mainwindow.ui" line="17650"/>
         <source>Restore default mapping</source>
         <translation>Restaurer le mapping par défaut</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17659"/>
+        <location filename="mainwindow.ui" line="17662"/>
         <source>F9</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17686"/>
+        <location filename="mainwindow.ui" line="17689"/>
         <source>Calibrate Angles by interacting with the first and last beam</source>
         <translation>Calibre les Angles en intéragissant avec le premier et le dernier faisceau</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17695"/>
+        <location filename="mainwindow.ui" line="17698"/>
         <source>Learn One Angle</source>
         <translation>Mesurer un faisceau</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17704"/>
+        <location filename="mainwindow.ui" line="17707"/>
         <location filename="src/grextmapping.cpp" line="109"/>
         <source>Detection Assistant</source>
         <translation>Assistant de détection</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17709"/>
+        <location filename="mainwindow.ui" line="17712"/>
         <source>English</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17714"/>
+        <location filename="mainwindow.ui" line="17717"/>
         <source>Français</source>
         <oldsource>French</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="17719"/>
+        <location filename="mainwindow.ui" line="17722"/>
         <source>Show Version Notes</source>
         <translation>Notes de Versions</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="626"/>
+        <location filename="src/fupdater.cpp" line="682"/>
         <source>KB</source>
         <translation> Ko</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="626"/>
-        <location filename="src/fupdater.cpp" line="627"/>
+        <location filename="src/fupdater.cpp" line="682"/>
+        <location filename="src/fupdater.cpp" line="683"/>
         <source>Upgrading Firmware... </source>
         <translation>Mise à jour du Firmware... </translation>
     </message>
@@ -5461,15 +5461,18 @@ Cela peut prendre quelques secondes. Ne changez pas ou ne retirer pas l&apos;int
         <location filename="src/grheight.cpp" line="52"/>
         <location filename="src/grheight.cpp" line="68"/>
         <location filename="src/grheight.cpp" line="84"/>
-        <location filename="src/grnotes.cpp" line="196"/>
-        <location filename="src/grnotes.cpp" line="477"/>
-        <location filename="src/grnotes.cpp" line="483"/>
-        <location filename="src/grnotes.cpp" line="489"/>
-        <location filename="src/grnotes.cpp" line="495"/>
-        <location filename="src/grnotes.cpp" line="975"/>
-        <location filename="src/grnotes.cpp" line="1162"/>
-        <location filename="src/grnotes.cpp" line="1259"/>
-        <location filename="src/grnotes.cpp" line="1305"/>
+        <location filename="src/grnotes.cpp" line="327"/>
+        <location filename="src/grnotes.cpp" line="608"/>
+        <location filename="src/grnotes.cpp" line="614"/>
+        <location filename="src/grnotes.cpp" line="620"/>
+        <location filename="src/grnotes.cpp" line="626"/>
+        <location filename="src/grnotes.cpp" line="1292"/>
+        <location filename="src/grnotes.cpp" line="1479"/>
+        <location filename="src/grnotes.cpp" line="1576"/>
+        <location filename="src/grnotes.cpp" line="1622"/>
+        <location filename="src/grpresets.cpp" line="475"/>
+        <location filename="src/grpresets.cpp" line="570"/>
+        <location filename="src/grpresets.cpp" line="665"/>
         <location filename="src/grvarsx.cpp" line="36"/>
         <location filename="src/grvarsx.cpp" line="48"/>
         <location filename="src/grvarsx.cpp" line="60"/>
@@ -5746,7 +5749,7 @@ Essayer d&apos;utiliser un fond plus sombre ou d&apos;avoir une distance plus im
     <message>
         <location filename="src/grextmapping.cpp" line="177"/>
         <source>Enable Effect 1 - Port 1</source>
-        <translation>Activer l&apos;Effet 2 - Port 1</translation>
+        <translation>Activer l&apos;Effet 1 - Port 1</translation>
     </message>
     <message>
         <location filename="src/grextmapping.cpp" line="179"/>
@@ -6179,25 +6182,25 @@ Essayer d&apos;utiliser un fond plus sombre ou d&apos;avoir une distance plus im
         <translation>[Sélectionnez une Config Générale]</translation>
     </message>
     <message>
-        <location filename="src/grpresets.cpp" line="596"/>
-        <location filename="src/grpresets.cpp" line="760"/>
+        <location filename="src/grpresets.cpp" line="687"/>
+        <location filename="src/grpresets.cpp" line="857"/>
         <source>===== Main Preset </source>
         <translation>===== Config Générale </translation>
     </message>
     <message>
-        <location filename="src/grnotes.cpp" line="1273"/>
-        <location filename="src/grnotes.cpp" line="1317"/>
-        <location filename="src/grpresets.cpp" line="596"/>
+        <location filename="src/grnotes.cpp" line="1590"/>
+        <location filename="src/grnotes.cpp" line="1634"/>
+        <location filename="src/grpresets.cpp" line="687"/>
         <source> loaded =====</source>
         <translation> chargée =====</translation>
     </message>
     <message>
-        <location filename="src/grpresets.cpp" line="600"/>
+        <location filename="src/grpresets.cpp" line="691"/>
         <source>Cannot open CONFIG_</source>
         <translation>Impossible d&apos;ouvrir CONFIG_</translation>
     </message>
     <message>
-        <location filename="src/grpresets.cpp" line="760"/>
+        <location filename="src/grpresets.cpp" line="857"/>
         <source> saved =====</source>
         <translation> enregistrée =====</translation>
     </message>
@@ -6232,24 +6235,24 @@ Contenu de cette nouvelle version :
 </translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="145"/>
+        <location filename="src/fupdater.cpp" line="161"/>
         <source>Setup program cannot be executed at following path: </source>
         <translation>Le programme d&apos;installation ne peut être exécuté au chemin suivant : </translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="146"/>
+        <location filename="src/fupdater.cpp" line="162"/>
         <source>Setup program cannot be executed</source>
         <translation>Le programme d&apos;installation ne peut être exécuté</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="321"/>
-        <location filename="src/fupdater.cpp" line="368"/>
-        <location filename="src/fupdater.cpp" line="575"/>
+        <location filename="src/fupdater.cpp" line="360"/>
+        <location filename="src/fupdater.cpp" line="407"/>
+        <location filename="src/fupdater.cpp" line="614"/>
         <source>Legacy Bootloader Detected</source>
         <translation>Ancien Bootloader Détecté</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="321"/>
+        <location filename="src/fupdater.cpp" line="360"/>
         <source>Legacy Bootloader Version: 1.0
 
 To obtain your firmware update (.kb2d file), please contact Lightdiction:
@@ -6262,55 +6265,55 @@ Pour obtenir la mise à jour du firmware (fichier .kb2d), veuillez contacter Lig
 contact@lightdiction.com</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="326"/>
+        <location filename="src/fupdater.cpp" line="365"/>
         <source>Bootloader Version: 1.0 | Enter firmware KB file .kb2d</source>
         <translation>Ancienne Version: 1.0 | Entrez le fichier firmware .kb2d</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="337"/>
-        <location filename="src/fupdater.cpp" line="385"/>
-        <location filename="src/fupdater.cpp" line="440"/>
-        <location filename="src/grnotes.cpp" line="1321"/>
+        <location filename="src/fupdater.cpp" line="376"/>
+        <location filename="src/fupdater.cpp" line="424"/>
+        <location filename="src/fupdater.cpp" line="479"/>
+        <location filename="src/grnotes.cpp" line="1638"/>
         <source>Cannot open </source>
         <translation>Impossible d&apos;ouvrir </translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="347"/>
-        <location filename="src/fupdater.cpp" line="395"/>
-        <location filename="src/fupdater.cpp" line="450"/>
+        <location filename="src/fupdater.cpp" line="386"/>
+        <location filename="src/fupdater.cpp" line="434"/>
+        <location filename="src/fupdater.cpp" line="489"/>
         <source>Flash Error Code: </source>
         <translation>Code d&apos;Erreur Flash : </translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="352"/>
-        <location filename="src/fupdater.cpp" line="400"/>
-        <location filename="src/fupdater.cpp" line="455"/>
+        <location filename="src/fupdater.cpp" line="391"/>
+        <location filename="src/fupdater.cpp" line="439"/>
+        <location filename="src/fupdater.cpp" line="494"/>
         <source>Firmware Upgrade complete</source>
         <translation>Mise à jour du Firmware terminée</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="353"/>
-        <location filename="src/fupdater.cpp" line="401"/>
-        <location filename="src/fupdater.cpp" line="456"/>
+        <location filename="src/fupdater.cpp" line="392"/>
+        <location filename="src/fupdater.cpp" line="440"/>
+        <location filename="src/fupdater.cpp" line="495"/>
         <source>SUCCESS</source>
         <translation>SUCCÈS</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="353"/>
-        <location filename="src/fupdater.cpp" line="401"/>
-        <location filename="src/fupdater.cpp" line="456"/>
+        <location filename="src/fupdater.cpp" line="392"/>
+        <location filename="src/fupdater.cpp" line="440"/>
+        <location filename="src/fupdater.cpp" line="495"/>
         <source>Memory correctly Flashed</source>
         <translation>Mémoire correctement flashée</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="368"/>
-        <location filename="src/fupdater.cpp" line="373"/>
-        <location filename="src/fupdater.cpp" line="428"/>
+        <location filename="src/fupdater.cpp" line="407"/>
+        <location filename="src/fupdater.cpp" line="412"/>
+        <location filename="src/fupdater.cpp" line="467"/>
         <source>Bootloader Version: </source>
         <translation>Version du Bootloader : </translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="369"/>
+        <location filename="src/fupdater.cpp" line="408"/>
         <source>
 
 To obtain your firmware update (.kb2d file), please contact Lightdiction:
@@ -6323,12 +6326,12 @@ Pour obtenir votre mise à jour du firmware (fichier .kb2d), veuillez contacter 
 contact@lightdiction.com</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="374"/>
+        <location filename="src/fupdater.cpp" line="413"/>
         <source> | Enter firmware KB file .kb2d</source>
         <translation> | Entrez le fichier firmware .kb2d</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="499"/>
+        <location filename="src/fupdater.cpp" line="538"/>
         <source>Cannot connect to KB2D, please select the ports manually.
 
 Please ensure KB2D Ports are available.
@@ -6347,18 +6350,18 @@ Veuillez vérifier que les ports du KB2D sont disponibles.
 - Chargez le firmware de nouveau.</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="529"/>
-        <location filename="src/fupdater.cpp" line="530"/>
+        <location filename="src/fupdater.cpp" line="568"/>
+        <location filename="src/fupdater.cpp" line="569"/>
         <source>DFU Connected</source>
         <translation>DFU Connecté</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="567"/>
+        <location filename="src/fupdater.cpp" line="606"/>
         <source>Error on automatic update</source>
         <translation>Erreur sur la mise à jour automatique</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="567"/>
+        <location filename="src/fupdater.cpp" line="606"/>
         <source>The firmware cannot be updated automatically
 
 Please retry later or download the last firmware update on https://lightdiction.com/Ressources
@@ -6373,7 +6376,7 @@ Ou contactez-nous à :
 contact@lightdiction.com</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="575"/>
+        <location filename="src/fupdater.cpp" line="614"/>
         <source>Legacy Bootloader Version: 1.0
 
 A firmware update has been requested. To obtain your firmware update (.kb2d file), please contact Lightdiction:
@@ -6386,7 +6389,7 @@ Une mise à jour du firmware a été demandée. Pour obtenir cette mise à jour 
 contact@lightdiction.com</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="582"/>
+        <location filename="src/fupdater.cpp" line="621"/>
         <source>LD Firmware Updater connected
 
 Click on &apos;Load Firmware file&apos; to update
@@ -6397,30 +6400,30 @@ Cliquez sur &apos;Charger le fichier firmware&apos; pour mettre à jour
 Ou cliquez sur &apos;Quitter le programme de mise à jour&apos; pour Quitter et revenir à l&apos;interface du KB2D</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="429"/>
+        <location filename="src/fupdater.cpp" line="468"/>
         <source> | Enter firmware KB file .kbf</source>
         <translation> | Entrez le fichier firmware .kbf</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1148"/>
+        <location filename="src/mainwindow.cpp" line="1156"/>
         <source>Parameters saved in Flash memory</source>
         <translation>Paramètres enregistrés dans la mémoire Flash</translation>
     </message>
     <message>
         <location filename="src/grports.cpp" line="48"/>
         <location filename="src/grports.cpp" line="49"/>
-        <location filename="src/mainwindow.cpp" line="1210"/>
-        <location filename="src/mainwindow.cpp" line="1211"/>
+        <location filename="src/mainwindow.cpp" line="1218"/>
+        <location filename="src/mainwindow.cpp" line="1219"/>
         <source>Wait while restarting...</source>
         <translation>Veuillez patienter pendant le redémarrage...</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1217"/>
+        <location filename="src/mainwindow.cpp" line="1225"/>
         <source>Ready</source>
         <translation>Prêt</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="885"/>
+        <location filename="src/mainwindow.cpp" line="893"/>
         <source>Cannot connect to the device
 
 If this is the first time you start the Firmware Updater on this computer, it is normal. Do not panic.
@@ -6435,23 +6438,23 @@ Veuillez attendre que le pilote s&apos;installe (cela devrait prendre moins d&ap
 Puis appuyez sur F5 pour mettre à jour les ports (après avoir fermé cette fenêtre) ou redémarrer ce logiciel. Votre programme de mise à jour devrait maintenant se connecter automatiquement à votre Interface de Harpe Laser KB2D.</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1554"/>
-        <location filename="src/mainwindow.cpp" line="1920"/>
+        <location filename="src/mainwindow.cpp" line="1593"/>
+        <location filename="src/mainwindow.cpp" line="1961"/>
         <source>Firmware outdated</source>
         <translation>Firmware obsolète</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1556"/>
+        <location filename="src/mainwindow.cpp" line="1595"/>
         <source> - Firmware version: </source>
         <translation> - Version du Firmware : </translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1558"/>
+        <location filename="src/mainwindow.cpp" line="1597"/>
         <source>The new firmware version </source>
         <translation>La nouvelle version du firmware </translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1559"/>
+        <location filename="src/mainwindow.cpp" line="1598"/>
         <source> is available.
 
 Your KB2D will be updated automatically, do you want to continue?
@@ -6464,12 +6467,24 @@ Votre KB2D va être mis à jour automatiquement, voulez-vous continuer ?
 (Les mise à jour du firmware peuvent être nécessaires pour utiliser la dernière version du logiciel)</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1918"/>
+        <location filename="src/mainwindow.cpp" line="1611"/>
+        <source>Update Required</source>
+        <translation>Mise à jour requise</translation>
+    </message>
+    <message>
+        <location filename="src/mainwindow.cpp" line="1611"/>
+        <source>Firmware outdated: you must update your firmware (v8.03 or higher) to use this version of the software.
+Current firmware version: </source>
+        <translation>Firmware obsolète : vous devez mettre à jour votre firmware (v8.03 ou supérieur) pour utiliser cette version du logiciel.
+Version actuelle du firmware : </translation>
+    </message>
+    <message>
+        <location filename="src/mainwindow.cpp" line="1959"/>
         <source>Please, update your firmware to the last version (</source>
         <translation>Veuillez mettre à jour votre firmware vers la dernière version (</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1918"/>
+        <location filename="src/mainwindow.cpp" line="1959"/>
         <source>or above) to get all functionnalities:
 &gt; The firmware can be downloaded here: https://lightdiction.com/Ressources
 &gt; Or contact us at contact@lightdiction.com</source>
@@ -6478,17 +6493,17 @@ Votre KB2D va être mis à jour automatiquement, voulez-vous continuer ?
 &gt; Ou contactez-nous à contact@lightdiction.com</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1932"/>
+        <location filename="src/mainwindow.cpp" line="1973"/>
         <source>KB2D connected: Firmware version: </source>
         <translation>KB2D connecté : Version du firmware : </translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1936"/>
+        <location filename="src/mainwindow.cpp" line="1977"/>
         <source>KB2D connected - Device information</source>
         <translation>KB2D connecté - Informations du contrôleur</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1937"/>
+        <location filename="src/mainwindow.cpp" line="1978"/>
         <source>
 
 Firmware version: </source>
@@ -6497,7 +6512,7 @@ Firmware version: </source>
 Version du firmware : </translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1939"/>
+        <location filename="src/mainwindow.cpp" line="1980"/>
         <source>
 
 Find the version notes and manual at:
@@ -6508,28 +6523,28 @@ Trouvez les notes de version et le manuel sur :
 http://lightdiction.com/Ressources/</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="1942"/>
+        <location filename="src/mainwindow.cpp" line="1983"/>
         <source>KB2D Parameters cannot be read.</source>
         <translation>Les Paramètres du KB2D ne peuvent pas être lus.</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="482"/>
+        <location filename="src/fupdater.cpp" line="521"/>
         <source>Wait a few seconds for initialization...</source>
         <translation>Attendez quelques secondes pendant l&apos;initialisation...</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="490"/>
+        <location filename="src/fupdater.cpp" line="529"/>
         <source>Please wait...</source>
         <translation>Veuillez patienter...</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="582"/>
+        <location filename="src/fupdater.cpp" line="621"/>
         <source>Device connected</source>
         <translation>Contrôleur connecté</translation>
     </message>
     <message>
-        <location filename="src/fupdater.cpp" line="504"/>
-        <location filename="src/mainwindow.cpp" line="889"/>
+        <location filename="src/fupdater.cpp" line="543"/>
+        <location filename="src/mainwindow.cpp" line="897"/>
         <source>Cannot connect to LD Firmware Updater</source>
         <translation>Impossible de se connecter au LD Firmware Updater</translation>
     </message>
@@ -6555,17 +6570,17 @@ Voulez-vous redémarrer maintenant ?</translation>
         <translation>Entrez le numéro de faisceau</translation>
     </message>
     <message>
-        <location filename="src/grnotes.cpp" line="189"/>
+        <location filename="src/grnotes.cpp" line="320"/>
         <source>Beam To Assign ?</source>
         <translation>Faisceau à assigner ?</translation>
     </message>
     <message>
-        <location filename="src/grnotes.cpp" line="189"/>
+        <location filename="src/grnotes.cpp" line="320"/>
         <source>Enter the index of the beam to which you want to assign this note (</source>
         <translation>Entrez le numéro du faisceau auquel vous souhaitez assigner cette note (</translation>
     </message>
     <message>
-        <location filename="src/grnotes.cpp" line="190"/>
+        <location filename="src/grnotes.cpp" line="321"/>
         <source>).
 
 ~ Beam to assign? (From 1 to </source>
@@ -6574,43 +6589,43 @@ Voulez-vous redémarrer maintenant ?</translation>
 ~ Faisceau à assigner ? (De 1 à </translation>
     </message>
     <message>
-        <location filename="src/grnotes.cpp" line="746"/>
-        <location filename="src/grnotes.cpp" line="756"/>
-        <location filename="src/grnotes.cpp" line="766"/>
+        <location filename="src/grnotes.cpp" line="877"/>
+        <location filename="src/grnotes.cpp" line="887"/>
+        <location filename="src/grnotes.cpp" line="897"/>
         <source>Disable Notes On / Off</source>
         <translation>Désactiver les Notes On / Off</translation>
     </message>
     <message>
-        <location filename="src/grnotes.cpp" line="813"/>
-        <location filename="src/grnotes.cpp" line="826"/>
-        <location filename="src/grnotes.cpp" line="839"/>
+        <location filename="src/grnotes.cpp" line="944"/>
+        <location filename="src/grnotes.cpp" line="988"/>
+        <location filename="src/grnotes.cpp" line="1032"/>
         <source>Disable Effect 1</source>
         <translation>Désactiver l&apos;Effet 1</translation>
     </message>
     <message>
-        <location filename="src/grnotes.cpp" line="892"/>
-        <location filename="src/grnotes.cpp" line="905"/>
-        <location filename="src/grnotes.cpp" line="918"/>
+        <location filename="src/grnotes.cpp" line="1116"/>
+        <location filename="src/grnotes.cpp" line="1160"/>
+        <location filename="src/grnotes.cpp" line="1204"/>
         <source>Disable Effect 2</source>
         <translation>Désactiver l&apos;Effet 2</translation>
     </message>
     <message>
-        <location filename="src/grnotes.cpp" line="1197"/>
+        <location filename="src/grnotes.cpp" line="1514"/>
         <source>[Select Preset]</source>
         <translation>[Selectionner le Preset]</translation>
     </message>
     <message>
-        <location filename="src/grnotes.cpp" line="1273"/>
+        <location filename="src/grnotes.cpp" line="1590"/>
         <source>===== Notes Preset </source>
         <translation>===== Preset de Notes </translation>
     </message>
     <message>
-        <location filename="src/grnotes.cpp" line="1277"/>
+        <location filename="src/grnotes.cpp" line="1594"/>
         <source>Cannot open PRST_</source>
         <translation>Impossible d&apos;ouvrir PRST_</translation>
     </message>
     <message>
-        <location filename="src/grnotes.cpp" line="1317"/>
+        <location filename="src/grnotes.cpp" line="1634"/>
         <source>===== </source>
         <translation>===== </translation>
     </message>
@@ -6952,7 +6967,7 @@ Ce preset (A) n&apos;existe pas.</translation>
     </message>
     <message>
         <location filename="src/comhw.cpp" line="206"/>
-        <location filename="src/mainwindow.cpp" line="1203"/>
+        <location filename="src/mainwindow.cpp" line="1211"/>
         <location filename="src/menufunc.cpp" line="80"/>
         <source>Timeout - Device is Busy</source>
         <translation>Temps dépassé  Le contrôleur ne répond pas</translation>
@@ -6991,36 +7006,39 @@ Code d&apos;erreur : </translation>
     </message>
     <message>
         <location filename="src/grnotes.cpp" line="33"/>
-        <source>Keyboard</source>
-        <translation>Clavier</translation>
+        <source>Var - Keyboard</source>
+        <oldsource>Keyboard</oldsource>
+        <translation>Var - Clavier</translation>
     </message>
     <message>
         <location filename="src/grnotes.cpp" line="34"/>
-        <source>Combos</source>
-        <translation>Combos</translation>
+        <source>Var - Combos</source>
+        <oldsource>Combos</oldsource>
+        <translation>Var - Combos</translation>
     </message>
     <message>
         <location filename="src/grnotes.cpp" line="35"/>
-        <source>Position</source>
-        <oldsource>PosX</oldsource>
-        <translation>Position</translation>
+        <source>Var - Position</source>
+        <oldsource>Position</oldsource>
+        <translation>Var - Position</translation>
     </message>
     <message>
         <location filename="src/grnotes.cpp" line="36"/>
-        <source>Height</source>
-        <translation>Hauteur</translation>
+        <source>Var - Height</source>
+        <oldsource>Height</oldsource>
+        <translation>Var - Hauteur</translation>
     </message>
     <message>
         <location filename="src/grnotes.cpp" line="37"/>
-        <source>Width</source>
-        <oldsource>WidthX</oldsource>
-        <translation>Largeur</translation>
+        <source>Var - Width</source>
+        <oldsource>Width</oldsource>
+        <translation>Var - Largeur</translation>
     </message>
     <message>
         <location filename="src/grnotes.cpp" line="38"/>
-        <source>Glide</source>
-        <oldsource>GlideX</oldsource>
-        <translation>Glide</translation>
+        <source>Var - Glide</source>
+        <oldsource>Glide</oldsource>
+        <translation>Var - Glide</translation>
     </message>
 </context>
 <context>

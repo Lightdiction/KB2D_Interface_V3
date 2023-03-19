@@ -8,6 +8,33 @@
 
 
 ===========================================
+V3.54 - 19/03/2023
+La version Mac est disponible!
+Les bugs sur le chargement des configurations sont corrigés. Les problèmes d'affichage sont corrigés.
+Les contrôles MIDI standards sont affichés sur les valeurs CC correspondantes.
+Si l'ordinateur n'est pas connecté à Internet, il n'y a plus de bugs en essayant de mettre à jour le logiciel.
+===========================================
+
+----- 	CONFIGURATIONS
+
+	- Une corruption du fichier de configuration pouvait se produire lorsque l'on utilisait au moins 3x3 ports MIDI sur le KB2D. C'est corrigé.
+	- L'enregistrement des ports 3 et 4 ne se fait que si les ports sont activés.
+
+----- 	MISE A JOUR DU FIRMWARE
+
+	- Il n'y a plus d'erreur en essayant de mettre à jour le firmware lorsque l'ordinateur n'est pas connecté à Internet..
+
+----- 	AFFICHAGE
+
+	- Le rafraichissement de l'affichage n'est plus lent lorsque l'on change de configuration (le clavier se rafraichissait lentement).
+	- Les chiffres sur les touches peuvent maintenant être cliqués correctement sur le clavier.
+	- La combo box MIDI "Valeur" est désactivée et mise à 0 lorsque "Program Change" ou "Channel Aftertouch" est sélectionné (comme cela devrait l'être).
+	- Les contrôles MIDI standards sont affichés sur la combo box MIDI CC.
+	- Une fenêtre de progression est affichée en téléchargeant la mise à jour du firmware et logiciel..
+
+
+
+===========================================
 V3.53 - 18/05/2022
 L'auto calibration est plus précise. La détection de hauteur est corrigée et plus précise.
 Les filtres et paramètres de détection sont maintenant plus intuitifs (étendue des valeurs).

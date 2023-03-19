@@ -43,7 +43,7 @@
    <enum>Qt::DefaultContextMenu</enum>
   </property>
   <property name="windowTitle">
-   <string>Lightdiction - KB2D Laser Harp Interface - v3.53</string>
+   <string>Lightdiction - KB2D Laser Harp Interface - v3.54</string>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>
@@ -812,7 +812,7 @@ QTabBar::tab-bar { background-color:#111;border:0px solid white;padding:7px 15px
                          </property>
                          <property name="maximumSize">
                           <size>
-                           <width>350</width>
+                           <width>400</width>
                            <height>16777215</height>
                           </size>
                          </property>
@@ -906,7 +906,7 @@ QTabBar::tab-bar { background-color:#111;border:0px solid white;padding:7px 15px
                                 <number>9999</number>
                                </property>
                                <property name="sizeAdjustPolicy">
-                                <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+                                <enum>QComboBox::AdjustToContents</enum>
                                </property>
                               </widget>
                              </item>
@@ -934,7 +934,7 @@ QTabBar::tab-bar { background-color:#111;border:0px solid white;padding:7px 15px
                                 <number>9999</number>
                                </property>
                                <property name="sizeAdjustPolicy">
-                                <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+                                <enum>QComboBox::AdjustToContents</enum>
                                </property>
                               </widget>
                              </item>
@@ -965,7 +965,7 @@ QTabBar::tab-bar { background-color:#111;border:0px solid white;padding:7px 15px
                                 <number>9999</number>
                                </property>
                                <property name="sizeAdjustPolicy">
-                                <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+                                <enum>QComboBox::AdjustToContents</enum>
                                </property>
                               </widget>
                              </item>
@@ -1071,7 +1071,7 @@ QTabBar::tab-bar { background-color:#111;border:0px solid white;padding:7px 15px
                          </property>
                          <property name="maximumSize">
                           <size>
-                           <width>350</width>
+                           <width>400</width>
                            <height>16777215</height>
                           </size>
                          </property>
@@ -1175,7 +1175,7 @@ QTabBar::tab-bar { background-color:#111;border:0px solid white;padding:7px 15px
                                 <number>9999</number>
                                </property>
                                <property name="sizeAdjustPolicy">
-                                <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+                                <enum>QComboBox::AdjustToContents</enum>
                                </property>
                               </widget>
                              </item>
@@ -1203,7 +1203,7 @@ QTabBar::tab-bar { background-color:#111;border:0px solid white;padding:7px 15px
                                 <number>9999</number>
                                </property>
                                <property name="sizeAdjustPolicy">
-                                <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+                                <enum>QComboBox::AdjustToContents</enum>
                                </property>
                               </widget>
                              </item>
@@ -1231,7 +1231,7 @@ QTabBar::tab-bar { background-color:#111;border:0px solid white;padding:7px 15px
                                 <number>9999</number>
                                </property>
                                <property name="sizeAdjustPolicy">
-                                <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+                                <enum>QComboBox::AdjustToContents</enum>
                                </property>
                               </widget>
                              </item>
@@ -1327,7 +1327,7 @@ QTabBar::tab-bar { background-color:#111;border:0px solid white;padding:7px 15px
                          </property>
                          <property name="maximumSize">
                           <size>
-                           <width>350</width>
+                           <width>400</width>
                            <height>16777215</height>
                           </size>
                          </property>
@@ -1428,7 +1428,7 @@ QTabBar::tab-bar { background-color:#111;border:0px solid white;padding:7px 15px
                                 <number>18</number>
                                </property>
                                <property name="sizeAdjustPolicy">
-                                <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+                                <enum>QComboBox::AdjustToContents</enum>
                                </property>
                               </widget>
                              </item>
@@ -1462,7 +1462,7 @@ QTabBar::tab-bar { background-color:#111;border:0px solid white;padding:7px 15px
                                 <number>9999</number>
                                </property>
                                <property name="sizeAdjustPolicy">
-                                <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+                                <enum>QComboBox::AdjustToContents</enum>
                                </property>
                               </widget>
                              </item>
@@ -1487,7 +1487,7 @@ QTabBar::tab-bar { background-color:#111;border:0px solid white;padding:7px 15px
                                 <number>9999</number>
                                </property>
                                <property name="sizeAdjustPolicy">
-                                <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+                                <enum>QComboBox::AdjustToContents</enum>
                                </property>
                               </widget>
                              </item>
@@ -3275,6 +3275,9 @@ QComboBox:!enabled{background-color:#202020;color:#808080;}</string>
                            </property>
                            <property name="maxVisibleItems">
                             <number>16</number>
+                           </property>
+                           <property name="sizeAdjustPolicy">
+                            <enum>QComboBox::AdjustToContents</enum>
                            </property>
                           </widget>
                          </item>
@@ -12666,7 +12669,7 @@ This is useful with GlideX variable.</string>
                          <number>17</number>
                         </property>
                         <property name="sizeAdjustPolicy">
-                         <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+                         <enum>QComboBox::AdjustToContents</enum>
                         </property>
                         <item>
                          <property name="text">

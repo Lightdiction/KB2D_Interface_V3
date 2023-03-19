@@ -20,6 +20,7 @@
 #include <QSettings>
 #include <QGridLayout>
 #include <QScreen>
+#include <QProgressDialog>
 //#include <QDebug>
 
 #include "midi.h"
@@ -256,6 +257,8 @@ private slots:
     void closeEvent(QCloseEvent* event);
     void firstLoad();
 
+    void updateProgressDial(qint64 ist, qint64 max);
+
     void checkModifications();
 
     void updatePresetsMain() { UpdateMainConfigList(); }    // Just an alias
@@ -453,6 +456,9 @@ private:
 
     bool eventFilter(QObject *obj, QEvent *event);
     //void resizeEvent(QResizeEvent* event);
+
+    QProgressDialog* downloadProgressDialog = nullptr;
+    bool cancelDownload = false;
 
     // Notes and Midi Modes
     QComboBox* midiSelection_Combo[Ports_Num][ModeActiv_NumModes][ValSelection_NumCombo] = {{{nullptr}}};

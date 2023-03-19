@@ -30,12 +30,143 @@
 
 
 static QString NameMidiVars[Val_NumVars] = {
-QObject::tr("Keyboard"),
-QObject::tr("Combos"),
-QObject::tr("Position"),
-QObject::tr("Height"),
-QObject::tr("Width"),
-QObject::tr("Glide")};
+QObject::tr("Var - Keyboard"),
+QObject::tr("Var - Combos"),
+QObject::tr("Var - Position"),
+QObject::tr("Var - Height"),
+QObject::tr("Var - Width"),
+QObject::tr("Var - Glide")};
+
+static QString ListControlChange[Note_Number] = {
+    "0 - Bank Select",
+    "1 - Modulation Wheel",
+    "2 - Breath control",
+    "3",
+    "4 - Foot Pedal",
+    "5 - Portamento Time",
+    "6 - Data Entry",
+    "7 - Volume",
+    "8 - Balance",
+    "9",
+    "10 - Pan",
+    "11 - Expression",
+    "12 - Effect Ctrl 1",
+    "13 - Effect Ctrl 2",
+    "14",
+    "15",
+    "16 - General 1",
+    "17 - General 2",
+    "18 - General 3",
+    "19 - General 4",
+    "20",
+    "21",
+    "22",
+    "23",
+    "24",
+    "25",
+    "26",
+    "27",
+    "28",
+    "29",
+    "30",
+    "31",
+    "32 - LSB 0",
+    "33 - LSB 1",
+    "34 - LSB 2",
+    "35 - LSB 3",
+    "36 - LSB 4",
+    "37 - LSB 5",
+    "38 - LSB 6",
+    "39 - LSB 7",
+    "40 - LSB 8",
+    "41 - LSB 9",
+    "42 - LSB 10",
+    "43 - LSB 11",
+    "44 - LSB 12",
+    "45 - LSB 13",
+    "46 - LSB 14",
+    "47 - LSB 15",
+    "48 - LSB 16",
+    "49 - LSB 17",
+    "50 - LSB 18",
+    "51 - LSB 19",
+    "52 - LSB 20",
+    "53 - LSB 21",
+    "54 - LSB 22",
+    "55 - LSB 23",
+    "56 - LSB 24",
+    "57 - LSB 25",
+    "58 - LSB 26",
+    "59 - LSB 27",
+    "60 - LSB 28",
+    "61 - LSB 29",
+    "62 - LSB 30",
+    "63 - LSB 31",
+    "64 - Damper Pedal",
+    "65 - Portamento On/Off",
+    "66 - Sostenuto Pedal",
+    "67 - Soft Pedal",
+    "68 - Legato",
+    "69 - Hold 2",
+    "70 - Sound Ctrl 1",
+    "71 - Resonance",
+    "72 - Sound Ctrl 3",
+    "73 - Sound Ctrl 4",
+    "74 - Cutoff Freq",
+    "75 - Sound Ctrl 6",
+    "76 - Sound Ctrl 7",
+    "77 - Sound Ctrl 8",
+    "78 - Sound Ctrl 9",
+    "79 - Sound Ctrl 10",
+    "80 - General 5",
+    "81 - General 6",
+    "82 - General 7",
+    "83 - General 8",
+    "84 - Portamento Ctrl",
+    "85",
+    "86",
+    "87",
+    "88 - High Resolution",
+    "89",
+    "90",
+    "91 - Reverb",
+    "92 - Effect Depth 2",
+    "93 - Chorus",
+    "94 - Effect Depth 4",
+    "95 - Effect Depth 5",
+    "96 - Data Increment",
+    "97 - Data Decrement",
+    "98 - NRPN LSB",
+    "99 - NRPN MSB",
+    "100 - RPN LSB",
+    "101 - RPN MSB",
+    "102",
+    "103",
+    "104",
+    "105",
+    "106",
+    "107",
+    "108",
+    "109",
+    "110",
+    "111",
+    "112",
+    "113",
+    "114",
+    "115",
+    "116",
+    "117",
+    "118",
+    "119",
+    "120 - All Sound Off",
+    "121 - Reset All",
+    "122 - Local On/Off",
+    "123 - All Notes Off",
+    "124 - Omni Mode Off",
+    "125 - Omni Mode ON",
+    "126 - Mono Mode",
+    "127 - Poly Mode",
+};
 
 
 QString ListNameNotes[Note_Number] = { \
@@ -815,6 +946,37 @@ void MainWindow::updateMidiComboVisibility(int nPort)
             ui->DescCC1ComboBox->setEnabled(true);
             lastMidiMode[Ports_Midi1][0] = ((enabState[nPort] >> 1) & 0x7) - Mode_PolyAftertouch;
             ui->DescCC1ComboBox->setCurrentIndex(lastMidiMode[Ports_Midi1][0]);
+
+            // Disable and set the value to 0 for Program Change and Channel Aftertouch
+            if ((ui->DescCC1ComboBox->currentIndex() == Mode_ProgramChange - Mode_PolyAftertouch) || (ui->DescCC1ComboBox->currentIndex() == Mode_ChanAftertouch - Mode_PolyAftertouch))
+            {
+                ui->ValCC1ComboBox->setCurrentIndex(Val_NumVars);
+                ui->ValCC1ComboBox->setDisabled(true);
+            }
+            else
+                ui->ValCC1ComboBox->setEnabled(true);
+
+            // Update Control Display
+            bool saveInP = updateInProgress;
+            updateInProgress = true;
+            int saveIndCtrl = ui->ControlCC1ComboBox->currentIndex();
+            ui->ControlCC1ComboBox->clear();
+            if (ui->DescCC1ComboBox->currentIndex() == Mode_ControlChange - Mode_PolyAftertouch)
+            {
+                for (int _l = 0; _l < Val_NumVars; _l++)
+                    ui->ControlCC1ComboBox->addItem(NameMidiVars[_l]);
+                for (int _l = 0; _l < 128; _l++)
+                    ui->ControlCC1ComboBox->addItem(ListControlChange[_l]);
+            }
+            else
+            {
+                for (int _l = 0; _l < Val_NumVars; _l++)
+                    ui->ControlCC1ComboBox->addItem(NameMidiVars[_l]);
+                for (int _l = 0; _l < 128; _l++)
+                    ui->ControlCC1ComboBox->addItem(QString::number(_l));
+            }
+            ui->ControlCC1ComboBox->setCurrentIndex(saveIndCtrl);
+            updateInProgress = saveInP;
         }
         // Port 3
         else if (nPort == Ports_Midi3)
@@ -828,6 +990,37 @@ void MainWindow::updateMidiComboVisibility(int nPort)
             ui->DescCC1ComboBox_2->setEnabled(true);
             lastMidiMode[Ports_Midi3][0] = ((enabState[nPort] >> 1) & 0x7) - Mode_PolyAftertouch;
             ui->DescCC1ComboBox_2->setCurrentIndex(lastMidiMode[Ports_Midi3][0]);
+
+            // Disable and set the value to 0 for Program Change and Channel Aftertouch
+            if ((ui->DescCC1ComboBox_2->currentIndex() == Mode_ProgramChange - Mode_PolyAftertouch) || (ui->DescCC1ComboBox_2->currentIndex() == Mode_ChanAftertouch - Mode_PolyAftertouch))
+            {
+                ui->ValCC1ComboBox_2->setCurrentIndex(Val_NumVars);
+                ui->ValCC1ComboBox_2->setDisabled(true);
+            }
+            else
+                ui->ValCC1ComboBox_2->setEnabled(true);
+
+            // Update Control Display
+            bool saveInP = updateInProgress;
+            updateInProgress = true;
+            int saveIndCtrl = ui->ControlCC1ComboBox_2->currentIndex();
+            ui->ControlCC1ComboBox_2->clear();
+            if (ui->DescCC1ComboBox_2->currentIndex() == Mode_ControlChange - Mode_PolyAftertouch)
+            {
+                for (int _l = 0; _l < Val_NumVars; _l++)
+                    ui->ControlCC1ComboBox_2->addItem(NameMidiVars[_l]);
+                for (int _l = 0; _l < 128; _l++)
+                    ui->ControlCC1ComboBox_2->addItem(ListControlChange[_l]);
+            }
+            else
+            {
+                for (int _l = 0; _l < Val_NumVars; _l++)
+                    ui->ControlCC1ComboBox_2->addItem(NameMidiVars[_l]);
+                for (int _l = 0; _l < 128; _l++)
+                    ui->ControlCC1ComboBox_2->addItem(QString::number(_l));
+            }
+            ui->ControlCC1ComboBox_2->setCurrentIndex(saveIndCtrl);
+            updateInProgress = saveInP;
         }
         // Port 4
         else if (nPort == Ports_Midi4)
@@ -841,6 +1034,37 @@ void MainWindow::updateMidiComboVisibility(int nPort)
             ui->DescCC1ComboBox_3->setEnabled(true);
             lastMidiMode[Ports_Midi4][0] = ((enabState[nPort] >> 1) & 0x7) - Mode_PolyAftertouch;
             ui->DescCC1ComboBox_3->setCurrentIndex(lastMidiMode[Ports_Midi4][0]);
+
+            // Disable and set the value to 0 for Program Change and Channel Aftertouch
+            if ((ui->DescCC1ComboBox_3->currentIndex() == Mode_ProgramChange - Mode_PolyAftertouch) || (ui->DescCC1ComboBox_3->currentIndex() == Mode_ChanAftertouch - Mode_PolyAftertouch))
+            {
+                ui->ValCC1ComboBox_3->setCurrentIndex(Val_NumVars);
+                ui->ValCC1ComboBox_3->setDisabled(true);
+            }
+            else
+                ui->ValCC1ComboBox_3->setEnabled(true);
+
+            // Update Control Display
+            bool saveInP = updateInProgress;
+            updateInProgress = true;
+            int saveIndCtrl = ui->ControlCC1ComboBox_3->currentIndex();
+            ui->ControlCC1ComboBox_3->clear();
+            if (ui->DescCC1ComboBox_3->currentIndex() == Mode_ControlChange - Mode_PolyAftertouch)
+            {
+                for (int _l = 0; _l < Val_NumVars; _l++)
+                    ui->ControlCC1ComboBox_3->addItem(NameMidiVars[_l]);
+                for (int _l = 0; _l < 128; _l++)
+                    ui->ControlCC1ComboBox_3->addItem(ListControlChange[_l]);
+            }
+            else
+            {
+                for (int _l = 0; _l < Val_NumVars; _l++)
+                    ui->ControlCC1ComboBox_3->addItem(NameMidiVars[_l]);
+                for (int _l = 0; _l < 128; _l++)
+                    ui->ControlCC1ComboBox_3->addItem(QString::number(_l));
+            }
+            ui->ControlCC1ComboBox_3->setCurrentIndex(saveIndCtrl);
+            updateInProgress = saveInP;
         }
     }
     else
@@ -894,6 +1118,37 @@ void MainWindow::updateMidiComboVisibility(int nPort)
             ui->DescCC2ComboBox->setEnabled(true);
             lastMidiMode[Ports_Midi1][1] = ((enabState[nPort] >> 4) & 0x7) - Mode_PolyAftertouch;
             ui->DescCC2ComboBox->setCurrentIndex(lastMidiMode[Ports_Midi1][1]);
+
+            // Disable and set the value to 0 for Program Change and Channel Aftertouch
+            if ((ui->DescCC2ComboBox->currentIndex() == Mode_ProgramChange - Mode_PolyAftertouch) || (ui->DescCC2ComboBox->currentIndex() == Mode_ChanAftertouch - Mode_PolyAftertouch))
+            {
+                ui->ValCC2ComboBox->setCurrentIndex(Val_NumVars);
+                ui->ValCC2ComboBox->setDisabled(true);
+            }
+            else
+                ui->ValCC2ComboBox->setEnabled(true);
+
+            // Update Control Display
+            bool saveInP = updateInProgress;
+            updateInProgress = true;
+            int saveIndCtrl = ui->ControlCC2ComboBox->currentIndex();
+            ui->ControlCC2ComboBox->clear();
+            if (ui->DescCC2ComboBox->currentIndex() == Mode_ControlChange - Mode_PolyAftertouch)
+            {
+                for (int _l = 0; _l < Val_NumVars; _l++)
+                    ui->ControlCC2ComboBox->addItem(NameMidiVars[_l]);
+                for (int _l = 0; _l < 128; _l++)
+                    ui->ControlCC2ComboBox->addItem(ListControlChange[_l]);
+            }
+            else
+            {
+                for (int _l = 0; _l < Val_NumVars; _l++)
+                    ui->ControlCC2ComboBox->addItem(NameMidiVars[_l]);
+                for (int _l = 0; _l < 128; _l++)
+                    ui->ControlCC2ComboBox->addItem(QString::number(_l));
+            }
+            ui->ControlCC2ComboBox->setCurrentIndex(saveIndCtrl);
+            updateInProgress = saveInP;
         }
         // Port 3
         else if (nPort == Ports_Midi3)
@@ -907,6 +1162,37 @@ void MainWindow::updateMidiComboVisibility(int nPort)
             ui->DescCC2ComboBox_2->setEnabled(true);
             lastMidiMode[Ports_Midi3][1] = ((enabState[nPort] >> 4) & 0x7) - Mode_PolyAftertouch;
             ui->DescCC2ComboBox_2->setCurrentIndex(lastMidiMode[Ports_Midi3][1]);
+
+            // Disable and set the value to 0 for Program Change and Channel Aftertouch
+            if ((ui->DescCC2ComboBox_2->currentIndex() == Mode_ProgramChange - Mode_PolyAftertouch) || (ui->DescCC2ComboBox_2->currentIndex() == Mode_ChanAftertouch - Mode_PolyAftertouch))
+            {
+                ui->ValCC2ComboBox_2->setCurrentIndex(Val_NumVars);
+                ui->ValCC2ComboBox_2->setDisabled(true);
+            }
+            else
+                ui->ValCC2ComboBox_2->setEnabled(true);
+
+            // Update Control Display
+            bool saveInP = updateInProgress;
+            updateInProgress = true;
+            int saveIndCtrl = ui->ControlCC2ComboBox_2->currentIndex();
+            ui->ControlCC2ComboBox_2->clear();
+            if (ui->DescCC2ComboBox_2->currentIndex() == Mode_ControlChange - Mode_PolyAftertouch)
+            {
+                for (int _l = 0; _l < Val_NumVars; _l++)
+                    ui->ControlCC2ComboBox_2->addItem(NameMidiVars[_l]);
+                for (int _l = 0; _l < 128; _l++)
+                    ui->ControlCC2ComboBox_2->addItem(ListControlChange[_l]);
+            }
+            else
+            {
+                for (int _l = 0; _l < Val_NumVars; _l++)
+                    ui->ControlCC2ComboBox_2->addItem(NameMidiVars[_l]);
+                for (int _l = 0; _l < 128; _l++)
+                    ui->ControlCC2ComboBox_2->addItem(QString::number(_l));
+            }
+            ui->ControlCC2ComboBox_2->setCurrentIndex(saveIndCtrl);
+            updateInProgress = saveInP;
         }
         // Port 4
         else if (nPort == Ports_Midi4)
@@ -920,6 +1206,37 @@ void MainWindow::updateMidiComboVisibility(int nPort)
             ui->DescCC2ComboBox_3->setEnabled(true);
             lastMidiMode[Ports_Midi4][1] = ((enabState[nPort] >> 4) & 0x7) - Mode_PolyAftertouch;
             ui->DescCC2ComboBox_3->setCurrentIndex(lastMidiMode[Ports_Midi4][1]);
+
+            // Disable and set the value to 0 for Program Change and Channel Aftertouch
+            if ((ui->DescCC2ComboBox_3->currentIndex() == Mode_ProgramChange - Mode_PolyAftertouch) || (ui->DescCC2ComboBox_3->currentIndex() == Mode_ChanAftertouch - Mode_PolyAftertouch))
+            {
+                ui->ValCC2ComboBox_3->setCurrentIndex(Val_NumVars);
+                ui->ValCC2ComboBox_3->setDisabled(true);
+            }
+            else
+                ui->ValCC2ComboBox_3->setEnabled(true);
+
+            // Update Control Display
+            bool saveInP = updateInProgress;
+            updateInProgress = true;
+            int saveIndCtrl = ui->ControlCC2ComboBox_3->currentIndex();
+            ui->ControlCC2ComboBox_3->clear();
+            if (ui->DescCC2ComboBox_3->currentIndex() == Mode_ControlChange - Mode_PolyAftertouch)
+            {
+                for (int _l = 0; _l < Val_NumVars; _l++)
+                    ui->ControlCC2ComboBox_3->addItem(NameMidiVars[_l]);
+                for (int _l = 0; _l < 128; _l++)
+                    ui->ControlCC2ComboBox_3->addItem(ListControlChange[_l]);
+            }
+            else
+            {
+                for (int _l = 0; _l < Val_NumVars; _l++)
+                    ui->ControlCC2ComboBox_3->addItem(NameMidiVars[_l]);
+                for (int _l = 0; _l < 128; _l++)
+                    ui->ControlCC2ComboBox_3->addItem(QString::number(_l));
+            }
+            ui->ControlCC2ComboBox_3->setCurrentIndex(saveIndCtrl);
+            updateInProgress = saveInP;
         }
     }
     else

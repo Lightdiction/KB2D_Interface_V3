@@ -37,6 +37,8 @@ LIBS += -lasound
 macx: {
 DEFINES += MAC_PLATFORM
 LIBS += -framework CoreMIDI
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 11.0
+QMAKE_MAC_SDK = macosx12.1
 }
 
 #        $$_PRO_FILE_PWD_\libs\libkblfw.a
